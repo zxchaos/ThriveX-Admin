@@ -213,3 +213,7 @@ span.flatpickr-weekday,
 [x-cloak] {
   display: none !important;
 }
+
+.ant-btn-primary{
+  background-color: #727cf5;
+}
