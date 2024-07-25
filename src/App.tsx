@@ -6,6 +6,7 @@ import PageTitle from './components/PageTitle';
 import ECommerce from './pages/Dashboard/ECommerce';
 import Create from './pages/Create';
 import DefaultLayout from './layout/DefaultLayout';
+import { ConfigProvider } from 'antd';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -22,29 +23,40 @@ function App() {
   return loading ? (
     <Loader />
   ) : (
-    <DefaultLayout>
-      <Routes>
-        <Route
-          index
-          element={
-            <>
-              <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <ECommerce />
-            </>
-          }
-        />
+    // 自定义主题色
+    <ConfigProvider
+      theme={{
+        token: {
+          // Seed Token，影响范围大
+          colorPrimary: '#727cf5',
+        },
+      }}
+    >
+      <DefaultLayout>
+        <Routes>
+          <Route
+            index
+            element={
+              <>
+                <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <ECommerce />
+              </>
+            }
+          />
 
-        <Route
-          path="/create"
-          element={
-            <>
-              <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Create />
-            </>
-          }
-        />
-      </Routes>
-    </DefaultLayout>
+          <Route
+            path="/create"
+            element={
+              <>
+                <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <Create />
+              </>
+            }
+          />
+        </Routes>
+      </DefaultLayout>
+    </ConfigProvider>
+
   );
 }
 
