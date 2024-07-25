@@ -1,15 +1,15 @@
-import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
-import { Button } from 'antd';
+import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
+import { Card } from 'antd';
 
 const Create = () => {
   return (
     <>
-      <Breadcrumb pageName="Calendar" />
-      <Button type="primary">Primary Button</Button>
-      <Button>Default Button</Button>
-      <Button type="dashed">Dashed Button</Button>
-      <Button type="text">Text Button</Button>
-      <Button type="link">Link Button</Button>
+      <Card title={<Breadcrumb pageName="创作" />}>
+        
+        <p>Card content</p>
+        <p>Card content</p>
+        <p>Card content</p>
+      </Card>
     </>
   );
 };
