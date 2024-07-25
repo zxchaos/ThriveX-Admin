@@ -4,8 +4,6 @@ const Create = () => {
   return (
     <>
       <Breadcrumb pageName="Calendar" />
-
-      
     </>
   );
 };

@@ -1,5 +1,5 @@
 {
-  "name": "tailadmin-react-free",
+  "name": "ThriveX",
   "private": true,
   "version": "1.3.7",
   "type": "module",
@@ -9,9 +9,9 @@
     "preview": "vite preview"
   },
   "author": {
-    "name": "TailAdmin",
-    "email": "hello@tailadmin.com",
-    "url": "https://tailadmin.com"
+    "name": "YuYang",
+    "email": "liuyuyang1024@yeah.net",
+    "url": "https://blog.liuyuyang.net"
   },
   "dependencies": {
     "apexcharts": "^3.41.0",
