@@ -13,7 +13,7 @@ const Create = () => {
 
   return (
     <>
-      <Card title={<Breadcrumb pageName="创作" />} className='border-stroke [&>.ant-card-head]:border-stroke [&>.ant-card-head]:dark:border-strokedark dark:bg-boxdark dark:border-strokedark'>
+      <Card title={<Breadcrumb pageName="创作"/>} className='border-stroke dark:border-strokedark [&>.ant-card-head]:border-stroke [&>.ant-card-head]:dark:border-strokedark dark:bg-boxdark'>
         <VditorEditor />
       </Card>
     </>
