@@ -1,0 +1,21 @@
+#vditor {
+    border: none;
+
+    .vditor-toolbar {
+        display: none;
+    }
+
+    .vditor-reset {
+        background-color: transparent !important;
+
+        .vditor-ir__marker--heading{
+            color: #727cf5;
+        }
+    }
+
+    // 针对表单元素的光标样式
+    pre {
+        // 设置光标样式
+        caret-color: #727cf5; // 光标颜色
+    }
+}
