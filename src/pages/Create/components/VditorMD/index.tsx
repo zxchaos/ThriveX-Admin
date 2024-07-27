@@ -7,14 +7,14 @@ const VditorEditor = () => {
     const [vd, setVd] = useState<Vditor>();
     useEffect(() => {
         const vditor = new Vditor("vditor", {
-            minHeight: 500,
+            minHeight: 550,
             // outline: {
             //     enable: true,
             //     position: 'left'
             // },
             after: () => {
                 vditor.setValue("`Vditor` 最小代码示例");
-                // vditor.setTheme("classic","","github")
+                vditor.setTheme("classic","","github")
                 setVd(vditor);
             }
         })
