@@ -3,7 +3,11 @@ import Vditor from "vditor";
 import "vditor/dist/index.css";
 import "./index.scss"
 
-const VditorEditor = () => {
+interface VditorProps {
+    getValue: (value: string) => void
+}
+
+const VditorEditor = ({ getValue }: VditorProps) => {
     const [vd, setVd] = useState<Vditor>();
     useEffect(() => {
         const vditor = new Vditor("vditor", {
@@ -12,9 +16,13 @@ const VditorEditor = () => {
             //     enable: true,
             //     position: 'left'
             // },
+            input: (value) => {
+                // 把数据传给父组件
+                getValue(value)
+            },
             after: () => {
                 vditor.setValue("`Vditor` 最小代码示例");
-                vditor.setTheme("classic","","github")
+
                 setVd(vditor);
             }
         })
@@ -25,8 +33,8 @@ const VditorEditor = () => {
             setVd(undefined);
         };
     }, []);
-    
-    return <div id="vditor" className="vditor"/>;
+
+    return <div id="vditor" className="vditor" />;
 };
 
 export default VditorEditor;

@@ -10,6 +10,11 @@ const Create = () => {
   const [content, setContent] = useState('');
   const [publishOpen, setPublishOpen] = useState(false)
 
+  // 获取编辑器的内容
+  const getVditorData = (value: string) => {
+    console.log(111, value);
+  }
+
   useEffect(() => {
     console.log(content);
   }, [content])
@@ -22,7 +27,7 @@ const Create = () => {
             <BiSave className='text-base' /> 保存</Button>
         </div>
 
-        <VditorEditor />
+        <VditorEditor getValue={getVditorData} />
 
         <Drawer
           title="发布文章"
