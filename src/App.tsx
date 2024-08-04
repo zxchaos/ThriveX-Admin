@@ -7,6 +7,8 @@ import ECommerce from './pages/Dashboard/ECommerce';
 import Create from './pages/Create';
 import Cate from './pages/Cate';
 import DefaultLayout from './layout/DefaultLayout';
+import Login from './pages/Login';
+
 import { ConfigProvider } from 'antd';
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
     setTimeout(() => setLoading(false), 1000);
   }, []);
 
+  const isLoginRoute = pathname === '/login';
+
   return loading ? (
     <Loader />
   ) : (
@@ -33,41 +37,54 @@ function App() {
         },
       }}
     >
-      <DefaultLayout>
+      {isLoginRoute ? (
         <Routes>
           <Route
-            index
-            element={
-              <>
-                <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <ECommerce />
-              </>
-            }
-          />
-
-          <Route
-            path="/create"
+            path="/login"
             element={
               <>
                 <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <Create />
-              </>
-            }
-          />
-
-          <Route
-            path="/cate"
-            element={
-              <>
-                <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <Cate />
+                <Login />
               </>
             }
           />
         </Routes>
-      </DefaultLayout>
-    </ConfigProvider>
+      ) : (
+        <DefaultLayout>
+          <Routes>
+            <Route
+              index
+              element={
+                <>
+                  <PageTitle title="Thrive - 仪表盘" />
+                  <ECommerce />
+                </>
+              }
+            />
 
+            <Route
+              path="/create"
+              element={
+                <>
+                  <PageTitle title="Thrive - 发挥灵感" />
+                  <Create />
+                </>
+              }
+            />
+
+            <Route
+              path="/cate"
+              element={
+                <>
+                  <PageTitle title="Thrive - 分类管理" />
+                  <Cate />
+                </>
+              }
+            />
+          </Routes>
+        </DefaultLayout>
+      )}
+    </ConfigProvider>
   );
 }
 
