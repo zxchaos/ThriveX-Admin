@@ -87,7 +87,7 @@ const CateManager: React.FC = () => {
 
     return (
         <Card title={<Breadcrumb pageName="分类" />} className='border-stroke dark:border-strokedark [&>.ant-card-head]:border-stroke [&>.ant-card-head]:dark:border-strokedark dark:bg-boxdark [&>.ant-card-body]:pt-2'>
-            <div className='mt-2 mb-4 text-right'>
+            <div className='mt-2 mb-4 text-center'>
                 <Button type="primary" onClick={() => setModel(true)}>新增分类</Button>
             </div>
 

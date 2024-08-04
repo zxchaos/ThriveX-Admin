@@ -1,3 +1,4 @@
+import { Cate } from '@/types/cate'
 import Request from '@/utils/request'
 
 // 新增分类
