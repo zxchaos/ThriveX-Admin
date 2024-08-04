@@ -1,25 +1,36 @@
-import { create } from 'zustand'
+import { User } from '@/types/user';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface UserStore {
   token: string;
+  setToken: (data: string) => void;
   user: User;
-  setData: (data: User) => void;
-  quitLogin: () => void
+  setUser: (data: User) => void;
+  quitLogin: () => void;
 }
 
-export default create<UserStore>((set) => ({
-  token: "",
-  user: {} as User,
-  setData: (data: User) => set(() => ({ user: data })),
-  // 退出登录
-  quitLogin: () => set(() => {
-    localStorage.clear()
-    sessionStorage.clear()
-    location.href = "/login"
-
-    return {
+export default create(
+  persist<UserStore>(
+    (set) => ({
+      token: "",
+      setToken: (token: string) => set(() => ({ token })),
       user: {} as User,
-      token: ""
+      setUser: (data: User) => set(() => ({ user: data })),
+      // 退出登录
+      quitLogin: () => set(() => {
+        localStorage.clear();
+        sessionStorage.clear();
+        location.href = "/login";
+
+        return { user: {} as User, token: "" }
+      })
+    }),
+    {
+      name: 'user_storage',
+      getStorage: () => localStorage,
+      // 定义需要持久化存储的数据，默认表示全部持久化
+      // partialize: (state) => ({ token: state.token, user: state.user }),
     }
-  })
-}))
+  )
+);

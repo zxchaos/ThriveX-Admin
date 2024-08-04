@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'antd/es/form/Form';
 import { Button, Form, Input, notification } from 'antd';
@@ -18,19 +18,30 @@ const LoginForm: React.FC = () => {
         try {
             const values = await form.validateFields();
             const { data } = await loginDataAPI(values);
-            store.token = data.token;
-            store.user = data.user;
+
+            // 将用户信息和token保存起来
+            store.setUser(data.user);
+            store.setToken(data.token);
 
             notification.success({
-                message: 'success',
+                message: 'Success',
                 description: `Hello ${data.user.name} 欢迎回来 🎉`,
             });
 
             navigate(returnUrl);
         } catch (error) {
             console.error('Failed to login:', error);
+
+            notification.error({
+                message: 'Error',
+                description: 'Failed to login. Please try again.',
+            });
         }
     };
+
+    useEffect(()=>{
+
+    },)
 
     return (
         <div className="w-screen h-screen flex justify-center items-center">

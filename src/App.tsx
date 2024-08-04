@@ -9,9 +9,13 @@ import Cate from './pages/Cate';
 import DefaultLayout from './layout/DefaultLayout';
 import Login from './pages/Login';
 
+import useAuthRedirect from '@/hooks/useAuthRedirect';
+
 import { ConfigProvider } from 'antd';
 
 function App() {
+  useAuthRedirect()
+  
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
 
