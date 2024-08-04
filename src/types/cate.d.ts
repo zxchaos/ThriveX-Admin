@@ -1,4 +1,4 @@
-interface Cate {
+export interface Cate {
     id?: number,
     name: string,
     mark: string,

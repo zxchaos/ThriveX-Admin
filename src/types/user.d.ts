@@ -1,9 +1,9 @@
-interface Login {
+export interface Login {
     username: string,
     password: string
 }
 
-interface UserInfo {
+export interface UserInfo {
     id?: number,
     name: string,
     email: string,
@@ -12,14 +12,14 @@ interface UserInfo {
     role?: string
 }
 
-type User = Login & UserInfo
+export type User = Login & UserInfo
 
-interface account {
+export interface account {
     token: string,
     user: User
 }
 
-interface editUser {
+export interface editUser {
     username: string,
     oldPassword: string,
     newPassword: string

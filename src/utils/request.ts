@@ -1,9 +1,10 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
-import { useUserStore } from "@/stores";
 import { Modal, notification } from "antd";
+import { useUserStore } from "@/stores";
 
 // 配置项目API域名
-export const baseURL = "http://localhost:5000/api";
+export const baseURL = "http://localhost:9999/api";
+// export const baseURL = "http://82.157.186.125:5000/api";
 
 // 创建 axios 实例
 export const instance = axios.create({
@@ -13,10 +14,12 @@ export const instance = axios.create({
     timeout: 5000,
 });
 
+const store = useUserStore.getState()
+
 // 请求拦截
 instance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-        const token = useUserStore((state) => state.token)
+        const token = store.token
 
         // 如果有token就把赋值给请求头
         if (token) config.headers["Authorization"] = `Bearer ${token}`;
@@ -38,14 +41,12 @@ instance.interceptors.response.use(
     (res: AxiosResponse) => {
         // 如果code为401就证明认证失败
         if (res.data.code === 401) {
-            const quitLogin = useUserStore((state) => state.quitLogin)
-
             return Modal.error({
                 title: '暂无权限',
                 content: '🔒️ 登录已过期，是否重新登录?',
                 okText: "去登录",
                 onOk: () => {
-                    quitLogin();
+                    store.quitLogin()
                 }
             });
         }

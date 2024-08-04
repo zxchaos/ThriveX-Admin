@@ -1,4 +1,4 @@
-interface Comment {
+export interface Comment {
     aid: number,
     avatar: string,
     content: string,
@@ -11,7 +11,7 @@ interface Comment {
     audit: number
 }
 
-interface Info {
+export interface Info {
     tab: string,
     loading: boolean,
     list: Comment[],

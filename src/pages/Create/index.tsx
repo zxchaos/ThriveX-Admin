@@ -6,6 +6,8 @@ import VditorEditor from './components/VditorMD';
 import PublishForm from './components/PublishForm';
 import { useEffect, useState } from 'react';
 
+import { addCateDataAPI, delCateDataAPI, editCateDataAPI, getCateDataAPI, getCateListAPI } from '@/api/Cate'
+
 const Create = () => {
   const [content, setContent] = useState('');
   const [publishOpen, setPublishOpen] = useState(false)
@@ -17,6 +19,9 @@ const Create = () => {
 
   useEffect(() => {
     console.log(content);
+    getCateListAPI().then(async res => {
+      console.log(await res);
+    })
   }, [content])
 
   return (

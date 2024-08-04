@@ -5,6 +5,7 @@ import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
 import ECommerce from './pages/Dashboard/ECommerce';
 import Create from './pages/Create';
+import Cate from './pages/Cate';
 import DefaultLayout from './layout/DefaultLayout';
 import { ConfigProvider } from 'antd';
 
@@ -50,6 +51,16 @@ function App() {
               <>
                 <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
                 <Create />
+              </>
+            }
+          />
+
+          <Route
+            path="/cate"
+            element={
+              <>
+                <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <Cate />
               </>
             }
           />

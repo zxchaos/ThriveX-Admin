@@ -1,4 +1,4 @@
-interface File {
+export interface File {
     children: Child[];
     list: string[];
     name: string;

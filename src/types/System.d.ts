@@ -1,5 +1,5 @@
 // 磁盘
-interface Disk {
+export interface Disk {
     diskFree: number;
     diskPercent: number;
     diskTotal: number;
@@ -7,7 +7,7 @@ interface Disk {
 }
 
 // 内存
-interface Memory {
+export interface Memory {
     memoryAvailable: number;
     memoryPercent: number;
     memoryTotal: number;
@@ -15,7 +15,7 @@ interface Memory {
 }
 
 // 系统信息
-interface System {
+export interface System {
     boot_time: string;
     cpu: number;
     disk: Disk;
@@ -26,7 +26,7 @@ interface System {
 }
 
 // 网站信息
-interface Web {
+export interface Web {
     url: string,
     title: string,
     subhead: string,
@@ -41,11 +41,11 @@ interface Web {
     covers: string[]
 }
 
-type ArticleLayout = "classics" | "card" | "waterfall" | ""
-type RightSidebar = "author" | "hotArticle" | "randomArticle" | "newComments"
+export type ArticleLayout = "classics" | "card" | "waterfall" | ""
+export type RightSidebar = "author" | "hotArticle" | "randomArticle" | "newComments"
 
 // 布局配置
-interface Layout {
+export interface Layout {
     isArticleLayout: ArticleLayout,
     rightSidebar: RightSidebar[],
     swiperImage: string,
