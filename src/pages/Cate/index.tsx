@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Form, Input, Button, Tree, Modal, notification, Spin, Dropdown, Menu, Card } from 'antd';
+import { Form, Input, Button, Tree, Modal, notification, Spin, Dropdown, Card, MenuProps } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { addCateDataAPI, delCateDataAPI, editCateDataAPI, getCateDataAPI, getCateListAPI } from '@/api/Cate';
 import Breadcrumb from '@/components/Breadcrumbs';
-import { Cate } from '@/types/cate'
+import { Cate } from '@/types/cate';
+import "./index.scss"
 
 const CateManager: React.FC = () => {
     const [loading, setLoading] = useState(false);
@@ -11,10 +12,6 @@ const CateManager: React.FC = () => {
     const [cate, setCate] = useState<Cate>({ name: '', mark: '', url: '', icon: '', level: 0 });
     const [list, setList] = useState<Cate[]>([]);
     const formRef = useRef<any>(null);
-
-    useEffect(() => {
-        getCateList();
-    }, []);
 
     const getCateList = async () => {
         setLoading(true);
@@ -30,9 +27,11 @@ const CateManager: React.FC = () => {
 
     const editCateData = async (id: number) => {
         setLoading(true);
+
         setModel(true);
         const { data } = await getCateDataAPI(id);
         setCate(data);
+
         setLoading(false);
     };
 
@@ -47,8 +46,11 @@ const CateManager: React.FC = () => {
                     await addCateDataAPI({ ...cate, ...values });
                     notification.success({ message: '🎉 新增分类成功' });
                 }
+
+                // 初始化表单状态
                 formRef.current.resetFields();
                 setCate({ name: '', mark: '', url: '', icon: '', level: 0 });
+
                 setModel(false);
                 getCateList();
             })
@@ -70,29 +72,60 @@ const CateManager: React.FC = () => {
         formRef.current.resetFields();
     };
 
-    const renderTreeNodes = (data: Cate[]) =>
-        data.map(item => (
-            <Tree.TreeNode title={item.name} key={item.id} dataRef={item}>
-                {item.children ? renderTreeNodes(item.children) : null}
-            </Tree.TreeNode>
-        ));
+    // 将数据转换为树形结构
+    const treeData = (data: Cate[]): any[] => (
+        data.map(item => {
+            const items: MenuProps['items'] = [
+                {
+                    key: '1',
+                    label: <span onClick={() => addCateData(item.id!)}>新增</span>,
+                },
+                {
+                    key: '2',
+                    label: <span onClick={() => editCateData(item.id!)}>编辑</span>,
+                },
+                {
+                    key: '3',
+                    label: <span onClick={() => delCateData(item.id!)}>删除</span>,
+                },
+            ];
 
-    const menu = (data: Cate) => (
-        <Menu>
-            <Menu.Item onClick={() => addCateData(data.id!)}>新增</Menu.Item>
-            <Menu.Item onClick={() => editCateData(data.id!)}>编辑</Menu.Item>
-            <Menu.Item onClick={() => delCateData(data.id!)}>删除</Menu.Item>
-        </Menu>
-    );
+            return ({
+                title: (
+                    <div className='group w-full flex justify-between items-center'>
+                        <h3>{item.name}</h3>
+
+                        <div className='controls hidden'>
+                            <Dropdown menu={{ items }} arrow>
+                                <Button type='link' size='small'>操作 <DownOutlined /></Button>
+                            </Dropdown>
+                        </div>
+                    </div>
+                ),
+                key: item.id,
+                children: item.children ? treeData(item.children) : [],
+            })
+        })
+    )
+
+    useEffect(() => {
+        getCateList();
+    }, []);
+
+    useEffect(() => {
+        if (model && formRef.current) {
+            formRef.current.setFieldsValue(cate);
+        }
+    }, [cate, model]);
 
     return (
         <Card title={<Breadcrumb pageName="分类" />} className='border-stroke dark:border-strokedark [&>.ant-card-head]:border-stroke [&>.ant-card-head]:dark:border-strokedark dark:bg-boxdark [&>.ant-card-body]:pt-2'>
             <div className='mt-2 mb-4 text-center'>
-                <Button type="primary" onClick={() => setModel(true)}>新增分类</Button>
+                <Button type="primary" onClick={() => setModel(true)}>新增一级分类</Button>
             </div>
 
             <Spin spinning={loading}>
-                <Tree defaultExpandAll>{renderTreeNodes(list)}</Tree>
+                <Tree defaultExpandAll treeData={treeData(list)} />
             </Spin>
 
             <Modal title="新增分类导航" open={model} onCancel={close} footer={null}>
@@ -119,7 +152,7 @@ const CateManager: React.FC = () => {
                     </Form.Item>
                 </Form>
             </Modal>
-        </Card >
+        </Card>
     );
 };
 
