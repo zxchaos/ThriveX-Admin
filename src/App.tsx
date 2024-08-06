@@ -7,6 +7,7 @@ import ECommerce from './pages/Dashboard/ECommerce';
 import Create from './pages/Create';
 import Cate from './pages/Cate';
 import Article from './pages/Article';
+import Comment from './pages/Comment';
 import Login from './pages/Login';
 import DefaultLayout from './layout/DefaultLayout';
 
@@ -93,6 +94,16 @@ function App() {
                 <>
                   <PageTitle title="Thrive - 文章管理" />
                   <Article />
+                </>
+              }
+            />
+
+            <Route
+              path="/comment"
+              element={
+                <>
+                  <PageTitle title="Thrive - 评论管理" />
+                  <Comment />
                 </>
               }
             />

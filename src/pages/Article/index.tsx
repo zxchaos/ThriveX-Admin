@@ -1,12 +1,11 @@
-// ArticleManagement.tsx
 import React, { useState, useEffect } from 'react';
 import { Table, Tag, Button, notification, Card, Popconfirm } from 'antd';
 import { delArticleDataAPI, getArticleListAPI } from '@/api/Article';
 import dayjs from 'dayjs';
-import { Article } from '@/types/article';
+import type { Article } from '@/types/article';
 import Breadcrumb from '@/components/Breadcrumbs'
 
-const ArticleManagement: React.FC = () => {
+const Article: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [articleList, setArticleList] = useState<Article[]>([]);
 
@@ -42,6 +41,7 @@ const ArticleManagement: React.FC = () => {
             dataIndex: 'id',
             key: 'id',
             align: 'center',
+            width: 100,
         },
         {
             title: '标题',
@@ -63,7 +63,6 @@ const ArticleManagement: React.FC = () => {
             dataIndex: 'cate',
             key: 'cate',
             align: 'center',
-            // render: (cate: { name: string }[]) => <span>{cate[0].name}</span>,
             render: () => <span>测试分类</span>,
         },
         {
@@ -130,7 +129,7 @@ const ArticleManagement: React.FC = () => {
                 dataSource={articleList}
                 columns={columns as any}
                 loading={loading}
-                scroll={{ x: '1850px' }}
+                scroll={{ x: 'max-content' }}
                 pagination={{
                     position: ['bottomCenter'],
                     pageSize: 8
@@ -140,4 +139,4 @@ const ArticleManagement: React.FC = () => {
     );
 };
 
-export default ArticleManagement;
+export default Article;
