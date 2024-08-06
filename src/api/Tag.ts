@@ -1,3 +1,4 @@
+import { Tag } from '@/types/tag'
 import Request from '@/utils/request'
 
 // 新增标签
@@ -17,6 +18,6 @@ export const getTagListAPI = (page?: Page) => {
     if (page) {
         return Request<Paginate<Tag[]>>("GET", `/tag?page=${page.page}&size=${page.size}`);
     } else {
-        return Request<Paginate<Tag[]>>("GET", `/tag`);
+        return Request<Tag[]>("GET", `/tag`);
     }
 };

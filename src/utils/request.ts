@@ -21,7 +21,7 @@ instance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         const token = store.token
 
-        if(config.method === "get") return config
+        // if(config.method === "get") return config
         
         // 如果有token就把赋值给请求头
         if (token) config.headers["Authorization"] = `Bearer ${token}`;

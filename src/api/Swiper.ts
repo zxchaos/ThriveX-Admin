@@ -1,3 +1,4 @@
+import { Swiper } from '@/types/swiper'
 import Request from '@/utils/request'
 
 // 新增轮播图
@@ -17,6 +18,6 @@ export const getSwiperListAPI = (page?: Page) => {
     if (page) {
         return Request<Paginate<Swiper[]>>("GET", `/swiper?page=${page.page}&size=${page.size}`);
     } else {
-        return Request<Paginate<Swiper[]>>("GET", `/swiper`);
+        return Request<Swiper[]>("GET", `/swiper`);
     }
 };

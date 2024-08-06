@@ -20,6 +20,6 @@ export const getCommentListAPI = (page?: Page) => {
     if (page) {
         return Request<Paginate<Comment[]>>("GET", `/comment?page=${page.page}&size=${page.size}`);
     } else {
-        return Request<Paginate<Comment[]>>("GET", `/comment`);
+        return Request<Comment[]>("GET", `/comment`);
     }
 };

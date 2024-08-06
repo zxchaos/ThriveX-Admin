@@ -1,3 +1,4 @@
+import { System, Web, Layout } from '@/types/system'
 import Request from '@/utils/request'
 
 // 获取系统配置信息

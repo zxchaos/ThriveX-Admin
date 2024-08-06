@@ -13,11 +13,11 @@ export const editCateDataAPI = (data: Cate) => Request<Cate>("PATCH", "/cate", d
 // 获取分类
 export const getCateDataAPI = (id?: number) => Request<Cate>("GET", `/cate/${id}`)
 
-// 获取评论列表
+// 获取分类列表
 export const getCateListAPI = (page?: Page) => {
     if (page) {
         return Request<Paginate<Cate[]>>("GET", `/cate?page=${page.page}&size=${page.size}`);
     } else {
-        return Request<Paginate<Cate[]>>("GET", `/cate`);
+        return Request<Cate[]>("GET", `/cate`);
     }
 };

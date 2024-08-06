@@ -1,3 +1,4 @@
+import { Link } from '@/types/link'
 import Request from '@/utils/request'
 
 // 新增网站
@@ -17,6 +18,6 @@ export const getLinkListAPI = (page?: Page) => {
     if (page) {
         return Request<Paginate<Link[]>>("GET", `/link?page=${page.page}&size=${page.size}`);
     } else {
-        return Request<Paginate<Link[]>>("GET", `/link`);
+        return Request<Link[]>("GET", `/link`);
     }
 };
