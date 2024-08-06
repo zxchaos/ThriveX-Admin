@@ -88,7 +88,7 @@ const CateManager: React.FC = () => {
                 {
                     key: '3',
                     label: (
-                        <Popconfirm title="警告" description="你确定要删除吗" onConfirm={() => delCateData(item.id!)}>
+                        <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delCateData(item.id!)}>
                             <span>删除</span>
                         </Popconfirm>
                     ),
