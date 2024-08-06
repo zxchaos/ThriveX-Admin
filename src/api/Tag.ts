@@ -14,10 +14,11 @@ export const editTagDataAPI = (data: Tag) => Request<Tag>("PATCH", "/tag", data)
 export const getTagDataAPI = (id?: number) => Request<Tag>("GET", `/tag/${id}`)
 
 // 获取标签列表
-export const getTagListAPI = (page?: Page) => {
-    if (page) {
-        return Request<Paginate<Tag[]>>("GET", `/tag?page=${page.page}&size=${page.size}`);
+export const getTagListAPI = (pagination?: Page) => {
+    if (pagination) {
+        const { page, size } = pagination
+        return Request<Paginate<Tag[]>>("GET", `/tag?page=${page}&size=${size}`);
     } else {
-        return Request<Tag[]>("GET", `/tag`);
+        return Request<Tag[]>("GET", `/tag/all`);
     }
 };

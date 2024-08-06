@@ -10,9 +10,10 @@ export const editFileDataAPI = (data: File) => Request<File>("PATCH", "/file", d
 export const getFileDataAPI = (id?: number) => Request<Paginate<File>>("GET", `/file/${id}`)
 
 // 获取文件列表
-export const getFileListAPI = (page?: Page) => {
-    if (page) {
-        return Request<File[]>("GET", `/file?page=${page.page}&size=${page.size}`);
+export const getFileListAPI = (pagination?: Page) => {
+    if (pagination) {
+        const { page, size } = pagination
+        return Request<File[]>("GET", `/file?page=${page}&size=${size}`);
     } else {
         return Request<File[]>("GET", `/file`);
     }

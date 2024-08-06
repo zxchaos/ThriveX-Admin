@@ -6,8 +6,9 @@ import PageTitle from './components/PageTitle';
 import ECommerce from './pages/Dashboard/ECommerce';
 import Create from './pages/Create';
 import Cate from './pages/Cate';
-import DefaultLayout from './layout/DefaultLayout';
+import Article from './pages/Article';
 import Login from './pages/Login';
+import DefaultLayout from './layout/DefaultLayout';
 
 import useAuthRedirect from '@/hooks/useAuthRedirect';
 
@@ -15,7 +16,7 @@ import { ConfigProvider } from 'antd';
 
 function App() {
   useAuthRedirect()
-  
+
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
 
@@ -82,6 +83,16 @@ function App() {
                 <>
                   <PageTitle title="Thrive - 分类管理" />
                   <Cate />
+                </>
+              }
+            />
+
+            <Route
+              path="/article"
+              element={
+                <>
+                  <PageTitle title="Thrive - 文章管理" />
+                  <Article />
                 </>
               }
             />

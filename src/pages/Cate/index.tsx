@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Form, Input, Button, Tree, Modal, notification, Spin, Dropdown, Card, MenuProps } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
-import { addCateDataAPI, delCateDataAPI, editCateDataAPI, getCateDataAPI, getCateListAPI } from '@/api/Cate';
-import Breadcrumb from '@/components/Breadcrumbs';
 import { Cate } from '@/types/cate';
+import { addCateDataAPI, delCateDataAPI, editCateDataAPI, getCateDataAPI, getCateListAPI } from '@/api/Cate';
+
+import Breadcrumb from '@/components/Breadcrumbs';
+import { DownOutlined } from '@ant-design/icons';
+import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp } from "react-icons/md";
+import { Form, Input, Button, Tree, Modal, notification, Spin, Dropdown, Card, MenuProps, Popconfirm } from 'antd';
+
 import "./index.scss"
 
 const CateManager: React.FC = () => {
@@ -59,15 +62,13 @@ const CateManager: React.FC = () => {
             });
     };
 
-    const delCateData = (id: number) => {
-        // whetherToDelete(async () => {
-        //     await delCateDataAPI(id);
-        //     notification.success({ message: '🎉 删除分类成功' });
-        //     getCateList();
-        // }, '分类');
+    const delCateData = async (id: number) => {
+        await delCateDataAPI(id);
+        notification.success({ message: '🎉 删除分类成功' });
+        getCateList();
     };
 
-    const close = () => {
+    const closeModel = () => {
         setModel(false);
         formRef.current.resetFields();
     };
@@ -86,7 +87,11 @@ const CateManager: React.FC = () => {
                 },
                 {
                     key: '3',
-                    label: <span onClick={() => delCateData(item.id!)}>删除</span>,
+                    label: (
+                        <Popconfirm title="警告" description="你确定要删除吗" onConfirm={() => delCateData(item.id!)}>
+                            <span>删除</span>
+                        </Popconfirm>
+                    ),
                 },
             ];
 
@@ -128,7 +133,7 @@ const CateManager: React.FC = () => {
                 <Tree defaultExpandAll treeData={treeData(list)} />
             </Spin>
 
-            <Modal title="新增分类导航" open={model} onCancel={close} footer={null}>
+            <Modal title="新增分类导航" open={model} onCancel={closeModel} footer={null}>
                 <Form ref={formRef} layout="vertical" initialValues={cate} size='large' className='mt-6'>
                     <Form.Item label="名称" name="name" rules={[{ required: true, message: '分类名称不能为空' }, { min: 1, max: 10, message: '分类名称限制为 1 ~ 10 个字符' }]}>
                         <Input placeholder="大前端" />
@@ -147,7 +152,7 @@ const CateManager: React.FC = () => {
                     </Form.Item>
 
                     <Form.Item className='!mb-0 flex justify-end'>
-                        <Button onClick={close}>取消</Button>
+                        <Button onClick={closeModel}>取消</Button>
                         <Button type="primary" onClick={submit} className='ml-2'>确定</Button>
                     </Form.Item>
                 </Form>

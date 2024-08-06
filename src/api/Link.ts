@@ -14,10 +14,11 @@ export const editLinkDataAPI = (data: Link) => Request<Link>("PATCH", "/link", d
 export const getLinkDataAPI = (id?: number) => Request<Link>("GET", `/link/${id}`)
 
 // 获取网站列表
-export const getLinkListAPI = (page?: Page) => {
-    if (page) {
-        return Request<Paginate<Link[]>>("GET", `/link?page=${page.page}&size=${page.size}`);
+export const getLinkListAPI = (pagination?: Page) => {
+    if (pagination) {
+        const { page, size } = pagination
+        return Request<Paginate<Link[]>>("GET", `/link?page=${page}&size=${size}`);
     } else {
-        return Request<Link[]>("GET", `/link`);
+        return Request<Link[]>("GET", `/link/all`);
     }
 };

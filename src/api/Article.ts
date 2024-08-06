@@ -17,10 +17,11 @@ export const editArticleDataAPI = (data: Article) =>
 export const getArticleDataAPI = (id?: number) => Request<Article>("GET", `/article/${id}`)
 
 // 获取文章列表
-export const getArticleListAPI = (page?: Page) => {
-  if (page) {
-    return Request<Paginate<Article[]>>("GET", `/article?page=${page.page}&size=${page.size}`);
+export const getArticleListAPI = (pagination?: Page) => {
+  if (pagination) {
+    const { page, size } = pagination
+    return Request<Paginate<Article[]>>("GET", `/article?page=${page}&size=${size}`);
   } else {
-    return Request<Article[]>("GET", `/article`);
+    return Request<Article[]>("GET", `/article/all`);
   }
 };
