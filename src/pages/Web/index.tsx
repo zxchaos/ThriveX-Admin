@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Tabs, Input, Button, Form, notification, Row, Spin, Empty, Card, Popconfirm } from 'antd';
+import { Tabs, Input, Button, Form, Spin, Empty, Card, Popconfirm, Select, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { getLinkListAPI, addLinkDataAPI, editLinkDataAPI, delLinkDataAPI } from '@/api/Web';
-import { Web } from '@/types/web'
+import { getLinkListAPI, addLinkDataAPI, editLinkDataAPI, delLinkDataAPI, getLinkTypeListAPI } from '@/api/Web';
+import { LinkType, Web } from '@/types/web'
 import Title from '@/components/Title';
 import "./index.scss"
 const LinkManager: React.FC = () => {
@@ -10,13 +10,14 @@ const LinkManager: React.FC = () => {
     const [tab, setTab] = useState<string>('list');
     const [list, setList] = useState<Web[]>([]);
     const [listTemp, setListTemp] = useState<Web[]>([]);
+    const [typeList, setTypeList] = useState<LinkType[]>([]);
     const [search, setSearch] = useState<string>('');
     const [link, setLink] = useState<Web>({} as Web);
 
     const formRef = useRef<any>(null);
 
+    // 获取网站列表
     const getLinkList = async () => {
-        setLoading(true);
         const { data } = await getLinkListAPI();
 
         setList(data as Web[]);
@@ -24,8 +25,16 @@ const LinkManager: React.FC = () => {
         setLoading(false);
     };
 
+    // 获取网站类型列表
+    const getLinkTypeList = async () => {
+        const { data } = await getLinkTypeListAPI();
+        setTypeList(data)
+    }
+
     useEffect(() => {
+        setLoading(true);
         getLinkList();
+        getLinkTypeList()
     }, []);
 
     useEffect(() => {
@@ -37,8 +46,9 @@ const LinkManager: React.FC = () => {
     };
 
     const deleteLink = async (id: number) => {
+        setLoading(true);
         await delLinkDataAPI(id);
-        notification.success({ message: '删除网站成功' });
+        message.success('🎉 删除网站成功');
         getLinkList();
     };
 
@@ -49,18 +59,22 @@ const LinkManager: React.FC = () => {
 
     const submit = async () => {
         formRef.current.validateFields().then(async (values: Web) => {
+            setLoading(true);
+
             if (link.id) {
                 await editLinkDataAPI({ ...link, ...values });
-                notification.success({ message: '编辑网站成功' });
+                message.success('🎉 编辑网站成功');
             } else {
                 await addLinkDataAPI(values);
-                notification.success({ message: '新增网站成功' });
+                message.success('🎉 新增网站成功');
             }
             formRef.current.resetFields();
             getLinkList();
             setTab('list');
         });
     };
+
+    const { Option } = Select;
 
     return (
         <>
@@ -111,32 +125,47 @@ const LinkManager: React.FC = () => {
                     </Tabs.TabPane>
 
                     <Tabs.TabPane tab={link.id ? '编辑网站' : '新增网站'} key="operate">
-                        <Row className="form-container">
-                            <h2 className="form-title">{link.id ? '编辑网站' : '新增网站'}</h2>
-                            <Form ref={formRef} layout="vertical" initialValues={link} onFinish={submit}>
-                                <Form.Item label="标题" name="title" rules={[{ required: true, message: '网站标题不能为空' }, { min: 2, max: 30, message: '网站标题限制在2 ~ 30个字符' }]}>
+                        <h2 className="text-xl pb-4 text-center">{link.id ? '编辑网站' : '新增网站'}</h2>
+
+                        <div className='w-5/12 mx-auto'>
+                            <Form ref={formRef} layout="vertical" size='large' initialValues={link} onFinish={submit}>
+                                <Form.Item label="网站标题" name="title" rules={[{ required: true, message: '网站标题不能为空' }]}>
                                     <Input placeholder="Thrive" />
                                 </Form.Item>
-                                <Form.Item label="描述" name="description" rules={[{ required: true, message: '网站描述不能为空' }, { min: 2, max: 100, message: '网站描述限制在2 ~ 100个字符' }]}>
+
+                                <Form.Item label="网站描述" name="description" rules={[{ required: true, message: '网站描述不能为空' }]}>
                                     <Input placeholder="记录前端、Python、Java点点滴滴" />
                                 </Form.Item>
-                                <Form.Item label="邮箱" name="email" rules={[{ required: true, message: '网站邮箱不能为空' }]}>
+
+                                <Form.Item label="站长邮箱" name="email">
                                     <Input placeholder="3311118881@qq.com" />
                                 </Form.Item>
-                                <Form.Item label="头像" name="image" rules={[{ required: true, message: '网站图标不能为空' }]}>
-                                    <Input placeholder="https://liuyuyang.net/logo.png" />
+
+                                <Form.Item label="网站图标" name="image" rules={[{ required: true, message: '网站图标不能为空' }]}>
+                                    <Input placeholder="https://blog.liuyuyang.net/logo.png" />
                                 </Form.Item>
-                                <Form.Item label="链接" name="url" rules={[{ required: true, message: '网站链接不能为空' }]}>
-                                    <Input placeholder="https://liuyuyang.net/" />
+
+                                <Form.Item label="网站链接" name="url">
+                                    <Input placeholder="https://blog.liuyuyang.net/" />
                                 </Form.Item>
-                                <Form.Item label="类型" name="type" rules={[{ required: true, message: '网站类型不能为空' }, { min: 2, max: 10, message: '网站类型限制在2 ~ 10个字符' }]}>
-                                    <Input placeholder="技术类" />
+
+                                <Form.Item name="typeId" label="网站类型" rules={[{ required: true, message: '网站类型不能为空' }]}>
+                                    <Select
+                                        placeholder="请选择网站类型"
+                                        onChange={(value: string) => {
+                                            console.log(value);
+                                        }}
+                                        allowClear
+                                    >
+                                        {typeList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                                    </Select>
                                 </Form.Item>
+
                                 <Form.Item>
-                                    <Button type="primary" htmlType="submit">{link.id ? '编辑网站' : '新增网站'}</Button>
+                                    <Button type="primary" htmlType="submit" className='w-full'>{link.id ? '编辑网站' : '新增网站'}</Button>
                                 </Form.Item>
                             </Form>
-                        </Row>
+                        </div>
                     </Tabs.TabPane>
                 </Tabs>
             </Card>

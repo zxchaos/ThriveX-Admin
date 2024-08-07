@@ -1,5 +1,5 @@
 import Request from '@/utils/request'
-import { Web } from '@/types/web'
+import { Web, LinkType } from '@/types/web'
 
 // 新增网站
 export const addLinkDataAPI = (data: Web) => Request<Web>("POST", "/link", data)
@@ -21,4 +21,9 @@ export const getLinkListAPI = (pagination?: Page) => {
     } else {
         return Request<Web[]>("GET", `/link/all`);
     }
+};
+
+// 获取网站类型列表
+export const getLinkTypeListAPI = () => {
+    return Request<LinkType[]>("GET", `/link/type`);
 };

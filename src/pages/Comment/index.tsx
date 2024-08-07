@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Tabs, Spin, Card, message, Table, Popconfirm, Button, Tag, Modal } from 'antd';
+import { Spin, Card, message, Table, Popconfirm, Button, Tag, Modal } from 'antd';
 import { getCommentListAPI } from '@/api/Comment';
 import { auditCommentDataAPI, delCommentDataAPI } from '@/api/Comment';
 import dayjs from 'dayjs';
@@ -7,8 +7,6 @@ import { ColumnsType } from 'antd/es/table';
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
 import { Comment } from '@/types/comment'
-
-const { TabPane } = Tabs;
 
 const CommentPage = () => {
     const [loading, setLoading] = useState(false);
@@ -107,13 +105,18 @@ const CommentPage = () => {
             fixed: 'right',
             align: 'center',
             render: (text: string, record: Comment) => (
-                <div className='flex space-x-2'>
-                    {!record.auditStatus && <Button type='primary' onClick={() => auditCommentData(1)}>审核</Button>}
-
-                    <Button onClick={() => {
-                        setComment(record)
-                        setIsModalOpen(true)
-                    }}>查看</Button>
+                <div className='flex justify-center space-x-2'>
+                    {
+                        !record.auditStatus
+                            ? <Button type='primary' onClick={() => {
+                                setComment(record)
+                                setIsModalOpen(true)
+                            }}>审核</Button>
+                            : <Button onClick={() => {
+                                setComment(record)
+                                setIsModalOpen(true)
+                            }}>查看</Button>
+                    }
 
                     <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delCommentData(record.id)}>
                         <Button type="primary" danger>删除</Button>

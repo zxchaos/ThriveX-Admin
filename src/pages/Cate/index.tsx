@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Cate } from '@/types/cate';
 import { addCateDataAPI, delCateDataAPI, editCateDataAPI, getCateDataAPI, getCateListAPI } from '@/api/Cate';
 import { DownOutlined } from '@ant-design/icons';
-import { titleSty } from '@/styles/sty';
-import { Form, Input, Button, Tree, Modal, notification, Spin, Dropdown, Card, MenuProps, Popconfirm } from 'antd';
+import { Form, Input, Button, Tree, Modal, Spin, Dropdown, Card, MenuProps, Popconfirm, message } from 'antd';
 import "./index.scss"
 import Title from '@/components/Title';
 
@@ -42,10 +41,10 @@ const CateManager: React.FC = () => {
             .then(async (values: any) => {
                 if (cate.id) {
                     await editCateDataAPI({ ...cate, ...values });
-                    notification.success({ message: '🎉 修改分类成功' });
+                    message.success('🎉 修改分类成功');
                 } else {
                     await addCateDataAPI({ ...cate, ...values });
-                    notification.success({ message: '🎉 新增分类成功' });
+                    message.success('🎉 新增分类成功');
                 }
 
                 // 初始化表单状态
@@ -62,7 +61,7 @@ const CateManager: React.FC = () => {
 
     const delCateData = async (id: number) => {
         await delCateDataAPI(id);
-        notification.success({ message: '🎉 删除分类成功' });
+        message.success('🎉 删除分类成功');
         getCateList();
     };
 
@@ -149,7 +148,7 @@ const CateManager: React.FC = () => {
                         </Form.Item>
 
                         <Form.Item label="链接（选填）" name="url">
-                            <Input placeholder="https://liuyuyang.net/" />
+                            <Input placeholder="https://blog.liuyuyang.net/" />
                         </Form.Item>
 
                         <Form.Item className='!mb-0 flex justify-end'>
