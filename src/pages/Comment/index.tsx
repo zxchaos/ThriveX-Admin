@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
-import { Tabs, Spin, Card, message, Table, Popconfirm, Button, Tag } from 'antd';
+import { Tabs, Spin, Card, message, Table, Popconfirm, Button, Tag, Modal } from 'antd';
 import { getCommentListAPI } from '@/api/Comment';
 import { auditCommentDataAPI, delCommentDataAPI } from '@/api/Comment';
 import dayjs from 'dayjs';
 import { ColumnsType } from 'antd/es/table';
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
-import { Comment as ArticleComment } from '@/types/comment'
+import { Comment } from '@/types/comment'
 
 const { TabPane } = Tabs;
 
-const Comment = () => {
+const CommentPage = () => {
     const [loading, setLoading] = useState(false);
-    const [model, setModel] = useState(false);
     const [comment, setComment] = useState<Comment>();
     const [list, setList] = useState<Comment[]>([]);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // const loadingFn = async (callback: () => void) => {
     //     setLoading(true)
@@ -78,6 +79,10 @@ const Comment = () => {
             title: '内容',
             dataIndex: 'content',
             key: 'content',
+            render: (text: string, record) => <span className="hover:text-primary cursor-pointer" onClick={() => {
+                setComment(record)
+                setIsModalOpen(true)
+            }}>{text}</span>
         },
         {
             title: '网站',
@@ -101,10 +106,15 @@ const Comment = () => {
             key: 'action',
             fixed: 'right',
             align: 'center',
-            render: (text: string, record: ArticleComment) => (
+            render: (text: string, record: Comment) => (
                 <div className='flex space-x-2'>
                     {!record.auditStatus && <Button type='primary' onClick={() => auditCommentData(1)}>审核</Button>}
-                    <Button>查看</Button>
+
+                    <Button onClick={() => {
+                        setComment(record)
+                        setIsModalOpen(true)
+                    }}>查看</Button>
+
                     <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delCommentData(record.id)}>
                         <Button type="primary" danger>删除</Button>
                     </Popconfirm>
@@ -131,8 +141,25 @@ const Comment = () => {
                     />
                 </Spin>
             </Card>
+
+            <Modal title='评论详情' open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
+                <div className='pt-2 space-y-2'>
+                    <div><b>所属文章：</b> {comment?.articleTitle}</div>
+                    <div><b>评论时间：</b> {dayjs(comment?.createTime).format("YYYY-MM-DD HH:mm:ss")}</div>
+                    <div><b>评论用户：</b> {comment?.name}</div>
+                    <div><b>邮箱：</b> {comment?.email}</div>
+                    <div><b>网站：</b> {comment?.url ? <a href={comment?.url} className="hover:text-primary">{comment?.url}</a> : '无网站'}</div>
+                    <div><b>内容：</b> {comment?.content}</div>
+                    <div><b>状态：</b> {comment?.auditStatus
+                        ? <Tag bordered={false} color="processing">通过</Tag>
+                        : <Tag bordered={false} color="error">待审核</Tag>}
+                    </div>
+
+                    {!comment?.auditStatus ? <Button type="primary" className='w-full !mt-4' onClick={() => auditCommentData(1)}>通过审核</Button> : null}
+                </div>
+            </Modal>
         </>
     );
 };
 
-export default Comment;
+export default CommentPage;
