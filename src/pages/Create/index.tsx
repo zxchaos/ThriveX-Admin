@@ -24,9 +24,11 @@ const Create = () => {
     })
   }, [content])
 
+  const titleSty = "border-stroke dark:border-strokedark [&>.ant-card-head]:border-stroke [&>.ant-card-head]:dark:border-strokedark dark:bg-boxdark [&>.ant-card-body]:pt-2"
+
   return (
     <>
-      <Card title={<Breadcrumb pageName="创作" />} className='border-stroke dark:border-strokedark [&>.ant-card-head]:border-stroke [&>.ant-card-head]:dark:border-strokedark dark:bg-boxdark [&>.ant-card-body]:pt-2'>
+      <Card title={<Breadcrumb pageName="创作" />} className={titleSty}>
         <div className='fixed bottom-10 right-[5%] w-22 z-10'>
           <Button type="primary" className='w-full' onClick={() => setPublishOpen(true)} >
             <BiSave className='text-base' /> 保存</Button>

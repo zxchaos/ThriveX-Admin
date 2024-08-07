@@ -122,20 +122,26 @@ const Article: React.FC = () => {
         },
     ];
 
+    const titleSty = "border-stroke dark:border-strokedark [&>.ant-card-head]:border-stroke [&>.ant-card-head]:dark:border-strokedark dark:bg-boxdark [&>.ant-card-body]:!p-0"
+
     return (
-        <Card title={<Breadcrumb pageName="文章管理" />} className='border-stroke dark:border-strokedark [&>.ant-card-head]:border-stroke [&>.ant-card-head]:dark:border-strokedark dark:bg-boxdark [&>.ant-card-body]:!p-0'>
-            <Table
-                rowKey="id"
-                dataSource={articleList}
-                columns={columns as any}
-                loading={loading}
-                scroll={{ x: 'max-content' }}
-                pagination={{
-                    position: ['bottomCenter'],
-                    pageSize: 8
-                }}
-            />
-        </Card>
+        <>
+            <Card title={<Breadcrumb pageName="文章管理" />} className={titleSty}></Card>
+
+            <Card className={`${titleSty} mt-4`}>
+                <Table
+                    rowKey="id"
+                    dataSource={articleList}
+                    columns={columns as any}
+                    loading={loading}
+                    scroll={{ x: 'max-content' }}
+                    pagination={{
+                        position: ['bottomCenter'],
+                        pageSize: 8
+                    }}
+                />
+            </Card>
+        </>
     );
 };
 

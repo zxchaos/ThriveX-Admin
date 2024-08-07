@@ -35,8 +35,10 @@ const CommentManager: React.FC = () => {
         getCommentList();
     };
 
+    const titleSty = "border-stroke dark:border-strokedark [&>.ant-card-head]:border-stroke [&>.ant-card-head]:dark:border-strokedark dark:bg-boxdark [&>.ant-card-body]:pt-2"
+
     return (
-        <Card title={<Breadcrumb pageName="评论管理" />} className='border-stroke dark:border-strokedark [&>.ant-card-head]:border-stroke [&>.ant-card-head]:dark:border-strokedark dark:bg-boxdark [&>.ant-card-body]:pt-2'>
+        <Card title={<Breadcrumb pageName="评论管理" />} className={titleSty}>
             <Tabs activeKey={info.tab} onChange={handleTabChange}>
                 <TabPane tab="评论列表" key="list">
                     {info.loading ? <Spin /> : <List data={info} getCommentList={getCommentList} />}
