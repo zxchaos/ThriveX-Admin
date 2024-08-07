@@ -1,3 +1,8 @@
+interface LinkType {
+  id: number,
+  name: string
+}
+
 export interface Web {
   id?: number;
   title: string;
@@ -5,6 +10,7 @@ export interface Web {
   email: string;
   image: string;
   url: string;
-  type: string;
-  createtime?: string;
+  typeId: number;
+  type: LinkType;
+  createTime?: string;
 }

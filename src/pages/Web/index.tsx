@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Tabs, Input, Button, Form, notification, Row, Spin, Empty, Card } from 'antd';
+import { Tabs, Input, Button, Form, notification, Row, Spin, Empty, Card, Popconfirm } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { getLinkListAPI, addLinkDataAPI, editLinkDataAPI, delLinkDataAPI } from '@/api/Web';
 import { Web } from '@/types/web'
@@ -11,14 +11,7 @@ const LinkManager: React.FC = () => {
     const [list, setList] = useState<Web[]>([]);
     const [listTemp, setListTemp] = useState<Web[]>([]);
     const [search, setSearch] = useState<string>('');
-    const [link, setLink] = useState<Web>({
-        title: '',
-        description: '',
-        email: '',
-        image: '',
-        url: '',
-        type: ''
-    });
+    const [link, setLink] = useState<Web>({} as Web);
 
     const formRef = useRef<any>(null);
 
@@ -97,11 +90,14 @@ const LinkManager: React.FC = () => {
 
                                             <div className="name">{item.title}</div>
                                             <div className="description">{item.description}</div>
-                                            <div className="type">{item.type}</div>
+                                            <div className="type">{item.type.name}</div>
 
                                             <div className="operate">
                                                 <div onClick={() => editLink(item)} className="edit">修改</div>
-                                                <div onClick={() => deleteLink(item.id!)} className="delete">删除</div>
+
+                                                <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => deleteLink(item.id!)}>
+                                                    <div className="delete">删除</div>
+                                                </Popconfirm>
                                             </div>
 
                                             <div onClick={() => toHref(item.url)} className="headFor">前往该网站 &rarr;</div>
