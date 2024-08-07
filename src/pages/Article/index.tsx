@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Tag, Button, notification, Card, Popconfirm } from 'antd';
+import { Table, Button, Tag, notification, Card, Popconfirm } from 'antd';
 import { delArticleDataAPI, getArticleListAPI } from '@/api/Article';
 import dayjs from 'dayjs';
 import type { Article } from '@/types/article';
 import { titleSty } from '@/styles/sty'
 import Title from '@/components/Title';
+import type { Tag as ArticleTag } from '@/types/tag';
+import type { Cate } from '@/types/cate';
 
 const Article: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -61,29 +63,17 @@ const Article: React.FC = () => {
         },
         {
             title: '分类',
-            dataIndex: 'cate',
-            key: 'cate',
+            dataIndex: 'cateList',
+            key: 'cateList',
             align: 'center',
-            render: () => <span>测试分类</span>,
+            render: (cates: Cate[]) => cates.map((item, index) => <Tag key={item.id} color={colors[index]}>{item.name}</Tag>)
         },
         {
             title: '标签',
-            dataIndex: 'tag',
-            key: 'tag',
+            dataIndex: 'tagList',
+            key: 'tagList',
             align: 'center',
-            render: (tag: string) => (
-                <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                    {
-                        tag
-                            ? tag.split(',').map((item, index) => (
-                                <Tag key={item} color={colors[index] as any}>
-                                    {item}
-                                </Tag>
-                            ))
-                            : <Tag color="">暂无标签</Tag>
-                    }
-                </div>
-            ),
+            render: (tags: ArticleTag[]) => tags.map((item, index) => <Tag key={item.id} color={colors[index]}>{item.name}</Tag>)
         },
         {
             title: '浏览量',
