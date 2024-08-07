@@ -1,55 +1,138 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Tabs, Spin, Card } from 'antd';
-import { TabsProps } from 'antd';
+import { useState, useEffect } from 'react';
+import { Tabs, Spin, Card, message, Table, Popconfirm, Button, Tag } from 'antd';
 import { getCommentListAPI } from '@/api/Comment';
-import List from './components/List';
-import Breadcrumb from '@/components/Breadcrumbs';
+import { auditCommentDataAPI, delCommentDataAPI } from '@/api/Comment';
+import dayjs from 'dayjs';
+import { ColumnsType } from 'antd/es/table';
+import { titleSty } from '@/styles/sty';
+import Title from '@/components/Title';
+import { Comment as ArticleComment } from '@/types/comment'
 
 const { TabPane } = Tabs;
 
-const CommentManager: React.FC = () => {
-    const [info, setInfo] = useState<Info>({
-        tab: 'list',
-        loading: false,
-        list: [],
-        paginate: { size: 0, page: 0, total: 0 }
-    });
+const Comment = () => {
+    const [loading, setLoading] = useState(false);
+    const [model, setModel] = useState(false);
+    const [comment, setComment] = useState<Comment>();
+    const [list, setList] = useState<Comment[]>([]);
 
-    const getCommentList = useCallback(async (page?: Page) => {
-        setInfo(prev => ({ ...prev, loading: true }));
+    // const loadingFn = async (callback: () => void) => {
+    //     setLoading(true)
+    //     await callback()
+    //     setLoading(false)
+    // }
 
-        const { data } = await getCommentListAPI(page);
+    const getCommentList = async () => {
+        const { data } = await getCommentListAPI();
+        setList(data as Comment[])
+        setLoading(false)
+    }
 
-        setInfo(prev => ({
-            list: data.result.filter(item => (prev.tab === 'list' ? item.audit === 1 : item.audit === 0)),
-            loading: false
-        }));
-    }, [info.tab]);
-
-    useEffect(() => {
+    const auditCommentData = async (id: number) => {
+        setLoading(true)
+        await auditCommentDataAPI(id);
         getCommentList();
-    }, [getCommentList]);
-
-    const handleTabChange = (key: string) => {
-        setInfo(prev => ({ ...prev, tab: key }));
-        getCommentList();
+        message.success('🎉 审核评论成功');
     };
 
-    const titleSty = "border-stroke dark:border-strokedark [&>.ant-card-head]:border-stroke [&>.ant-card-head]:dark:border-strokedark dark:bg-boxdark [&>.ant-card-body]:pt-2"
+    const delCommentData = async (id: number) => {
+        setLoading(true)
+        await delCommentDataAPI(id);
+        getCommentList();
+        message.success('🎉 删除评论成功');
+    };
+
+    useEffect(() => {
+        setLoading(true)
+        getCommentList();
+    }, []);
+
+    const columns: ColumnsType = [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            align: "center"
+        },
+        {
+            title: '状态',
+            dataIndex: 'auditStatus',
+            key: 'auditStatus',
+            fixed: 'left',
+            render: (status: number) => status ?
+                <Tag bordered={false} color="processing">通过</Tag>
+                : <Tag bordered={false} color="error">待审核</Tag>
+        },
+        {
+            title: '名称',
+            dataIndex: 'name',
+            key: 'name',
+            fixed: 'left',
+        },
+        {
+            title: '邮箱',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: '内容',
+            dataIndex: 'content',
+            key: 'content',
+        },
+        {
+            title: '网站',
+            dataIndex: 'url',
+            key: 'url',
+            render: (url: string) => url ? <a href={url} className="hover:text-primary">{url}</a> : '无网站',
+        },
+        {
+            title: '所属文章',
+            dataIndex: 'articleTitle',
+            key: 'articleTitle',
+        },
+        {
+            title: '评论时间',
+            dataIndex: 'createTime',
+            key: 'createTime',
+            render: (date: string) => dayjs(date).format('YYYY-MM-DD HH:mm:ss'),
+        },
+        {
+            title: '操作',
+            key: 'action',
+            fixed: 'right',
+            align: 'center',
+            render: (text: string, record: ArticleComment) => (
+                <div className='flex space-x-2'>
+                    {!record.auditStatus && <Button type='primary' onClick={() => auditCommentData(1)}>审核</Button>}
+                    <Button>查看</Button>
+                    <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delCommentData(record.id)}>
+                        <Button type="primary" danger>删除</Button>
+                    </Popconfirm>
+                </div>
+            ),
+        },
+    ];
 
     return (
-        <Card title={<Breadcrumb pageName="评论管理" />} className={titleSty}>
-            <Tabs activeKey={info.tab} onChange={handleTabChange}>
-                <TabPane tab="评论列表" key="list">
-                    {info.loading ? <Spin /> : <List data={info} getCommentList={getCommentList} />}
-                </TabPane>
+        <>
+            <Title value='评论管理' />
 
-                <TabPane tab="待审核" key="audit">
-                    {info.loading ? <Spin /> : <List data={info} getCommentList={getCommentList} />}
-                </TabPane>
-            </Tabs>
-        </Card>
+            <Card className={`${titleSty} mt-2`}>
+                <Spin spinning={loading} indicator={<svg />}>
+                    <Table
+                        rowKey="id"
+                        dataSource={list}
+                        columns={columns}
+                        scroll={{ x: 'max-content' }}
+                        pagination={{
+                            position: ['bottomCenter'],
+                            pageSize: 8
+                        }}
+                    />
+                </Spin>
+            </Card>
+        </>
     );
 };
 
-export default CommentManager;
+export default Comment;

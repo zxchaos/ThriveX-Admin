@@ -90,8 +90,8 @@ const Article: React.FC = () => {
         },
         {
             title: '发布时间',
-            dataIndex: 'createtime',
-            key: 'create_time',
+            dataIndex: 'createTime',
+            key: 'createTime',
             align: 'center',
             width: 200,
             render: (text: string) => dayjs(text).format('YYYY-MM-DD HH:mm:ss'),

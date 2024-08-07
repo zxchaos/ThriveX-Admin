@@ -1,14 +1,15 @@
 export interface Comment {
-    aid: number,
-    avatar: string,
-    content: string,
-    date: Date,
-    email: string,
     id: number,
     name: string,
-    rid: number,
+    avatar: string,
+    email: string,
     url: string,
-    audit: number
+    content: string,
+    articleId: number,
+    articleTitle: number,
+    commentId: number,
+    auditStatus: number
+    createTime: Date,
 }
 
 export interface Info {
