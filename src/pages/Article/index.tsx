@@ -86,7 +86,7 @@ const Article: React.FC = () => {
             dataIndex: 'comment',
             key: 'comment',
             align: 'center',
-            render: () => <span>99+</span>,
+            render: (data: string) => <span>{data}</span>,
         },
         {
             title: '发布时间',
