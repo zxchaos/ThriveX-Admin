@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
@@ -8,6 +8,7 @@ import Create from './pages/Create';
 import Cate from './pages/Cate';
 import Article from './pages/Article';
 import Comment from './pages/Comment';
+import Web from './pages/Web';
 import Login from './pages/Login';
 import DefaultLayout from './layout/DefaultLayout';
 
@@ -104,6 +105,16 @@ function App() {
                 <>
                   <PageTitle title="Thrive - 评论管理" />
                   <Comment />
+                </>
+              }
+            />
+
+            <Route
+              path="/Web"
+              element={
+                <>
+                  <PageTitle title="Thrive - 网站管理" />
+                  <Web />
                 </>
               }
             />

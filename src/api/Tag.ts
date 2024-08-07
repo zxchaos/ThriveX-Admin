@@ -1,5 +1,5 @@
-import { Tag } from '@/types/tag'
 import Request from '@/utils/request'
+import { Tag } from '@/types/tag'
 
 // 新增标签
 export const addTagDataAPI = (data: Tag) => Request<Tag>("POST", "/tag", data)

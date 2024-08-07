@@ -1,5 +1,5 @@
-import { Article } from "@/types/article";
 import Request from "@/utils/request";
+import { Article } from "@/types/article";
 
 // 新增文章
 export const addArticleDataAPI = (data: Article) =>

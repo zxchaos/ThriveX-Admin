@@ -1,5 +1,5 @@
-import { Swiper } from '@/types/swiper'
 import Request from '@/utils/request'
+import { Swiper } from '@/types/swiper'
 
 // 新增轮播图
 export const addSwiperDataAPI = (data: Swiper) => Request<Swiper>("POST", "/swiper", data)
