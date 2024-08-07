@@ -1,4 +1,4 @@
-export interface Link {
+export interface Web {
   id?: number;
   title: string;
   description: string;
