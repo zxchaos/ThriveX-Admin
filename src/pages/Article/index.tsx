@@ -3,7 +3,8 @@ import { Table, Tag, Button, notification, Card, Popconfirm } from 'antd';
 import { delArticleDataAPI, getArticleListAPI } from '@/api/Article';
 import dayjs from 'dayjs';
 import type { Article } from '@/types/article';
-import Breadcrumb from '@/components/Breadcrumbs'
+import { titleSty } from '@/styles/sty'
+import Title from '@/components/Title';
 
 const Article: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -122,13 +123,11 @@ const Article: React.FC = () => {
         },
     ];
 
-    const titleSty = "border-stroke dark:border-strokedark [&>.ant-card-head]:border-stroke [&>.ant-card-head]:dark:border-strokedark dark:bg-boxdark [&>.ant-card-body]:!p-0"
-
     return (
         <>
-            <Card title={<Breadcrumb pageName="文章管理" />} className={titleSty}></Card>
+            <Title value="文章管理" />
 
-            <Card className={`${titleSty} mt-4`}>
+            <Card className={`${titleSty} mt-2`}>
                 <Table
                     rowKey="id"
                     dataSource={articleList}

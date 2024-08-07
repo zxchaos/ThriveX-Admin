@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Cate } from '@/types/cate';
 import { addCateDataAPI, delCateDataAPI, editCateDataAPI, getCateDataAPI, getCateListAPI } from '@/api/Cate';
-
-import Breadcrumb from '@/components/Breadcrumbs';
 import { DownOutlined } from '@ant-design/icons';
-import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp } from "react-icons/md";
+import { titleSty } from '@/styles/sty';
 import { Form, Input, Button, Tree, Modal, notification, Spin, Dropdown, Card, MenuProps, Popconfirm } from 'antd';
-
 import "./index.scss"
+import Title from '@/components/Title';
 
 const CateManager: React.FC = () => {
     const [loading, setLoading] = useState(false);
@@ -123,43 +121,45 @@ const CateManager: React.FC = () => {
         }
     }, [cate, model]);
 
-    const titleSty = "border-stroke dark:border-strokedark [&>.ant-card-head]:border-stroke [&>.ant-card-head]:dark:border-strokedark dark:bg-boxdark [&>.ant-card-body]:pt-2"
-
     return (
-        <Card title={<Breadcrumb pageName="分类管理" />} className={titleSty}>
-            <div className='mt-2 mb-4 text-center'>
-                <Button type="primary" onClick={() => setModel(true)}>新增一级分类</Button>
-            </div>
+        <>
+            <Title value="分类管理" />
 
-            <Spin spinning={loading}>
-                <Tree defaultExpandAll treeData={treeData(list)} />
-            </Spin>
+            <Card className={`[&>.ant-card-body]:!p-2 [&>.ant-card-body]:!pb-6 mt-2`}>
+                <div className='my-2 text-center'>
+                    <Button type="primary" onClick={() => setModel(true)}>新增一级分类</Button>
+                </div>
 
-            <Modal title="新增分类导航" open={model} onCancel={closeModel} footer={null}>
-                <Form ref={formRef} layout="vertical" initialValues={cate} size='large' className='mt-6'>
-                    <Form.Item label="名称" name="name" rules={[{ required: true, message: '分类名称不能为空' }, { min: 1, max: 10, message: '分类名称限制为 1 ~ 10 个字符' }]}>
-                        <Input placeholder="大前端" />
-                    </Form.Item>
+                <Spin spinning={loading}>
+                    <Tree defaultExpandAll={true} treeData={treeData(list)} />
+                </Spin>
 
-                    <Form.Item label="标识" name="mark" rules={[{ required: true, message: '分类标识不能为空' }, { min: 1, max: 10, message: '分类标识限制为 1 ~ 10 个字符' }]}>
-                        <Input placeholder="dqd" />
-                    </Form.Item>
+                <Modal title="新增分类导航" open={model} onCancel={closeModel} footer={null}>
+                    <Form ref={formRef} layout="vertical" initialValues={cate} size='large' className='mt-6'>
+                        <Form.Item label="名称" name="name" rules={[{ required: true, message: '分类名称不能为空' }, { min: 1, max: 10, message: '分类名称限制为 1 ~ 10 个字符' }]}>
+                            <Input placeholder="大前端" />
+                        </Form.Item>
 
-                    <Form.Item label="图标" name="icon">
-                        <Input placeholder="🎉" />
-                    </Form.Item>
+                        <Form.Item label="标识" name="mark" rules={[{ required: true, message: '分类标识不能为空' }, { min: 1, max: 10, message: '分类标识限制为 1 ~ 10 个字符' }]}>
+                            <Input placeholder="dqd" />
+                        </Form.Item>
 
-                    <Form.Item label="链接（选填）" name="url">
-                        <Input placeholder="https://liuyuyang.net/" />
-                    </Form.Item>
+                        <Form.Item label="图标" name="icon">
+                            <Input placeholder="🎉" />
+                        </Form.Item>
 
-                    <Form.Item className='!mb-0 flex justify-end'>
-                        <Button onClick={closeModel}>取消</Button>
-                        <Button type="primary" onClick={submit} className='ml-2'>确定</Button>
-                    </Form.Item>
-                </Form>
-            </Modal>
-        </Card>
+                        <Form.Item label="链接（选填）" name="url">
+                            <Input placeholder="https://liuyuyang.net/" />
+                        </Form.Item>
+
+                        <Form.Item className='!mb-0 flex justify-end'>
+                            <Button onClick={closeModel}>取消</Button>
+                            <Button type="primary" onClick={submit} className='ml-2'>确定</Button>
+                        </Form.Item>
+                    </Form>
+                </Modal>
+            </Card>
+        </>
     );
 };
 
