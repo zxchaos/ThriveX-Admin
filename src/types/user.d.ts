@@ -19,7 +19,7 @@ export interface account {
     user: User
 }
 
-export interface editUser {
+export interface EditUser {
     username: string,
     oldPassword: string,
     newPassword: string

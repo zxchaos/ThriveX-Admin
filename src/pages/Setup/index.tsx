@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Card } from 'antd';
 import Title from '@/components/Title';
+import { BiGlobe, BiLayout, BiShieldQuarter, BiUser } from 'react-icons/bi';
+import System from './components/System'
 import "./index.scss"
 
 interface Setup {
@@ -12,38 +14,34 @@ interface Setup {
 
 const SetupPage = () => {
     const [active, setActive] = useState("system");
-
+    
+    const iconSty = "w-5 h-8 mr-1"
     const list: Setup[] = [
         {
             title: "系统配置",
             description: "配置管理员账号、登录时间等",
-            icon: <div>123</div>,
+            icon: <BiShieldQuarter className={iconSty} />,
             key: "system"
         },
         {
             title: "网站配置",
             description: "配置网站标题、LOGO、描述、SEO等",
-            icon: <div>123</div>,
+            icon: <BiGlobe className={iconSty} />,
             key: "web"
         },
         {
             title: "布局配置",
             description: "配置网站布局及代码高亮等",
-            icon: <div>123</div>,
+            icon: <BiLayout className={iconSty} />,
             key: "layout"
         },
         {
             title: "个人设置",
             description: "配置个人信息等",
-            icon: <div>123</div>,
+            icon: <BiUser className={iconSty} />,
             key: "my"
         }
     ];
-
-    const handleNavigation = (key: string) => {
-        console.log(key);
-        setActive(key);
-    }
 
     return (
         <>
@@ -56,11 +54,10 @@ const SetupPage = () => {
                             <li
                                 key={item.key}
                                 className={`item p-3 pl-5 mb-2 cursor-pointer transition-colors ${active === item.key ? 'active' : ''}`}
-                                onClick={() => handleNavigation(item.key)}
+                                onClick={() => setActive(item.key)}
                             >
                                 <h3 className="flex items-center text-base">
-                                    {/* <i className={`bx ${item.icon} mr-2`}></i> */}
-                                    {item.title}
+                                    {item.icon} {item.title}
                                 </h3>
 
                                 <p className="text-[13px] text-[#858585] text-gray-500 mt-1">{item.description}</p>
@@ -69,9 +66,10 @@ const SetupPage = () => {
                     </ul>
 
                     <div className="flex-grow">
-                        <Card>
-
-                        </Card>
+                        {active === "system" && <System />}
+                        {/* {active === "web" && <Web />}
+                        {active === "layout" && <Layout />}
+                        {active === "my" && <My />} */}
                     </div>
                 </div>
             </Card>
