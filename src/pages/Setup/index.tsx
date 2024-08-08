@@ -4,7 +4,7 @@ import Title from '@/components/Title';
 import { BiGlobe, BiLayout, BiShieldQuarter, BiUser } from 'react-icons/bi';
 import System from './components/System'
 import Web from './components/Web'
-import Web from './components/Web'
+import Layout from './components/Layout'
 import "./index.scss"
 
 interface Setup {
@@ -51,7 +51,7 @@ const SetupPage = () => {
 
             <Card className='SetupPage mt-2'>
                 <div className="flex">
-                    <ul className="w-52 mr-5 border-r border-[#eee]">
+                    <ul className="w[20%] mr-5 border-r border-[#eee]">
                         {list.map((item) => (
                             <li
                                 key={item.key}
@@ -67,11 +67,11 @@ const SetupPage = () => {
                         ))}
                     </ul>
 
-                    <div className="flex-grow">
+                    <div className='w-[80%]'>
                         {active === "system" && <System />}
                         {active === "web" && <Web />}
-                        {/* {active === "layout" && <Layout />}
-                        {active === "my" && <My />} */}
+                        {active === "layout" && <Layout />}
+                        {/* {active === "my" && <My />} */}
                     </div>
                 </div>
             </Card>
