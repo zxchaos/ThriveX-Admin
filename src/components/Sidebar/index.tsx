@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import Logo from '../../images/logo/logo.svg';
-import { BiEditAlt, BiFolderOpen, BiHomeSmile, BiSitemap, BiSpa } from "react-icons/bi";
+import { BiEditAlt, BiFolderOpen, BiHomeSmile } from "react-icons/bi";
 import { BiCategoryAlt } from "react-icons/bi";
 
 interface SidebarProps {
@@ -210,6 +210,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               }
                             >
                               网站管理
+                            </NavLink>
+                          </li>
+
+                          <li>
+                            <NavLink
+                              to="/swiper"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              轮播图管理
                             </NavLink>
                           </li>
                         </ul>

@@ -9,6 +9,7 @@ import Cate from './pages/Cate';
 import Article from './pages/Article';
 import Comment from './pages/Comment';
 import Web from './pages/Web';
+import Swiper from './pages/Swiper';
 import Login from './pages/Login';
 import DefaultLayout from './layout/DefaultLayout';
 
@@ -110,11 +111,21 @@ function App() {
             />
 
             <Route
-              path="/Web"
+              path="/web"
               element={
                 <>
                   <PageTitle title="Thrive - 网站管理" />
                   <Web />
+                </>
+              }
+            />
+
+            <Route
+              path="/swiper"
+              element={
+                <>
+                  <PageTitle title="Thrive - 轮播图管理" />
+                  <Swiper />
                 </>
               }
             />

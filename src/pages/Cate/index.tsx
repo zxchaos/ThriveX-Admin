@@ -35,6 +35,12 @@ const CatePage: React.FC = () => {
         setLoading(false);
     };
 
+    const delCateData = async (id: number) => {
+        await delCateDataAPI(id);
+        message.success('🎉 删除分类成功');
+        getCateList();
+    };
+
     const submit = async () => {
         formRef.current
             .validateFields()
@@ -57,12 +63,6 @@ const CatePage: React.FC = () => {
             .catch((errorInfo: any) => {
                 console.error('Validate Failed:', errorInfo);
             });
-    };
-
-    const delCateData = async (id: number) => {
-        await delCateDataAPI(id);
-        message.success('🎉 删除分类成功');
-        getCateList();
     };
 
     const closeModel = () => {
