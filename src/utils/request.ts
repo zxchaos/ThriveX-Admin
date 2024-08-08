@@ -14,12 +14,11 @@ export const instance = axios.create({
     timeout: 5000,
 });
 
-const store = useUserStore.getState()
-
 // 请求拦截
 instance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-        const token = store.token
+        // 获取token
+        const token = JSON.parse(localStorage.getItem("user_storage") || "{}")?.state.token
 
         // 如果有token就把赋值给请求头
         if (token) config.headers["Authorization"] = `Bearer ${token}`;
@@ -28,7 +27,7 @@ instance.interceptors.request.use(
     },
     (err: AxiosError) => {
         notification.error({
-            message: '程序异常',
+            message: '请求异常',
             description: err.message,
         })
 
@@ -42,7 +41,7 @@ instance.interceptors.response.use(
         // 只要code不等于200, 就相当于响应失败
         if (res.data?.code !== 200) {
             notification.error({
-                message: '程序异常',
+                message: '响应异常',
                 description: res.data?.message || "未知错误",
             })
 
@@ -59,16 +58,16 @@ instance.interceptors.response.use(
                 content: '🔒️ 登录已过期，是否重新登录?',
                 okText: "去登录",
                 onOk: () => {
+                    const store = useUserStore.getState()
                     store.quitLogin()
                 }
             });
 
             return Promise.reject(err.response?.data);
         }
-        
-        // 服务器异常：网络错误、请求超时、状态码不在200-299之间等等
+
         notification.error({
-            message: '服务器异常',
+            message: '程序异常',
             description: err.message || "未知错误",
         })
 
