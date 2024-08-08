@@ -1,10 +1,11 @@
-.ant-tree {
-    .ant-tree-treenode,.ant-tree-node-content-wrapper{
-        width: 100%;
+.CatePage {
+    .ant-tree-treenode,
+    .ant-tree-node-content-wrapper {
+        width: 100% !important;
     }
 
-    .ant-tree-node-selected{
-        .controls{
+    .ant-tree-node-selected {
+        .controls {
             display: block !important;
         }
     }

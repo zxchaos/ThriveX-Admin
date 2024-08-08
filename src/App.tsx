@@ -10,6 +10,7 @@ import Article from './pages/Article';
 import Comment from './pages/Comment';
 import Web from './pages/Web';
 import Swiper from './pages/Swiper';
+import Setup from './pages/Setup';
 import Login from './pages/Login';
 import DefaultLayout from './layout/DefaultLayout';
 
@@ -126,6 +127,16 @@ function App() {
                 <>
                   <PageTitle title="Thrive - 轮播图管理" />
                   <Swiper />
+                </>
+              }
+            />
+
+            <Route
+              path="/setup"
+              element={
+                <>
+                  <PageTitle title="Thrive - 项目配置" />
+                  <Setup />
                 </>
               }
             />

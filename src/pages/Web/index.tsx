@@ -4,7 +4,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { getLinkListAPI, addLinkDataAPI, editLinkDataAPI, delLinkDataAPI, getLinkTypeListAPI } from '@/api/Web';
 import { LinkType, Web } from '@/types/web';
 import Title from '@/components/Title';
-import "./index.scss";
+import './index.scss';
 
 const LinkPage = () => {
     const [loading, setLoading] = useState(false);
@@ -114,7 +114,7 @@ const LinkPage = () => {
                         <div className="list">
                             {listTemp.length > 0 ? (
                                 listTemp.map(item => (
-                                    <div key={item.id} className="item">
+                                    <div key={item.id}  className={`item`}>
                                         <div className="avatar">
                                             <img src={item.image} alt="" className="avatar-img" />
                                         </div>
@@ -191,7 +191,7 @@ const LinkPage = () => {
         <>
             <Title value="网站管理" />
 
-            <Card className='mt-2'>
+            <Card className="WebPage mt-2">
                 <Tabs activeKey={tab} tabPosition="left" onChange={handleTabChange} items={tabItems} />
             </Card>
         </>

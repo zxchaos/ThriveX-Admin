@@ -3,8 +3,8 @@ import { Cate } from '@/types/cate';
 import { addCateDataAPI, delCateDataAPI, editCateDataAPI, getCateDataAPI, getCateListAPI } from '@/api/Cate';
 import { DownOutlined } from '@ant-design/icons';
 import { Form, Input, Button, Tree, Modal, Spin, Dropdown, Card, MenuProps, Popconfirm, message } from 'antd';
-import "./index.scss"
 import Title from '@/components/Title';
+import "./index.scss"
 
 const CatePage: React.FC = () => {
     const [loading, setLoading] = useState(false);
@@ -124,7 +124,7 @@ const CatePage: React.FC = () => {
         <>
             <Title value="分类管理" />
 
-            <Card className={`[&>.ant-card-body]:!p-2 [&>.ant-card-body]:!pb-6 mt-2`}>
+            <Card className={`CatePage [&>.ant-card-body]:!p-2 [&>.ant-card-body]:!pb-6 mt-2`}>
                 <div className='my-2 text-center'>
                     <Button type="primary" onClick={() => setModel(true)}>新增一级分类</Button>
                 </div>

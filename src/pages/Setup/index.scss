@@ -1,0 +1,25 @@
+.SetupPage {
+    .item {
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 3.5px;
+            height: 0%;
+            background-color: #727cf5;
+            transition: height 0.3s;
+        }
+    }
+
+    .active {
+        background: #F7F7F8;
+
+        &::before {
+            height: 100%;
+        }
+    }
+}
