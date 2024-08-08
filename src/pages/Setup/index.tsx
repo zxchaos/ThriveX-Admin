@@ -3,6 +3,8 @@ import { Card } from 'antd';
 import Title from '@/components/Title';
 import { BiGlobe, BiLayout, BiShieldQuarter, BiUser } from 'react-icons/bi';
 import System from './components/System'
+import Web from './components/Web'
+import Web from './components/Web'
 import "./index.scss"
 
 interface Setup {
@@ -67,8 +69,8 @@ const SetupPage = () => {
 
                     <div className="flex-grow">
                         {active === "system" && <System />}
-                        {/* {active === "web" && <Web />}
-                        {active === "layout" && <Layout />}
+                        {active === "web" && <Web />}
+                        {/* {active === "layout" && <Layout />}
                         {active === "my" && <My />} */}
                     </div>
                 </div>

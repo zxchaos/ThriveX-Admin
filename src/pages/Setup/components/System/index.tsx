@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Form, Input, Button, notification, Modal } from 'antd';
 import { useUserStore } from '@/stores';
 import { editAdminPassAPI } from '@/api/User';
@@ -6,7 +6,7 @@ import { EditUser } from '@/types/user'
 
 const { confirm } = Modal;
 
-const SystemPage: React.FC = () => {
+const SystemPage = () => {
     const store = useUserStore();
 
     const [form] = Form.useForm<EditUser>();
@@ -53,7 +53,7 @@ const SystemPage: React.FC = () => {
     };
 
     return (
-        <div className="setup">
+        <div>
             <h2 className="title flex justify-center my-2 border-b-0">系统配置</h2>
 
             <Form
