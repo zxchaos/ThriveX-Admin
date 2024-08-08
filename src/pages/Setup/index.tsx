@@ -5,6 +5,7 @@ import { BiGlobe, BiLayout, BiShieldQuarter, BiUser } from 'react-icons/bi';
 import System from './components/System'
 import Web from './components/Web'
 import Layout from './components/Layout'
+import My from './components/My'
 import "./index.scss"
 
 interface Setup {
@@ -71,7 +72,7 @@ const SetupPage = () => {
                         {active === "system" && <System />}
                         {active === "web" && <Web />}
                         {active === "layout" && <Layout />}
-                        {/* {active === "my" && <My />} */}
+                        {active === "my" && <My />}
                     </div>
                 </div>
             </Card>

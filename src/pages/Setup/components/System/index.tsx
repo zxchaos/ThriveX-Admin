@@ -54,7 +54,7 @@ const SystemPage = () => {
 
     return (
         <div>
-            <h2 className="title flex justify-center my-2 border-b-0">系统配置</h2>
+            <h2 className="text-xl pb-4 text-center">系统配置</h2>
 
             <Form
                 form={form}
