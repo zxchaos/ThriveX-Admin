@@ -8,6 +8,7 @@ import Create from './pages/Create';
 import Cate from './pages/Cate';
 import Article from './pages/Article';
 import Comment from './pages/Comment';
+import Tag from './pages/Tag';
 import Web from './pages/Web';
 import Swiper from './pages/Swiper';
 import Setup from './pages/Setup';
@@ -97,6 +98,16 @@ function App() {
                 <>
                   <PageTitle title="Thrive - 文章管理" />
                   <Article />
+                </>
+              }
+            />
+
+            <Route
+              path="/tag"
+              element={
+                <>
+                  <PageTitle title="Thrive - 标签管理" />
+                  <Tag />
                 </>
               }
             />

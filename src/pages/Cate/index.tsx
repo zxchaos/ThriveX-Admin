@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Cate } from '@/types/cate';
 import { addCateDataAPI, delCateDataAPI, editCateDataAPI, getCateDataAPI, getCateListAPI } from '@/api/Cate';
 import { DownOutlined } from '@ant-design/icons';
@@ -6,13 +6,14 @@ import { Form, Input, Button, Tree, Modal, Spin, Dropdown, Card, MenuProps, Popc
 import Title from '@/components/Title';
 import "./index.scss"
 
-const CatePage: React.FC = () => {
+const CatePage = () => {
     const [loading, setLoading] = useState(false);
-    const [model, setModel] = useState(false);
+    const [isModelOpen, setIsModelOpen] = useState(false);
     const [cate, setCate] = useState<Cate>({} as Cate);
     const [list, setList] = useState<Cate[]>([]);
     const [isMethod, setIsMethod] = useState<'create' | 'edit'>('create');
-
+    const [form] = Form.useForm();
+    
     const getCateList = async () => {
         const { data } = await getCateListAPI();
         setList(data as Cate[]);
@@ -21,14 +22,18 @@ const CatePage: React.FC = () => {
 
     const addCateData = (id: number) => {
         setIsMethod("create")
-        setModel(true);
+        setIsModelOpen(true);
+        console.log(cate, 333);
+
+        form.resetFields();
+
         setCate({ ...cate, level: id });
     };
 
     const editCateData = async (id: number) => {
         setIsMethod("edit")
         setLoading(true);
-        setModel(true);
+        setIsModelOpen(true);
         const { data } = await getCateDataAPI(id);
         setCate(data);
         form.setFieldsValue(data);
@@ -41,8 +46,6 @@ const CatePage: React.FC = () => {
         message.success('🎉 删除分类成功');
         getCateList();
     };
-
-    const [form] = Form.useForm();
 
     const submit = async () => {
         form.validateFields().then(async (values: Cate) => {
@@ -58,7 +61,7 @@ const CatePage: React.FC = () => {
             form.resetFields();
             setCate({} as Cate);
 
-            setModel(false);
+            setIsModelOpen(false);
             getCateList();
             setIsMethod("create")
         })
@@ -66,7 +69,7 @@ const CatePage: React.FC = () => {
 
     const closeModel = () => {
         setIsMethod("create")
-        setModel(false);
+        setIsModelOpen(false);
         form.resetFields();
         setCate({} as Cate);
     };
@@ -98,11 +101,9 @@ const CatePage: React.FC = () => {
                     <div className='group w-full flex justify-between items-center'>
                         <h3>{item.name}</h3>
 
-                        <div className='controls hidden'>
-                            <Dropdown menu={{ items }} arrow>
-                                <Button type='link' size='small'>操作 <DownOutlined /></Button>
-                            </Dropdown>
-                        </div>
+                        <Dropdown menu={{ items }} arrow>
+                            <Button type='link' size='small'>操作 <DownOutlined /></Button>
+                        </Dropdown>
                     </div>
                 ),
                 key: item.id,
@@ -122,14 +123,14 @@ const CatePage: React.FC = () => {
 
             <Card className={`CatePage [&>.ant-card-body]:!p-2 [&>.ant-card-body]:!pb-6 mt-2`}>
                 <div className='my-2 text-center'>
-                    <Button type="primary" onClick={() => setModel(true)}>新增一级分类</Button>
+                    <Button type="primary" onClick={() => addCateData(0)}>新增一级分类</Button>
                 </div>
 
                 <Spin spinning={loading}>
                     <Tree defaultExpandAll={true} treeData={treeData(list)} />
                 </Spin>
 
-                <Modal title={isMethod === "edit" ? "编辑分类" : "新增分类"} open={model} onCancel={closeModel} footer={null}>
+                <Modal title={isMethod === "edit" ? "编辑分类" : "新增分类"} open={isModelOpen} onCancel={closeModel} footer={null}>
                     <Form form={form} layout="vertical" initialValues={cate} size='large' className='mt-6'>
                         <Form.Item label="名称" name="name" rules={[{ required: true, message: '分类名称不能为空' }]}>
                             <Input placeholder="大前端" />
