@@ -11,11 +11,6 @@ interface Layout {
     swiperText: string[];
 }
 
-
-const list = [
-
-]
-
 const LayoutPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [tempSwiperText, setTempSwiperText] = useState<string>('');

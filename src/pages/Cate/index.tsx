@@ -9,65 +9,66 @@ import "./index.scss"
 const CatePage: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [model, setModel] = useState(false);
-    const [cate, setCate] = useState<Cate>({ name: '', mark: '', url: '', icon: '', level: 0 });
+    const [cate, setCate] = useState<Cate>({} as Cate);
     const [list, setList] = useState<Cate[]>([]);
-    const formRef = useRef<any>(null);
+    const [isMethod, setIsMethod] = useState<'create' | 'edit'>('create');
 
     const getCateList = async () => {
-        setLoading(true);
         const { data } = await getCateListAPI();
         setList(data as Cate[]);
         setLoading(false);
     };
 
     const addCateData = (id: number) => {
+        setIsMethod("create")
         setModel(true);
         setCate({ ...cate, level: id });
     };
 
     const editCateData = async (id: number) => {
+        setIsMethod("edit")
         setLoading(true);
-
         setModel(true);
         const { data } = await getCateDataAPI(id);
         setCate(data);
-
+        form.setFieldsValue(data);
         setLoading(false);
     };
 
     const delCateData = async (id: number) => {
+        setLoading(true);
         await delCateDataAPI(id);
         message.success('🎉 删除分类成功');
         getCateList();
     };
 
+    const [form] = Form.useForm();
+
     const submit = async () => {
-        formRef.current
-            .validateFields()
-            .then(async (values: any) => {
-                if (cate.id) {
-                    await editCateDataAPI({ ...cate, ...values });
-                    message.success('🎉 修改分类成功');
-                } else {
-                    await addCateDataAPI({ ...cate, ...values });
-                    message.success('🎉 新增分类成功');
-                }
+        form.validateFields().then(async (values: Cate) => {
+            if (isMethod === "edit") {
+                await editCateDataAPI({ ...cate, ...values });
+                message.success('🎉 修改分类成功');
+            } else {
+                await addCateDataAPI({ ...cate, ...values });
+                message.success('🎉 新增分类成功');
+            }
 
-                // 初始化表单状态
-                formRef.current.resetFields();
-                setCate({ name: '', mark: '', url: '', icon: '', level: 0 });
+            // 初始化表单状态
+            form.resetFields();
+            setCate({} as Cate);
 
-                setModel(false);
-                getCateList();
-            })
-            .catch((errorInfo: any) => {
-                console.error('Validate Failed:', errorInfo);
-            });
+            setModel(false);
+            getCateList();
+            setIsMethod("create")
+        })
     };
 
     const closeModel = () => {
+        setIsMethod("create")
         setModel(false);
-        formRef.current.resetFields();
+        form.resetFields();
+        setCate({} as Cate);
     };
 
     // 将数据转换为树形结构
@@ -111,14 +112,9 @@ const CatePage: React.FC = () => {
     )
 
     useEffect(() => {
+        setLoading(true);
         getCateList();
     }, []);
-
-    useEffect(() => {
-        if (model && formRef.current) {
-            formRef.current.setFieldsValue(cate);
-        }
-    }, [cate, model]);
 
     return (
         <>
@@ -133,13 +129,13 @@ const CatePage: React.FC = () => {
                     <Tree defaultExpandAll={true} treeData={treeData(list)} />
                 </Spin>
 
-                <Modal title="新增分类导航" open={model} onCancel={closeModel} footer={null}>
-                    <Form ref={formRef} layout="vertical" initialValues={cate} size='large' className='mt-6'>
-                        <Form.Item label="名称" name="name" rules={[{ required: true, message: '分类名称不能为空' }, { min: 1, max: 10, message: '分类名称限制为 1 ~ 10 个字符' }]}>
+                <Modal title={isMethod === "edit" ? "编辑分类" : "新增分类"} open={model} onCancel={closeModel} footer={null}>
+                    <Form form={form} layout="vertical" initialValues={cate} size='large' className='mt-6'>
+                        <Form.Item label="名称" name="name" rules={[{ required: true, message: '分类名称不能为空' }]}>
                             <Input placeholder="大前端" />
                         </Form.Item>
 
-                        <Form.Item label="标识" name="mark" rules={[{ required: true, message: '分类标识不能为空' }, { min: 1, max: 10, message: '分类标识限制为 1 ~ 10 个字符' }]}>
+                        <Form.Item label="标识" name="mark" rules={[{ required: true, message: '分类标识不能为空' }]}>
                             <Input placeholder="dqd" />
                         </Form.Item>
 

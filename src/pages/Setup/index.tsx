@@ -68,7 +68,7 @@ const SetupPage = () => {
                         ))}
                     </ul>
 
-                    <div className='w-[80%]'>
+                    <div className='w-[80%] px-8'>
                         {active === "system" && <System />}
                         {active === "web" && <Web />}
                         {active === "layout" && <Layout />}
