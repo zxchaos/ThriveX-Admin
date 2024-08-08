@@ -1,4 +1,3 @@
-import Breadcrumb from '@/components/Breadcrumbs';
 import { Button, Card, Drawer } from 'antd';
 import { BiSave } from "react-icons/bi";
 
@@ -9,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { addCateDataAPI, delCateDataAPI, editCateDataAPI, getCateDataAPI, getCateListAPI } from '@/api/Cate'
 import Title from '@/components/Title';
 
-const Create = () => {
+const CreatePage = () => {
   const [content, setContent] = useState('');
   const [publishOpen, setPublishOpen] = useState(false)
 
@@ -51,4 +50,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default CreatePage;

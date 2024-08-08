@@ -6,7 +6,7 @@ import { Form, Input, Button, Tree, Modal, Spin, Dropdown, Card, MenuProps, Popc
 import "./index.scss"
 import Title from '@/components/Title';
 
-const CateManager: React.FC = () => {
+const CatePage: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [model, setModel] = useState(false);
     const [cate, setCate] = useState<Cate>({ name: '', mark: '', url: '', icon: '', level: 0 });
@@ -162,4 +162,4 @@ const CateManager: React.FC = () => {
     );
 };
 
-export default CateManager;
+export default CatePage;

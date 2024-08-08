@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'antd/es/form/Form';
 import { Button, Form, Input, notification } from 'antd';
@@ -6,7 +6,7 @@ import { UserOutlined, LockOutlined, EyeOutlined, EyeInvisibleOutlined } from '@
 import { loginDataAPI } from '@/api/User';
 import { useUserStore } from '@/stores';
 
-const LoginForm: React.FC = () => {
+const LoginPage = () => {
     const [form] = useForm();
     const [isPassVisible, setIsPassVisible] = useState(false);
     const store = useUserStore();
@@ -98,4 +98,4 @@ const LoginForm: React.FC = () => {
     );
 };
 
-export default LoginForm;
+export default LoginPage;

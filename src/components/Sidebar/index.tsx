@@ -124,20 +124,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 </NavLink>
               </li>
 
-              <li>
-                <NavLink
-                  to="/cate"
-                  className={`${sidebarItemSty} ${pathname.includes('cate') && sidebarItemActiveSty}`}
-                >
-                  <BiCategoryAlt className='text-[22px]' />
-                  分类
-                </NavLink>
-              </li>
-
               <SidebarLinkGroup
-                activeCondition={
-                  pathname === '/forms' || pathname.includes('forms')
-                }
+                activeCondition={false}
               >
                 {(handleClick, open) => {
                   return (
@@ -152,7 +140,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             : setSidebarExpanded(true);
                         }}
                       >
-                        <BiSitemap className='text-[22px]' />
+                        <BiCategoryAlt className='text-[22px]' />
                         管理
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${open && 'rotate-180'
@@ -188,7 +176,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               文章管理
                             </NavLink>
                           </li>
-                          
+
                           <li>
                             <NavLink
                               to="/comment"
@@ -198,6 +186,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               }
                             >
                               评论管理
+                            </NavLink>
+                          </li>
+
+                          <li>
+                            <NavLink
+                              to="/cate"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              分类管理
                             </NavLink>
                           </li>
 
