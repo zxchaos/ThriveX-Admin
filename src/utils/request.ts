@@ -82,7 +82,7 @@ const Request = <T>(method: string, url: string, reqParams?: object) => {
     return instance.request<any, Response<T>>({
         method,
         url,
-        [method.toLocaleUpperCase() === "GET" ? "params" : "data"]: reqParams,
+        [method.toLocaleUpperCase() === "GET" ? "params" : "data"]: reqParams
     });
 };
 
