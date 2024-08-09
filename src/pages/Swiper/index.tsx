@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Input, Tabs, Card, Popconfirm, message } from 'antd';
 import { getSwiperListAPI, addSwiperDataAPI, editSwiperDataAPI, delSwiperDataAPI } from '@/api/Swiper';
 import { Swiper } from '@/types/swiper';
 import Title from '@/components/Title';
 import { ColumnsType } from 'antd/es/table';
 
-const SwiperPage: React.FC = () => {
+const SwiperPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [swiper, setSwiper] = useState<Swiper>({} as Swiper);
     const [list, setList] = useState<Swiper[]>([]);
@@ -64,10 +64,10 @@ const SwiperPage: React.FC = () => {
         setLoading(true);
         form.validateFields().then(async (values: Swiper) => {
             if (swiper.id) {
-                await editSwiperDataAPI(values);
+                await editSwiperDataAPI({ ...swiper, ...values });
                 message.success('🎉 编辑轮播图成功');
             } else {
-                await addSwiperDataAPI(values);
+                await addSwiperDataAPI({ ...swiper, ...values });
                 message.success('🎉 新增轮播图成功');
             }
 
