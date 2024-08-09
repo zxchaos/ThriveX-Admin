@@ -13,7 +13,7 @@ const CatePage = () => {
     const [list, setList] = useState<Cate[]>([]);
     const [isMethod, setIsMethod] = useState<'create' | 'edit'>('create');
     const [form] = Form.useForm();
-    
+
     const getCateList = async () => {
         const { data } = await getCateListAPI();
         setList(data as Cate[]);
@@ -130,8 +130,8 @@ const CatePage = () => {
                     <Tree defaultExpandAll={true} treeData={treeData(list)} />
                 </Spin>
 
-                <Modal title={isMethod === "edit" ? "编辑分类" : "新增分类"} open={isModelOpen} onCancel={closeModel} footer={null}>
-                    <Form form={form} layout="vertical" initialValues={cate} size='large' className='mt-6'>
+                <Modal title={isMethod === "edit" ? "编辑分类" : "新增分类"} open={isModelOpen} onCancel={closeModel} destroyOnClose footer={null}>
+                    <Form form={form} layout="vertical" initialValues={cate} size='large' preserve={false} className='mt-6'>
                         <Form.Item label="名称" name="name" rules={[{ required: true, message: '分类名称不能为空' }]}>
                             <Input placeholder="大前端" />
                         </Form.Item>
