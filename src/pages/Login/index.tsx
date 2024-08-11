@@ -12,34 +12,25 @@ const LoginPage = () => {
     const store = useUserStore();
     const navigate = useNavigate();
     const location = useLocation();
-    const returnUrl = new URLSearchParams(location.search).get('returnUrl') || '/home';
+    const returnUrl = new URLSearchParams(location.search).get('returnUrl') || '/';
 
     const onSubmit = async () => {
-        try {
-            const values = await form.validateFields();
-            const { data } = await loginDataAPI(values);
+        const values = await form.validateFields();
+        const { data } = await loginDataAPI(values);
 
-            // 将用户信息和token保存起来
-            store.setUser(data.user);
-            store.setToken(data.token);
+        // 将用户信息和token保存起来
+        store.setUser(data.user);
+        store.setToken(data.token);
 
-            notification.success({
-                message: 'Success',
-                description: `Hello ${data.user.name} 欢迎回来 🎉`,
-            });
+        notification.success({
+            message: '🎉🎉🎉',
+            description: `Hello ${data.user.name} 欢迎回来`,
+        });
 
-            navigate(returnUrl);
-        } catch (error) {
-            console.error('Failed to login:', error);
-
-            notification.error({
-                message: 'Error',
-                description: 'Failed to login. Please try again.',
-            });
-        }
+        navigate(returnUrl);
     };
 
-    useEffect(()=>{
+    useEffect(() => {
 
     },)
 
@@ -53,17 +44,15 @@ const LoginPage = () => {
 
                 <Form
                     form={form}
+                    size='large'
                     layout="vertical"
                     onFinish={onSubmit}
                     className='pt-5 px-10'
-                    size='large'
                 >
                     <Form.Item
                         name="username"
                         label="账号"
-                        rules={[
-                            { required: true, message: '请输入账号' }
-                        ]}
+                        rules={[{ required: true, message: '请输入账号' }]}
                     >
                         <Input prefix={<UserOutlined />} placeholder="请输入用户名" />
                     </Form.Item>
@@ -71,20 +60,14 @@ const LoginPage = () => {
                     <Form.Item
                         name="password"
                         label="密码"
-                        rules={[
-                            { required: true, message: '请输入密码' }
-                        ]}
+                        rules={[{ required: true, message: '请输入密码' }]}
                     >
                         <Input.Password
                             prefix={<LockOutlined />}
                             type={isPassVisible ? 'text' : 'password'}
                             placeholder="请输入密码"
                             iconRender={visible =>
-                                visible ? (
-                                    <EyeOutlined onClick={() => setIsPassVisible(!isPassVisible)} />
-                                ) : (
-                                    <EyeInvisibleOutlined onClick={() => setIsPassVisible(!isPassVisible)} />
-                                )
+                                visible ? <EyeOutlined onClick={() => setIsPassVisible(!isPassVisible)} /> : <EyeInvisibleOutlined onClick={() => setIsPassVisible(!isPassVisible)} />
                             }
                         />
                     </Form.Item>

@@ -1,5 +1,5 @@
 import Request from '@/utils/request'
-import { account, editUser, Login, UserInfo } from '@/types/user'
+import { account, EditUser, Login, UserInfo } from '@/types/user'
 
 // 登录
 export const loginDataAPI = (data: Login) => Request<account>("POST", "/user/login", data)
@@ -11,4 +11,4 @@ export const getUserDataAPI = (id?: number) => Request<UserInfo>("GET", `/user/$
 export const editUserDataAPI = (data: UserInfo) => Request<UserInfo>("PATCH", "/user", data)
 
 // 修改管理员密码
-export const editAdminPassAPI = (data: editUser) => Request<UserInfo>("PATCH", "/user/admin", data)
+export const editAdminPassAPI = (data: EditUser) => Request<UserInfo>("PATCH", "/user/admin", data)

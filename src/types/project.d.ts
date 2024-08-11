@@ -31,14 +31,14 @@ export interface Web {
     title: string,
     subhead: string,
     favicon: string,
-    light_logo: string,
-    dark_logo: string,
+    lightLogo: string,
+    darkLogo: string,
     description: string,
     keyword: string,
     footer: string,
     // font: string,
     social: string,
-    covers: string[]
+    covers: string
 }
 
 export type ArticleLayout = "classics" | "card" | "waterfall" | ""
@@ -46,8 +46,8 @@ export type RightSidebar = "author" | "hotArticle" | "randomArticle" | "newComme
 
 // 布局配置
 export interface Layout {
-    isArticleLayout: ArticleLayout,
-    rightSidebar: RightSidebar[],
+    isArticleLayout: string,
+    rightSidebar: string,
     swiperImage: string,
-    swiperText: string[]
+    swiperText: string
 }

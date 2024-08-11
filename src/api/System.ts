@@ -1,5 +1,5 @@
 import Request from '@/utils/request'
-import { System, Web, Layout } from '@/types/system'
+import { System, Web, Layout } from '@/types/project'
 
 // 获取系统配置信息
 export const getSystemDataAPI = () => Request<System>("GET", "/project/system")

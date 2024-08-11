@@ -42,7 +42,6 @@ function App() {
     <ConfigProvider
       theme={{
         token: {
-          // Seed Token，影响范围大
           colorPrimary: '#727cf5',
         },
       }}

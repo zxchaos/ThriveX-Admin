@@ -68,7 +68,7 @@ const TagManagement: React.FC = () => {
 
             <Card className="mt-2">
                 <Spin spinning={loading}>
-                    <div className="w-8/12 flex justify-between px-8 mx-auto">
+                    <div className="w-10/12 flex justify-between px-8 mx-auto">
                         <div className="flex flex-col w-[40%]">
                             <h2 className="text-xl pb-4 text-center">{title}</h2>
 
@@ -91,7 +91,7 @@ const TagManagement: React.FC = () => {
                             <h2 className="text-xl pb-4 text-center">标签列表</h2>
 
                             <Table dataSource={list} rowKey="id">
-                                <Table.Column title="ID" dataIndex="id" />
+                                <Table.Column title="ID" dataIndex="id" align="center" />
                                 <Table.Column title="名称" dataIndex="name" align="center" />
                                 <Table.Column
                                     title="操作"
