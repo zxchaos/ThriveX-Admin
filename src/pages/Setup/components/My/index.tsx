@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Form, Input, Button, notification } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { useUserStore } from "@/stores"; // 假设你有一个状态管理库类似于pinia
 import { editUserDataAPI, getUserDataAPI } from "@/api/User";
+import { User } from "@/types/user";
 
-interface UserInfo {
+interface UserForm {
     name: string;
     email: string;
     avatar: string;
@@ -11,28 +12,28 @@ interface UserInfo {
 }
 
 const UserPage = () => {
+    const [form] = Form.useForm<UserForm>();
     const [loading, setLoading] = useState<boolean>(false);
-    const [form] = Form.useForm<UserInfo>();
     const store = useUserStore();
 
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            setLoading(true);
-            const { data } = await getUserDataAPI(store.user?.id);
-            form.setFieldsValue(data);
-            setLoading(false);
-        };
-        fetchUserInfo();
-    }, [store.user?.id, form]);
-
-    const onFinish = async (values: UserInfo) => {
-        await editUserDataAPI(values);
-        notification.success({
-            message: '成功',
-            description: "🎉修改用户信息成功",
-        });
-        store.setUser(values); // 假设你有一个setUser方法
+    const getUserData = async () => {
+        const { data } = await getUserDataAPI(store.user?.id);
+        store.setUser(data);
+        form.setFieldsValue(data);
         setLoading(false);
+    };
+
+    useEffect(() => {
+        setLoading(true);
+        getUserData();
+    }, []);
+
+    const onSubmit = async (values: UserForm) => {
+        setLoading(false)
+        await editUserDataAPI({ id: store.user.id, ...values });
+        message.success("🎉 修改用户信息成功");
+        store.setUser(values as User); // 假设你有一个setUser方法
+        getUserData();
     };
 
     return (
@@ -43,7 +44,7 @@ const UserPage = () => {
                 form={form}
                 size="large"
                 layout="vertical"
-                onFinish={onFinish}
+                onFinish={onSubmit}
                 className="w-5/12 mx-auto"
             >
                 <Form.Item
@@ -79,9 +80,7 @@ const UserPage = () => {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" className="w-full" loading={loading}>
-                        编辑信息
-                    </Button>
+                    <Button type="primary" htmlType="submit" className="w-full" loading={loading}>编辑信息</Button>
                 </Form.Item>
             </Form>
         </div>

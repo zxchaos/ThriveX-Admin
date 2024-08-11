@@ -24,7 +24,6 @@ const WebPage = () => {
 
     const onSubmit = async (values: Web) => {
         setLoading(true);
-        // values.covers = tempCovers.split("\n");
         await editWebDataAPI(values);
         message.success("🎉 编辑网站成功");
         getWebData();
