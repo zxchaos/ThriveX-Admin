@@ -39,6 +39,7 @@ const CreatePage = () => {
         <Drawer
           title="发布文章"
           placement="right"
+          size='large'
           closable={false}
           onClose={() => setPublishOpen(false)}
           open={publishOpen}

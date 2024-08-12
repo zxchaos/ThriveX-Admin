@@ -32,7 +32,7 @@ const UserPage = () => {
         setLoading(false)
         await editUserDataAPI({ id: store.user.id, ...values });
         message.success("🎉 修改用户信息成功");
-        store.setUser(values as User); // 假设你有一个setUser方法
+        store.setUser(values as User); 
         getUserData();
     };
 
