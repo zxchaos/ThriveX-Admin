@@ -60,7 +60,7 @@ const SwiperPage = () => {
         getSwiperList();
     };
 
-    const submit = async () => {
+    const onSubmit = async () => {
         setLoading(true);
         form.validateFields().then(async (values: Swiper) => {
             if (swiper.id) {
@@ -114,7 +114,7 @@ const SwiperPage = () => {
                         form={form}
                         layout="vertical"
                         initialValues={swiper}
-                        onFinish={submit}
+                        onFinish={onSubmit}
                         size='large'
                         className="max-w-md mx-auto"
                     >

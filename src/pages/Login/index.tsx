@@ -23,7 +23,7 @@ const LoginPage = () => {
         store.setToken(data.token);
 
         notification.success({
-            message: '🎉🎉🎉',
+            message: '🎉 登录成功',
             description: `Hello ${data.user.name} 欢迎回来`,
         });
 

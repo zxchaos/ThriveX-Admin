@@ -4,10 +4,9 @@ export interface Article {
     description: string,
     content: string,
     cover: string,
-    cids: number[],
-    cate: Cate[],
-    tag: string,
-    view: number
-    count: number,
-    createtime: Date,
+    cateIds: string,
+    tagIds: string,
+    view?: number
+    count?: number,
+    createTime?: number,
 }

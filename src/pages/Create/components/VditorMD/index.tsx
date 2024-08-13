@@ -12,16 +12,20 @@ const VditorEditor = ({ getValue }: VditorProps) => {
     useEffect(() => {
         const vditor = new Vditor("vditor", {
             minHeight: 550,
+            // 是否开启侧边栏目录
             // outline: {
             //     enable: true,
             //     position: 'left'
             // },
+            cache: {
+                enable: false
+            },
             input: (value) => {
                 // 把数据传给父组件
                 getValue(value)
             },
             after: () => {
-                vditor.setValue("`Vditor` 最小代码示例");
+                // vditor.setValue("`Vditor` 最小代码示例");
 
                 setVd(vditor);
             }
