@@ -66,7 +66,7 @@ const CreatePage = () => {
         <VditorEditor value={data.content} getValue={getVditorData} />
 
         <Drawer
-          title="发布文章"
+          title={data.id ? "编辑文章" : "发布文章"}
           placement="right"
           size='large'
           closable={false}

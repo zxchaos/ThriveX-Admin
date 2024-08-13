@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Form, Input, Button, Select, DatePicker, Cascader, FormProps, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { RuleObject } from "antd/es/form";
-import { addArticleDataAPI } from '@/api/Article'
+import { addArticleDataAPI, editArticleDataAPI } from '@/api/Article'
 import { getCateListAPI } from '@/api/Cate'
 import { getTagListAPI } from '@/api/Tag'
 import { Cate } from "@/types/cate";
@@ -66,8 +66,13 @@ const PublishForm = ({ data }: { data: Article }) => {
         values.tagIds = values.tagIds ? (values.tagIds as number[]).join(',') : ""
         console.log(values);
 
-        // await addArticleDataAPI({ ...values, content: data.content } as Article)
-        // message.success("🎉 发布成功")
+        if (data.id) {
+            await editArticleDataAPI({ ...values, content: data.content } as Article)
+            message.success("🎉 编辑成功")
+        } else {
+            await addArticleDataAPI({ ...values, content: data.content } as Article)
+            message.success("🎉 发布成功")
+        }
     }
 
     return (
@@ -120,7 +125,7 @@ const PublishForm = ({ data }: { data: Article }) => {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" className="w-6/12">发布文章</Button>
+                    <Button type="primary" htmlType="submit" className="w-full">{data.id ? "编辑文章" : "发布文章"}</Button>
                 </Form.Item>
             </Form>
         </>
