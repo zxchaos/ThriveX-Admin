@@ -4,11 +4,21 @@ import "vditor/dist/index.css";
 import "./index.scss"
 
 interface VditorProps {
+    value?: string,
     getValue: (value: string) => void
 }
 
-const VditorEditor = ({ getValue }: VditorProps) => {
+const VditorEditor = ({ value, getValue }: VditorProps) => {
     const [vd, setVd] = useState<Vditor>();
+
+    // useEffect(() => {
+    //     if (vd) {
+    //         vd.setValue(value || '')
+    //     }
+    //     console.log(value,444);
+        
+    // }, [value])
+
     useEffect(() => {
         const vditor = new Vditor("vditor", {
             minHeight: 550,
@@ -25,6 +35,10 @@ const VditorEditor = ({ getValue }: VditorProps) => {
                 getValue(value)
             },
             after: () => {
+                console.log(value?.trim(),!!value?.trim().length);
+                
+                // value?.trim().length && vditor.setValue(value)
+
                 // vditor.setValue("`Vditor` 最小代码示例");
 
                 setVd(vditor);

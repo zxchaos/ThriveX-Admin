@@ -5,6 +5,5 @@ export interface Cate {
     url: string,
     icon: string,
     level: number,
-    children?: Omit<Cate>[]
-    checked?: boolean;
+    children?: Cate[]
 }

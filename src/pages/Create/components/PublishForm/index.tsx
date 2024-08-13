@@ -20,10 +20,25 @@ interface FieldType {
     description: string;
 }
 
-const PublishForm = ({ content }: { content: string }) => {
+const PublishForm = ({ data }: { data: Article }) => {
     const [form] = Form.useForm()
     const [cateList, setCateList] = useState<Cate[]>([])
     const [tagList, setTagList] = useState<Tag[]>([])
+
+    useEffect(() => {
+        if (!data.id) return
+        const cateIds = transCateArray(data.cateList)
+        console.log(cateIds);
+
+        const tagIds = data.tagList.map(item => item.id)
+        form.setFieldsValue({
+            ...data,
+            cateIds,
+            tagIds,
+            createTime: dayjs(+data.createTime!)
+        })
+        console.log(data, 9999);
+    }, [data])
 
     const getCateList = async () => {
         const { data } = await getCateListAPI()
@@ -40,23 +55,19 @@ const PublishForm = ({ content }: { content: string }) => {
         getTagList()
     }, [])
 
+    // 校验文章封面
     const validateURL = (_: RuleObject, value: string) => {
-        if (!value || /^(https?:\/\/)/.test(value)) {
-            return Promise.resolve();
-        }
-        return Promise.reject(new Error('请输入有效的封面链接'));
+        return !value || /^(https?:\/\/)/.test(value) ? Promise.resolve() : Promise.reject(new Error('请输入有效的封面链接'));
     };
 
     const onSubmit: FormProps<FieldType>['onFinish'] = async (values) => {
-        console.log(values);
-
         values.createTime = values.createTime.valueOf()
         values.cateIds = (values.cateIds as number[]).flat().join(',')
         values.tagIds = values.tagIds ? (values.tagIds as number[]).join(',') : ""
+        console.log(values);
 
-        console.log({ ...values, content });
-        await addArticleDataAPI({ ...values, content } as Article)
-        message.success("🎉 发布成功")
+        // await addArticleDataAPI({ ...values, content: data.content } as Article)
+        // message.success("🎉 发布成功")
     }
 
     return (
@@ -117,3 +128,14 @@ const PublishForm = ({ content }: { content: string }) => {
 };
 
 export default PublishForm;
+
+// 提取分类的id
+function transCateArray(arr: Cate[]): any {
+    return arr.map((item: Cate) => {
+        if (item.children && item.children.length > 0) {
+            return [item.id, ...transCateArray(item.children)].flat();
+        } else {
+            return item.id;
+        }
+    });
+}

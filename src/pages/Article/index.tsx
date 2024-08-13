@@ -7,6 +7,7 @@ import { titleSty } from '@/styles/sty'
 import Title from '@/components/Title';
 import type { Tag as ArticleTag } from '@/types/tag';
 import type { Cate } from '@/types/cate';
+import { Link } from 'react-router-dom';
 
 const Article: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -94,7 +95,7 @@ const Article: React.FC = () => {
             key: 'createTime',
             align: 'center',
             width: 200,
-            render: (text: string) => dayjs(text).format('YYYY-MM-DD HH:mm:ss'),
+            render: (text: string) => dayjs(+text).format('YYYY-MM-DD HH:mm:ss'),
         },
         {
             title: '操作',
@@ -103,7 +104,9 @@ const Article: React.FC = () => {
             align: 'center',
             render: (text: string, record: Article) => (
                 <div className='flex space-x-2'>
-                    <Button onClick={() => window.location.href = `/create?id=${record.id}`}>修改</Button>
+                    <Link to={`/create?id=${record.id}`}>
+                        <Button>修改</Button>
+                    </Link>
 
                     <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delArticleData(record.id!)}>
                         <Button type="primary" danger>删除</Button>
