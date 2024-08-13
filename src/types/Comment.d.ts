@@ -9,7 +9,7 @@ export interface Comment {
     articleTitle: number,
     commentId: number,
     auditStatus: number
-    createTime: Date,
+    createTime: string,
 }
 
 export interface Info {

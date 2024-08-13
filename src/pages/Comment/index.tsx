@@ -15,12 +15,6 @@ const CommentPage = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // const loadingFn = async (callback: () => void) => {
-    //     setLoading(true)
-    //     await callback()
-    //     setLoading(false)
-    // }
-
     const getCommentList = async () => {
         const { data } = await getCommentListAPI();
         setList(data as Comment[])
@@ -136,6 +130,7 @@ const CommentPage = () => {
                         rowKey="id"
                         dataSource={list}
                         columns={columns}
+                        expandable={{ defaultExpandAllRows: true }}
                         scroll={{ x: 'max-content' }}
                         pagination={{
                             position: ['bottomCenter'],
