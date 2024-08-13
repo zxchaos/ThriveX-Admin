@@ -10,6 +10,7 @@ import { Tag } from "@/types/tag";
 import dayjs from 'dayjs';
 import "./index.scss"
 import { Article } from "@/types/article";
+import { useNavigate } from "react-router-dom";
 
 interface FieldType {
     title: string,
@@ -20,16 +21,17 @@ interface FieldType {
     description: string;
 }
 
-const PublishForm = ({ data }: { data: Article }) => {
+const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => void }) => {
     const [form] = Form.useForm()
+    const navigate = useNavigate()
+
     const [cateList, setCateList] = useState<Cate[]>([])
     const [tagList, setTagList] = useState<Tag[]>([])
 
     useEffect(() => {
         if (!data.id) return
-        const cateIds = transCateArray(data.cateList)
-        console.log(cateIds);
 
+        const cateIds = transCateArray(data.cateList)
         const tagIds = data.tagList.map(item => item.id)
         form.setFieldsValue({
             ...data,
@@ -37,7 +39,6 @@ const PublishForm = ({ data }: { data: Article }) => {
             tagIds,
             createTime: dayjs(+data.createTime!)
         })
-        console.log(data, 9999);
     }, [data])
 
     const getCateList = async () => {
@@ -64,15 +65,21 @@ const PublishForm = ({ data }: { data: Article }) => {
         values.createTime = values.createTime.valueOf()
         values.cateIds = (values.cateIds as number[]).flat().join(',')
         values.tagIds = values.tagIds ? (values.tagIds as number[]).join(',') : ""
-        console.log(values);
 
         if (data.id) {
-            await editArticleDataAPI({ ...values, content: data.content } as Article)
+            await editArticleDataAPI({ id: data.id, ...values, content: data.content } as Article)
             message.success("🎉 编辑成功")
         } else {
-            await addArticleDataAPI({ ...values, content: data.content } as Article)
+            await addArticleDataAPI({ id: data.id, ...values, content: data.content } as Article)
             message.success("🎉 发布成功")
         }
+
+        // 关闭弹框
+        closeModel()
+        // 跳转到文章页
+        navigate("/article")
+        // 初始化表单
+        form.resetFields()
     }
 
     return (

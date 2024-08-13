@@ -20,8 +20,6 @@ const CreatePage = () => {
 
   // 获取编辑器的内容
   const getVditorData = (value: string) => {
-    console.log(value, 333);
-
     setContent(value)
   }
 
@@ -34,23 +32,16 @@ const CreatePage = () => {
   const getArticleData = async () => {
     const { data } = await getArticleDataAPI(id)
     setData(data)
-    console.log(222,data);
+    setContent(data.content)
   }
 
   useEffect(() => {
-    if (id) {
-      console.log(111);
-      
-      getArticleData()
-    }
+    if (id) getArticleData()
   }, [id])
 
   useEffect(() => {
-    if (data.id) {
-      setContent(data.content)
-      console.log(333,data);
-    }
-  }, [data])
+    setData({ ...data, content })
+  }, [content])
 
   return (
     <>
@@ -63,7 +54,7 @@ const CreatePage = () => {
           </Button>
         </div>
 
-        <VditorEditor value={data.content} getValue={getVditorData} />
+        <VditorEditor value={content} getValue={getVditorData} />
 
         <Drawer
           title={data.id ? "编辑文章" : "发布文章"}
@@ -73,7 +64,7 @@ const CreatePage = () => {
           onClose={() => setPublishOpen(false)}
           open={publishOpen}
         >
-          <PublishForm data={data} />
+          <PublishForm data={data} closeModel={() => setPublishOpen(false)} />
         </Drawer>
       </Card >
     </>
