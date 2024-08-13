@@ -126,7 +126,7 @@ const CommentPage = () => {
 
             <Card className={`${titleSty} mt-2`}>
                 <Spin spinning={loading} indicator={<svg />}>
-                    <Table
+                    {list.length && <Table
                         rowKey="id"
                         dataSource={list}
                         columns={columns}
@@ -136,7 +136,7 @@ const CommentPage = () => {
                             position: ['bottomCenter'],
                             pageSize: 8
                         }}
-                    />
+                    />}
                 </Spin>
             </Card>
 
