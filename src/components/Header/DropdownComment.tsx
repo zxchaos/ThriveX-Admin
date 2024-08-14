@@ -5,6 +5,9 @@ import ClickOutside from '../ClickOutside';
 import { getCommentListAPI } from '@/api/Comment'
 import { Comment } from '@/types/comment';
 
+import dayjs from 'dayjs'
+import RandomAvatar from '@/components/RandomAvatar'
+
 const DropdownMessage = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);
@@ -12,7 +15,7 @@ const DropdownMessage = () => {
 
   // 获取评论列表
   const getCommentList = async () => {
-    const { data } = await getCommentListAPI()
+    const { data } = await getCommentListAPI("list")
     setCommentList(data as Comment[])
   }
 
@@ -75,13 +78,15 @@ const DropdownMessage = () => {
 
             <ul className="flex h-auto flex-col overflow-y-auto">
               {commentList.map(item => (
-                <li>
+                <li key={item.id}>
                   <Link
                     className="flex gap-4.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
                     to="/comment"
                   >
                     <div className="overflow-hidden h-12.5 w-12.5 rounded-full">
-                      <img src={item.avatar} alt="User" />
+                      {
+                        item.avatar ? <img src={item.avatar} alt="User" /> : <RandomAvatar />
+                      }
                     </div>
 
                     <div>
@@ -90,7 +95,7 @@ const DropdownMessage = () => {
                       </h6>
 
                       <p className="text-sm">{item.content}</p>
-                      <p className="text-xs">{item.createTime}</p>
+                      <p className="text-xs">{dayjs(+item.createTime).format("YYYY-MM-DD HH:mm:ss")}</p>
                     </div>
                   </Link>
                 </li>
