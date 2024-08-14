@@ -8,7 +8,7 @@ import { LuTimer } from "react-icons/lu";
 import dayjs from 'dayjs';
 
 const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-    <Space>
+    <Space className='gap-x-1'>
         {React.createElement(icon)} {text}
     </Space>
 );
