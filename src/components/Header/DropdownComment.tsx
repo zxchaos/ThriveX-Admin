@@ -16,7 +16,9 @@ const DropdownMessage = () => {
   // 获取评论列表
   const getCommentList = async () => {
     const { data } = await getCommentListAPI("list")
-    setCommentList(data as Comment[])
+    // 根据时间排序：最新时间在前
+    const sortedData = (data as Comment[]).sort((a, b) => +b.createTime - +a.createTime);
+    setCommentList(sortedData as Comment[])
   }
 
   useEffect(() => {

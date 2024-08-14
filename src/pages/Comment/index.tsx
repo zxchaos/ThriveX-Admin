@@ -17,7 +17,9 @@ const CommentPage = () => {
 
     const getCommentList = async () => {
         const { data } = await getCommentListAPI();
-        setList(data as Comment[])
+        // 根据时间排序：最新时间在前
+        const sortedData = (data as Comment[]).sort((a, b) => +b.createTime - +a.createTime);
+        setList(sortedData as Comment[])
         setLoading(false)
     }
 
