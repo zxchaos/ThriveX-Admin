@@ -20,6 +20,8 @@ const ECommerce: React.FC = () => {
   }
 
   useEffect(() => {
+    console.log(import.meta.env.VITE_DATA,333);
+    
     getSystemData()
   }, [])
 
