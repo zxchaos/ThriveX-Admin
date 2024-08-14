@@ -1,28 +1,10 @@
-// 磁盘
-export interface Disk {
-    diskFree: number;
-    diskPercent: number;
-    diskTotal: number;
-    diskUsed: number;
-}
-
-// 内存
-export interface Memory {
-    memoryAvailable: number;
-    memoryPercent: number;
-    memoryTotal: number;
-    memoryUsed: number;
-}
-
 // 系统信息
 export interface System {
-    boot_time: string;
-    cpu: number;
-    disk: Disk;
-    memory: Memory;
-    name: string;
-    run: number;
-    ip: number
+    osName: string,
+    osVersion: string,
+    totalMemory: number,
+    availableMemory: number,
+    memoryUsage: number
 }
 
 // 网站信息

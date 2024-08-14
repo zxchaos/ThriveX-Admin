@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { MessageOutlined } from '@ant-design/icons';
 import { Avatar, Card, List, Space, Spin } from 'antd';
 import Title from '@/components/Title';
 import { getRssListAPI } from '@/api/Rss';

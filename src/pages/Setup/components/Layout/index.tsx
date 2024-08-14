@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { notification, Divider, Input, Alert, Button, Spin } from 'antd';
 import { PictureOutlined, LoadingOutlined } from '@ant-design/icons';
-import { editLayoutDataAPI, getLayoutDataAPI } from '@/api/System';
-import { Layout } from '@/types/system';
+import { editLayoutDataAPI, getLayoutDataAPI } from '@/api/Project';
+import { Layout } from '@/types/project';
 
 const LayoutPage = () => {
     const [loading, setLoading] = useState<boolean>(false);

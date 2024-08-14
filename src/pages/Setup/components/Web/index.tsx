@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
-import { getWebDataAPI, editWebDataAPI } from '@/api/System';
+import { getWebDataAPI, editWebDataAPI } from '@/api/Project';
 import { Web } from '@/types/project'
 
 const WebPage = () => {
