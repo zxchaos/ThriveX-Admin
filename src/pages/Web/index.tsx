@@ -79,7 +79,7 @@ const LinkPage = () => {
                 await editLinkDataAPI({ ...link, ...values });
                 message.success('🎉 编辑网站成功');
             } else {
-                await addLinkDataAPI(values);
+                await addLinkDataAPI({ ...values, createTime: new Date().getTime().toString() });
                 message.success('🎉 新增网站成功');
             }
 

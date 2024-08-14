@@ -4,6 +4,8 @@ import SidebarLinkGroup from './SidebarLinkGroup';
 import Logo from '../../images/logo/logo.svg';
 import { BiEditAlt, BiFolderOpen, BiHomeSmile, BiSliderAlt } from "react-icons/bi";
 import { BiCategoryAlt } from "react-icons/bi";
+import { LiaRssSolid } from "react-icons/lia";
+
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -273,7 +275,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   className={`${sidebarItemSty} ${pathname.includes('chart') && 'bg-graydark dark:bg-meta-4'
                     }`}
                 >
-                  <BiFolderOpen className='text-[22px]' />
+                  <LiaRssSolid className='text-[22px]' />
                   订阅中心
                 </NavLink>
               </li>
