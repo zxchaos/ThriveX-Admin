@@ -55,7 +55,7 @@ instance.interceptors.response.use(
         if (err.response?.status === 401) {
             Modal.error({
                 title: '暂无权限',
-                content: '🔒️ 登录已过期，是否重新登录?',
+                content: '🔒️ 登录已过期，请重新登录?',
                 okText: "去登录",
                 onOk: () => {
                     const store = useUserStore.getState()

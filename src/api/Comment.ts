@@ -17,11 +17,11 @@ export const editCommentDataAPI = (data: Comment) => Request<Comment>("PATCH", "
 export const getCommentDataAPI = (id?: number) => Request<Paginate<Comment>>("GET", `/comment/${id}`)
 
 // 获取评论列表
-export const getCommentListAPI = (pagination?: Page) => {
+export const getCommentListAPI = (pagination?: Page, pattern?: string) => {
     if (pagination) {
         const { page, size } = pagination
         return Request<Paginate<Comment[]>>("GET", `/comment?page=${page}&size=${size}`);
     } else {
-        return Request<Comment[]>("GET", `/comment/all`);
+        return Request<Comment[]>("GET", `/comment/all?pattern=${pattern ? pattern : "recursion"}`);
     }
 };

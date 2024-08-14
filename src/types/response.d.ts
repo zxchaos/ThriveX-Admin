@@ -13,3 +13,8 @@ interface Paginate<T> {
     total: number,
     result: T
 }
+
+interface Page {
+    page?: number,
+    size?: number,
+}

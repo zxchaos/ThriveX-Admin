@@ -13,5 +13,5 @@ export interface Article {
     tagList: Tag[]
     view?: number
     count?: number,
-    createTime?: number,
+    createTime?: string,
 }
