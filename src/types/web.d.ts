@@ -10,6 +10,7 @@ export interface Web {
   email: string;
   image: string;
   url: string;
+  rss: string;
   typeId: number;
   type: LinkType;
   createTime?: string;

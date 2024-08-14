@@ -67,10 +67,10 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
         values.tagIds = values.tagIds ? (values.tagIds as number[]).join(',') : ""
 
         if (data.id) {
-            await editArticleDataAPI({ id: data.id, ...values, content: data.content } as Article)
+            await editArticleDataAPI({ id: data.id, ...values, content: data.content } as any)
             message.success("🎉 编辑成功")
         } else {
-            await addArticleDataAPI({ id: data.id, ...values, content: data.content } as Article)
+            await addArticleDataAPI({ id: data.id, ...values, content: data.content } as any)
             message.success("🎉 发布成功")
         }
 

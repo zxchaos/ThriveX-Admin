@@ -5,6 +5,7 @@ import { getLinkListAPI, addLinkDataAPI, editLinkDataAPI, delLinkDataAPI, getLin
 import { LinkType, Web } from '@/types/web';
 import Title from '@/components/Title';
 import './index.scss';
+import { RuleObject } from 'antd/es/form';
 
 const LinkPage = () => {
     const [loading, setLoading] = useState(false);
@@ -65,6 +66,11 @@ const LinkPage = () => {
         setIsMethod("create");
     }
 
+    // 校验网站链接
+    const validateURL = (_: RuleObject, value: string) => {
+        return !value || /^(https?:\/\/)/.test(value) ? Promise.resolve() : Promise.reject(new Error('请输入有效的链接'));
+    };
+
     const submit = async () => {
         form.validateFields().then(async (values: Web) => {
             setLoading(true);
@@ -114,7 +120,7 @@ const LinkPage = () => {
                         <div className="list">
                             {listTemp.length > 0 ? (
                                 listTemp.map(item => (
-                                    <div key={item.id}  className={`item`}>
+                                    <div key={item.id} className={`item`}>
                                         <div className="avatar">
                                             <img src={item.image} alt="" className="avatar-img" />
                                         </div>
@@ -167,8 +173,12 @@ const LinkPage = () => {
                                 <Input placeholder="https://blog.liuyuyang.net/logo.png" />
                             </Form.Item>
 
-                            <Form.Item label="网站链接" name="url">
+                            <Form.Item label="网站链接" name="url" rules={[{ required: true, message: '网站链接不能为空' }, { validator: validateURL }]}>
                                 <Input placeholder="https://blog.liuyuyang.net/" />
+                            </Form.Item>
+
+                            <Form.Item label="订阅地址" name="rss" rules={[{ validator: validateURL }]}>
+                                <Input placeholder="https://blog.liuyuyang.net/index.php/feed/" />
                             </Form.Item>
 
                             <Form.Item name="typeId" label="网站类型" rules={[{ required: true, message: '网站类型不能为空' }]}>
