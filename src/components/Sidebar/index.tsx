@@ -269,6 +269,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <ul className="mb-6 flex flex-col gap-1.5">
               <li>
                 <NavLink
+                  to="/rss"
+                  className={`${sidebarItemSty} ${pathname.includes('chart') && 'bg-graydark dark:bg-meta-4'
+                    }`}
+                >
+                  <BiFolderOpen className='text-[22px]' />
+                  订阅中心
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
                   to="/chart"
                   className={`${sidebarItemSty} ${pathname.includes('chart') && 'bg-graydark dark:bg-meta-4'
                     }`}

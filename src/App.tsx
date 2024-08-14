@@ -12,6 +12,7 @@ import Tag from './pages/Tag';
 import Web from './pages/Web';
 import Swiper from './pages/Swiper';
 import Setup from './pages/Setup';
+import Rss from './pages/Rss';
 import Login from './pages/Login';
 import DefaultLayout from './layout/DefaultLayout';
 
@@ -147,6 +148,16 @@ function App() {
                 <>
                   <PageTitle title="Thrive - 项目配置" />
                   <Setup />
+                </>
+              }
+            />
+
+            <Route
+              path="/rss"
+              element={
+                <>
+                  <PageTitle title="Thrive - 订阅中心" />
+                  <Rss />
                 </>
               }
             />
