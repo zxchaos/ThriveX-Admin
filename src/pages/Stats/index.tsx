@@ -1,14 +1,12 @@
 import Title from "@/components/Title"
 import VisitorsStatisChat from "./components/VisitorsStatisChat"
-import ChartThree from "@/components/Charts/ChartThree"
-import ChartTwo from "@/components/Charts/ChartTwo"
+import NewOldVisitors from './components/NewOldVisitors'
+import ChartTwo from "./components/VisitorsStatisChat"
 import ChatCard from "@/components/Chat/ChatCard"
-import MapOne from "@/components/Maps/MapOne"
-import TableOne from "@/components/Tables/TableOne"
 import CardDataStats from "@/components/CardDataStats"
 
 import { AiOutlineEye, AiOutlineMeh, AiOutlineStock, AiOutlineFieldTime } from "react-icons/ai";
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import dayjs from 'dayjs';
 import { Result } from "./type"
 
@@ -41,6 +39,8 @@ export default () => {
         const response = await fetch(`/api/rest/2.0/tongji/report/getData?access_token=${token}&site_id=${siteId}&start_date=${date}&end_date=${date}&metrics=pv_count%2Cip_count%2Cbounce_ratio%2Cavg_visit_time&method=overview%2FgetTimeTrendRpt`);
         const data = await response.json();
         const { result } = data;
+        console.log(result);
+
         setResult(result);
 
         let pv = 0;
@@ -50,16 +50,25 @@ export default () => {
         let count = 0
 
         result.items[1].forEach((item: number[]) => {
-            if (!Number(item[0])) return;
+            if (Number(item[3])) {
+                pv += Number(item[0]);
+                ip += Number(item[1]);
+                bounce += Number(item[2]);
+                avgTime += Number(item[3]);
+            } else if (Number(item[2])) {
+                pv += Number(item[0]);
+                ip += Number(item[1]);
+                bounce += Number(item[2]);
+            } else if (Number(item[1])) {
+                pv += Number(item[0]);
+                ip += Number(item[1]);
+            } else if (Number(item[0])) {
+                pv += Number(item[0]);
+            }
 
-            count++
-            pv += Number(item[0]);
-            ip += Number(item[1]);
-            bounce += Number(item[2]);
-            avgTime += Number(item[3]);
+            count++;
         });
 
-        console.log(count, bounce, avgTime);
 
         setStats({ pv, ip, bounce: bounce / count, avgTime: formatTime(avgTime / count) })
     };
@@ -72,6 +81,7 @@ export default () => {
         <>
             <Title value="数据可视化" />
 
+            {/* 基本数据 */}
             <div className="mt-2 grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-4">
                 <CardDataStats title="今日访客" total={stats.pv + ''} rate="0.43%" levelUp>
                     <AiOutlineEye className="fill-primary dark:fill-white text-2xl" />
@@ -92,15 +102,9 @@ export default () => {
 
             <div className="rounded-lg mt-2 grid grid-cols-12 gap-2">
                 <VisitorsStatisChat />
-                <ChartTwo />
-                <ChartThree />
-                <MapOne />
-
-                <div className="col-span-12 xl:col-span-8">
-                    <TableOne />
-                </div>
-
-                <ChatCard />
+                <NewOldVisitors />
+                {/* <ChartTwo />
+                <ChatCard /> */}
             </div>
         </>
     )

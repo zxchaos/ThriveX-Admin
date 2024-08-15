@@ -13,7 +13,7 @@ const VisitorsStatisChat = () => {
     const [endDate, setEndDate] = useState(dayjs(new Date()).format("YYYY/MM/DD"));
     const [loading, setLoading] = useState<boolean>(false);
 
-    // Echarts相关配置
+    // 图表相关配置
     const [options, setOptions] = useState<ApexOptions>({
         legend: {
             show: false,
