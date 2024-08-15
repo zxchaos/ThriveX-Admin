@@ -50,25 +50,33 @@ export default () => {
         let count = 0
 
         result.items[1].forEach((item: number[]) => {
-            if (Number(item[3])) {
-                pv += Number(item[0]);
-                ip += Number(item[1]);
-                bounce += Number(item[2]);
-                avgTime += Number(item[3]);
-            } else if (Number(item[2])) {
-                pv += Number(item[0]);
-                ip += Number(item[1]);
-                bounce += Number(item[2]);
-            } else if (Number(item[1])) {
-                pv += Number(item[0]);
-                ip += Number(item[1]);
-            } else if (Number(item[0])) {
+            if (!Number(item[0])) return;
+
+            // 检查并累加 pv
+            if (!isNaN(Number(item[0]))) {
                 pv += Number(item[0]);
             }
 
-            count++;
-        });
+            // 检查并累加 ip
+            if (!isNaN(Number(item[1]))) {
+                ip += Number(item[1]);
+            }
 
+            // 检查并累加 bounce
+            if (!isNaN(Number(item[2]))) {
+                bounce += Number(item[2]);
+            }
+
+            // 检查并累加 avgTime
+            if (!isNaN(Number(item[3]))) {
+                avgTime += Number(item[3]);
+            }
+
+            // 只有第三个和第四个数据都有值时才增加 count
+            if (!isNaN(Number(item[2])) && !isNaN(Number(item[3]))) {
+                count++;
+            }
+        });
 
         setStats({ pv, ip, bounce: bounce / count, avgTime: formatTime(avgTime / count) })
     };
