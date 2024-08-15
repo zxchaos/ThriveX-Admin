@@ -1,101 +1,104 @@
-# TailAdmin React - Free React Tailwind Admin Dashboard Template
+**特别强调：** 此项目不允许任何商业行为，如果使用该项目进行二次开发，请附上此开源地址且必须开源，弘扬开源精神，从你我做起！
 
-TailAdmin is a free and open-source admin dashboard template built on **React and Tailwind CSS**, providing developers with everything they need to create a comprehensive, data-driven back-end, 
-dashboard, or admin panel solution for upcoming web projects.
+# 🎉 Thrive 现代化博客管理系统
 
-[![tailwind react admin template](https://ucarecdn.com/d2a6daed-eb9c-4c2f-8a95-4419c450e23a/tailadminreact.jpg)](https://react-demo.tailadmin.com/)
+🔥 **首先最重要的事情放第一**
 
-
-With TailAdmin, you get access to all the necessary dashboard UI components, elements, and pages required to build a feature-rich and complete dashboard or admin panel. Whether you're building dashboard or admin panel for a complex web application or a simple website, TailAdmin is the perfect solution to help you get up and running quickly.
-
-### [✨ Visit Website](https://tailadmin.com/)
-
-### [🚀 PRO Demo](https://react-demo.tailadmin.com/)
-### [🚀 FREE Demo](https://free-react-demo.tailadmin.com/)
-
-### TailAdmin React PRO vs TailAdmin React FREE Comparison 📊
-
-#### [TailAdmin React PRO](https://react-demo.tailadmin.com/)
-- 4 Unique Dashboards: Analytics, Ecommerce, Marketing, and CRM (More will be added)
-- 120+ Dashboard UI Components
-- 200+ Total UI Elements
-- 45+ HTML Files
-- All Essential Elements and Files
-- Full Figma Design Source - As Shown on Demo
-
-___
-
-#### [TailAdmin React FREE](https://free-react-demo.tailadmin.com/)
-- 1 Unique Dashboard
-- 30+ Dashboard UI Components
-- 50+ Total UI Elements 
-- 10+ HTML Files
-- TypeScript Support
-- Basic UI Kit Elements and Files
-- Figma Design Source - Free Sample
-___
-
-### [⬇️ Download Now](https://tailadmin.com/download)
-
-### [⚡ Get PRO Version](https://tailadmin.com/pricing)
-
-### [📄 Documentation/Installation](https://tailadmin.com/docs)
-
-### [🖌️ TailAdmin Figma Free Sample](https://www.figma.com/community/file/1214477970819985778)
-
-### [👉 TailAdmin HTML Version](https://github.com/TailAdmin/tailadmin-free-tailwind-dashboard-template)
-
-TailAdmin React dashboard template based on Tailwind CSS is a pre-designed starting point for building a web-based dashboard using the React JavaScript library and the Tailwind CSS utility-first framework. This Tailwind CSS + React Dashboard Template - built using Tailwind CSS and **includes pre-built components, such as navigation menus, charts, tables, and forms, which can be easily customized and integrated into a small-to-large React web application**.
-
-If you're looking for a high-quality **React-Tailwind Dashboard, Admin Panel Template, or UI Kit**, TailAdmin will be the perfect choice for you!
-
-## TailAdmin React - Installation
-
-You'll need to install Node.js >=v14.16+ (Recommended Version) (NPM comes along with it) and TailAdmin uses **Vite** for frontend tooling, to peform installation and building production version, please follow these steps from below:
-
-- Use terminal and navigate to the project (tailadmin-react) root.
-
-- Then run : <code>npm install</code>
-
-- Then run : <code>npm run dev</code>
-
-Now, in the browser go to <code>localhost:5173</code>
-
-**For Production Build**
-Run : <code>npm run build</code>
-
-Default build output directory: /dist
-
-This command will generate a dist as build folder in the root of your template that you can upload to your server.
-
-## Tons of React Tailwind Components for Dashboard
-React and Tailwind are two popular technologies that have taken the web development world by storm. React is a JavaScript library for building user interfaces, while Tailwind is a utility-first CSS framework that makes it easy to style web applications. TailAdmin React Offers 200+ Essential React + Tailwind CSS UI Components that you copy-paste and use with your dashboard projects. That includes - charts, graphs, navbars, tabs, buttons, cards, tables, profile, tabs, forms, modals, app pages, calender, web apps example templates and more... for React and Styled using Tailwind CSS
+1. 开源不易，麻烦占用 `10` 秒钟的时间帮忙点个免费的 `Star`，再此万分感谢！
+2. 如果大家觉得这个项目还不错，碰巧你们公司缺人。不介意的话可以内推我😁，正好我也准备找工作了，我的邮箱：liuyuyang1024@yeah.net
 
 
 
-## Update Logs
+**下面开始进入主题↓↓↓**
 
-### Version 1.3.7 - [June 20, 2024]
 
-#### Enhancements
 
-- **Enhancement 01:** Remove Repetition of DefaultLayout in every Pages
-- **Enhancement 02:** Add ClickOutside Component for reduce repeated functionality in Header Message, Notification and User Dropdowns.
+🌈 **项目介绍：** Thrive 是一个简而不简单的现代化博客管理系统，专注于分享技术文章和知识，为技术爱好者和从业者提供一个分享、交流和学习的平台。用户可以在平台上发表自己的技术文章，或浏览其他用户分享的文章，并与他们进行讨论和互动。
 
-### Version 1.3.6 - [Jan 31, 2024]
 
-#### Enhancements
 
-- **Enhancement 01:** Integrate flatpickr in [Date Picker/Form Elements]
-- **Enhancement 02:** Change color after select an option [Select Element/Form Elements].
-- **Enhancement 03:** Make it functional [Multiselect Dropdown/Form Elements].
-- **Enhancement 04:** Make best value editable [Pricing Table One/Pricing Table].
-- **Enhancement 05:** Rearrange Folder structure.
+🗂️ **项目预览：** [http://thrive.liuyuyang.net/](http://thrive.liuyuyang.net/)
 
-### Version 1.2.0 - [Apr 28, 2023]
 
-- Add Typescript in TailAdmin React.
 
-### Version 1.0.0 - Initial Release - [Mar 13, 2023]
+🛠️ **技术架构：**
 
-- Initial release of TailAdmin React.
+前端： Vue3、TypeScript、Pinia、Element-plus、Scss、Echarts、Vite
+
+后端：Python Flask、SQLAlchemy、MySQL
+
+后期会采用 `Spring Boot` 重构项目后端
+
+
+
+🪧 **优缺点：**
+
+优点：相比其他博客系统来说，这款系统采用前后端分离开发模式，如果你觉得默认的前端不好看，你完全可以不懂后端，只要你会调接口拿数据，你就可以通过现有的后端 `API` 自己写一个前端
+
+缺点：前后端分离开发模式必然都存在一个痛点，那就是 `SEO` 问题，针对这个问题在未来我会采用 `Nuxt3` 服务端渲染这门框架对前端进行重构。
+
+
+
+❤️ **项目初衷：**
+
+一直对网站开发领域很感兴趣，从小就希望有一个属于自己的网站，因此踏上了 `Web` 全栈开发的旅途，立志有朝一日也能开发一款属于自己的网站。如今历时1年有余，一个人从0到1独立完成前端、控制端、后端、数据库。也算是完成了从小的一个心愿吧
+
+
+
+🔥 **项目演示：**
+
+![image-20240408093322586](https://bu.dusays.com/2024/04/09/66148fc49640a.png)
+
+![image-20240408093347003](https://bu.dusays.com/2024/04/09/66148edf0fad9.png)
+
+
+
+🏹 **未来计划：**
+
+![image-20240408103633402](https://bu.dusays.com/2024/04/09/66148ecb66a39.png)
+
+
+
+🌈 **项目运行：**
+
+前端 or 控制端
+
+环境：Nodejs16、18
+
+```
+npm i
+npm run dev
+```
+
+
+
+后端
+
+Python3.9、10
+
+```python
+# 创建虚拟环境
+virtualenv venv
+
+# 进入虚拟环境
+venv/Scripts/activate
+
+# 在虚拟环境中安装对应的依赖
+pip3 install -r requirements.txt
+
+# 在虚拟环境中运行项目，python app.py的相对路径
+python C:\Thrive\Thrive_API-2.0\app.py
+```
+
+
+🏷️ **开源地址：**
+
+前端：[LiuYuYang01/Thrive_Blog (github.com)](https://github.com/LiuYuYang01/Thrive_Blog)
+
+控制端：[LiuYuYang01/Thrive_Admin (github.com)](https://github.com/LiuYuYang01/Thrive_Admin)
+
+后端：[LiuYuYang01/Thrive_Api_Py (github.com)](https://github.com/LiuYuYang01/Thrive_Api_Py)
+
+
+
+这个项目从前端到后端都是我从0到1敲出来的，所以刚开始一定会有很多隐藏的 `BUG`，希望大家能够及时在 `GitHub` 反馈，这样我也好加以改正，不断改善，成为最佳！当然如果大家能够提交 `PR` 那再好不过了
