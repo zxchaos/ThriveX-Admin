@@ -95,15 +95,7 @@ const ChartOne = () => {
     },
     xaxis: {
       type: 'category',
-      categories: [
-        '周一',
-        '周二',
-        '周三',
-        '周四',
-        '周五',
-        '周六',
-        '周日',
-      ],
+      categories: [],
       axisBorder: {
         show: false,
       },
@@ -117,8 +109,8 @@ const ChartOne = () => {
           fontSize: '0px',
         },
       },
-      min: 0,
-      max: 100,
+      // min: 0,
+      // max: 100,
     },
   })
 
@@ -126,11 +118,11 @@ const ChartOne = () => {
     series: [
       {
         name: '访客数量',
-        data: [23, 11, 22, 27, 13, 22, 37, 21],
+        data: [],
       },
       {
         name: 'IP数量',
-        data: [30, 25, 36, 30, 45, 35, 64, 52],
+        data: [],
       },
     ],
   });
@@ -138,17 +130,39 @@ const ChartOne = () => {
   useEffect(() => {
     const siteId = import.meta.env.VITE_BAIDU_TONGJI_SITE_ID
     const token = import.meta.env.VITE_BAIDU_TONGJI_ACCESS_TOKEN
-    // fetch(`https://openapi.baidu.com/rest/2.0/tongji/report/getData?access_token=${token}&site_id=${siteId}&start_date=${startDate}&end_date=${endDate}&metrics=pv_count%2Cvisitor_count%2Cip_count%2Cavg_visit_time&method=overview%2FgetTimeTrendRpt`).then(async res => {
-    fetch(`/api/rest/2.0/tongji/report/getData?access_token=${token}&site_id=${siteId}&start_date=${startDate}&end_date=${endDate}&metrics=pv_count%2Cvisitor_count%2Cip_count%2Cavg_visit_time&method=overview%2FgetTimeTrendRpt`).then(async res => {
+    // fetch(`https://openapi.baidu.com/rest/2.0/tongji/report/getData?access_token=${token}&site_id=${siteId}&start_date=${startDate}&end_date=${endDate}&metrics=pv_count%2Cip_count&method=overview%2FgetTimeTrendRpt`).then(async res => {
+    fetch(`/api/rest/2.0/tongji/report/getData?access_token=${token}&site_id=${siteId}&start_date=${startDate}&end_date=${endDate}&metrics=pv_count%2Cip_count&method=overview%2FgetTimeTrendRpt`).then(async res => {
       const { result } = await res.json()
       console.log(result);
 
       // 处理分类数据
-      const categories = result.items[0].map(item => {
+      const categories = result.items[0].map((item: string[]) => {
         const year = new Date().getFullYear() + "/"
         return item[0].replace(year, "")
       })
-      setOptions((data) => ({ ...data, xaxis: { ...options.xaxis, categories } }))
+      setOptions((data) => (
+        {
+          ...data,
+          xaxis: { ...options.xaxis, categories }
+        }
+      ))
+
+      // 处理访客和IP数据
+      const pvList = result.items[1].map((item: number[]) => item[0])
+      const ipList = result.items[1].map((item: number[]) => item[1])
+      setState((prevState) => ({
+        ...prevState,
+        series: [
+          {
+            name: '访客数量',
+            data: pvList,
+          },
+          {
+            name: 'IP数量',
+            data: ipList,
+          },
+        ],
+      }));
     })
   }, [])
 
@@ -170,7 +184,6 @@ const ChartOne = () => {
 
             <div className="w-full">
               <p className="font-semibold text-primary">访客（UV）</p>
-              <p className="text-sm font-medium">{dayjs(new Date()).subtract(7, "day").format("YYYY.MM.DD")} - {dayjs(new Date()).format("YYYY.MM.DD")}</p>
             </div>
           </div>
 
@@ -181,7 +194,6 @@ const ChartOne = () => {
 
             <div className="w-full">
               <p className="font-semibold text-secondary">IP</p>
-              <p className="text-sm font-medium">{dayjs(new Date()).subtract(7, "day").format("YYYY.MM.DD")} - {dayjs(new Date()).format("YYYY.MM.DD")}</p>
             </div>
           </div>
         </div>
