@@ -63,10 +63,6 @@ const ChartOne = () => {
       width: [2, 2],
       curve: 'straight',
     },
-    // labels: {
-    //   show: false,
-    //   position: "top",
-    // },
     grid: {
       xaxis: {
         lines: {
@@ -112,8 +108,6 @@ const ChartOne = () => {
           fontSize: '0px',
         },
       },
-      // min: 0,
-      // max: 100,
     },
   })
 
@@ -145,9 +139,7 @@ const ChartOne = () => {
     if (!result?.items?.length) return
 
     switch (scope) {
-      // 处理天数据
       case "day":
-        // 处理分类数据
         const categories_weeks = result.items[0].map((item: string[]) => {
           const year = new Date().getFullYear() + "/"
           return item[0].replace(year, "")
@@ -160,7 +152,6 @@ const ChartOne = () => {
           }
         ))
 
-        // 处理访客和IP数据
         const pvList_weeks = result.items[1].map((item: number[]) => item[0])
         const ipList_weeks = result.items[1].map((item: number[]) => item[1])
         setState((prevState) => ({
@@ -177,28 +168,22 @@ const ChartOne = () => {
           ],
         }));
         break
-      // 处理月数据
       case "month":
         const datesArray: string[][] = result.items[0];
         const valuesArray: (string | number)[][] = result.items[1];
 
-        // 初始化一个对象来存储每个月份的累加和
         const monthlySums: MonthlySums = {};
 
-        // 遍历日期数组和值数组
         datesArray.forEach((dateArray, index) => {
           const date: string = dateArray[0];
           const [year, month, day] = date.split('/');
 
-          // 确保月份在对象中存在
           if (!monthlySums[month]) {
             monthlySums[month] = { pv: 0, ip: 0 };
           }
 
-          // 获取对应的值对
           const pair = valuesArray[index];
 
-          // 确保值对是有效的数字
           if (pair.length === 2) {
             const firstValue = parseFloat(pair[0] as string);
             const secondValue = parseFloat(pair[1] as string);
@@ -218,7 +203,6 @@ const ChartOne = () => {
         ))
 
         const list = Object.values(monthlySums)
-        // 处理访客和IP数据
         const pvList_month = list.map(item => item.pv)
         const ipList_month = list.map(item => item.ip)
 
@@ -238,6 +222,62 @@ const ChartOne = () => {
 
         break
       case "year":
+        const yearlySums: { [year: string]: { pv: number, ip: number } } = {};
+
+        result.items[0].forEach((dateArray: string[], index: number) => {
+          const date: string = dateArray[0];
+          const [year, month, day] = date.split('/');
+
+          if (!yearlySums[year]) {
+            yearlySums[year] = { pv: 0, ip: 0 };
+          }
+
+          const pair = result.items[1][index];
+          console.log(pair);
+
+          if (pair.length === 2) {
+            const firstValue = parseFloat(pair[0] as string);
+            const secondValue = parseFloat(pair[1] as string);
+
+            if (!isNaN(firstValue) && !isNaN(secondValue)) {
+              yearlySums[year].pv += firstValue;
+              yearlySums[year].ip += secondValue;
+            }
+          }
+        });
+
+        // 删除没有数据的年份
+        Object.keys(yearlySums).forEach(year => {
+          if (yearlySums[year].pv === 0 && yearlySums[year].ip === 0) {
+            delete yearlySums[year];
+          }
+        });
+
+        setOptions((data) => (
+          {
+            ...data,
+            xaxis: { ...options.xaxis, categories: Object.keys(yearlySums) }
+          }
+        ));
+
+        const yearlyList = Object.values(yearlySums);
+        const pvList_year = yearlyList.map(item => item.pv);
+        const ipList_year = yearlyList.map(item => item.ip);
+
+        setState((prevState) => ({
+          ...prevState,
+          series: [
+            {
+              name: '访客数量',
+              data: pvList_year,
+            },
+            {
+              name: 'IP数量',
+              data: ipList_year,
+            },
+          ],
+        }));
+
         break
     }
   }, [result])
@@ -293,6 +333,7 @@ const ChartOne = () => {
 
             <button className={`rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark ${scope === "year" ? "bg-white shadow-card" : ""}`} onClick={() => {
               setScope("year")
+              setStartDate(dayjs(new Date()).subtract(5, "year").format("YYYY/MM/DD"))
             }}>
               年
             </button>
