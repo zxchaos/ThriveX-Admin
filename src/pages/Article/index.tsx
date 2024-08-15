@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 import type { Article } from '@/types/article';
 import { titleSty } from '@/styles/sty'
 import Title from '@/components/Title';
-import type { Tag as ArticleTag } from '@/types/tag';
-import type { Cate } from '@/types/cate';
+import type { Tag as ArticleTag } from '@/types/app/tag';
+import type { Cate } from '@/types/app/cate';
 import { Link } from 'react-router-dom';
 
 const Article: React.FC = () => {

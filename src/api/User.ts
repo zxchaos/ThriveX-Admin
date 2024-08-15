@@ -1,5 +1,5 @@
 import Request from '@/utils/request'
-import { account, EditUser, Login, User, UserInfo } from '@/types/user'
+import { account, EditUser, Login, User, UserInfo } from '@/types/app/user'
 
 // 登录
 export const loginDataAPI = (data: Login) => Request<account>("POST", "/user/login", data)

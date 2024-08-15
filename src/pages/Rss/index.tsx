@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, Card, List, Space, Spin } from 'antd';
 import Title from '@/components/Title';
 import { getRssListAPI } from '@/api/Rss';
-import { Rss } from '@/types/rss';
+import { Rss } from '@/types/app/rss';
 import { BiCategory } from "react-icons/bi";
 import { LuTimer } from "react-icons/lu";
 import dayjs from 'dayjs';

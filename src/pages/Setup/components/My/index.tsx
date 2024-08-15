@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Form, Input, Button, message } from "antd";
 import { useUserStore } from "@/stores"; // 假设你有一个状态管理库类似于pinia
 import { editUserDataAPI, getUserDataAPI } from "@/api/User";
-import { User } from "@/types/user";
+import { User } from "@/types/app/user";
 
 interface UserForm {
     name: string;

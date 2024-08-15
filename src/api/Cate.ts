@@ -1,5 +1,5 @@
 import Request from '@/utils/request'
-import { Cate } from '@/types/cate'
+import { Cate } from '@/types/app/cate'
 
 // 新增分类
 export const addCateDataAPI = (data: Cate) => Request<Cate>("POST", "/cate", data)

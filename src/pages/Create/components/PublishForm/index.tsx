@@ -5,8 +5,8 @@ import { RuleObject } from "antd/es/form";
 import { addArticleDataAPI, editArticleDataAPI } from '@/api/Article'
 import { getCateListAPI } from '@/api/Cate'
 import { getTagListAPI } from '@/api/Tag'
-import { Cate } from "@/types/cate";
-import { Tag } from "@/types/tag";
+import { Cate } from "@/types/app/cate";
+import { Tag } from "@/types/app/tag";
 import dayjs from 'dayjs';
 import "./index.scss"
 import { Article } from "@/types/article";

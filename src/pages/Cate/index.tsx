@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Cate } from '@/types/cate';
+import { Cate } from '@/types/app/cate';
 import { addCateDataAPI, delCateDataAPI, editCateDataAPI, getCateDataAPI, getCateListAPI } from '@/api/Cate';
 import { DownOutlined } from '@ant-design/icons';
 import { Form, Input, Button, Tree, Modal, Spin, Dropdown, Card, MenuProps, Popconfirm, message } from 'antd';

@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { Form, Input, Button, notification, Modal } from 'antd';
 import { useUserStore } from '@/stores';
 import { editAdminPassAPI } from '@/api/User';
-import { EditUser } from '@/types/user'
+import { EditUser } from '@/types/app/user'
 
 const { confirm } = Modal;
 

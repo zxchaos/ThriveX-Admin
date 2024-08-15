@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Tabs, Input, Button, Form, Spin, Empty, Card, Popconfirm, Select, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { getLinkListAPI, addLinkDataAPI, editLinkDataAPI, delLinkDataAPI, getLinkTypeListAPI } from '@/api/Web';
-import { LinkType, Web } from '@/types/web';
+import { LinkType, Web } from '@/types/app/web';
 import Title from '@/components/Title';
 import './index.scss';
 import { RuleObject } from 'antd/es/form';

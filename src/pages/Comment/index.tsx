@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { ColumnsType } from 'antd/es/table';
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
-import { Comment } from '@/types/comment'
+import { Comment } from '@/types/app/comment'
 
 const CommentPage = () => {
     const [loading, setLoading] = useState(false);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Input, Tabs, Card, Popconfirm, message } from 'antd';
 import { getSwiperListAPI, addSwiperDataAPI, editSwiperDataAPI, delSwiperDataAPI } from '@/api/Swiper';
-import { Swiper } from '@/types/swiper';
+import { Swiper } from '@/types/app/swiper';
 import Title from '@/components/Title';
 import { ColumnsType } from 'antd/es/table';
 

@@ -1,5 +1,5 @@
 import Request from '@/utils/request'
-import { Rss } from '@/types/rss';
+import { Rss } from '@/types/app/rss';
 
 // 获取订阅数据列表
 export const getRssListAPI = (pagination?: Page) => {

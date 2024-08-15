@@ -7,7 +7,7 @@ import MapOne from '../../components/Maps/MapOne';
 import TableOne from '../../components/Tables/TableOne';
 
 import { getSystemDataAPI } from '@/api/Project';
-import { System } from '@/types/project';
+import { System } from '@/types/app/project';
 import HeaderInfo from './components/HeaderInfo';
 import { Card } from 'antd';
 

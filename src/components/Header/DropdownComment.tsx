@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import ClickOutside from '../ClickOutside';
 
 import { getCommentListAPI } from '@/api/Comment'
-import { Comment } from '@/types/comment';
+import { Comment } from '@/types/app/comment';
 
 import dayjs from 'dayjs'
 import RandomAvatar from '@/components/RandomAvatar'
