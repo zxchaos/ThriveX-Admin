@@ -13,7 +13,7 @@ import Web from './pages/Web';
 import Swiper from './pages/Swiper';
 import Setup from './pages/Setup';
 import Rss from './pages/Rss';
-import Statis from './pages/Statis';
+import Stats from './pages/Stats';
 import Login from './pages/Login';
 import DefaultLayout from './layout/DefaultLayout';
 
@@ -164,11 +164,11 @@ function App() {
             />
 
             <Route
-              path="/statis"
+              path="/stats"
               element={
                 <>
                   <PageTitle title="Thrive - 数据可视化" />
-                  <Statis />
+                  <Stats />
                 </>
               }
             />

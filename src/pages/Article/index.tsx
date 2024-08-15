@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Tag, notification, Card, Popconfirm } from 'antd';
 import { delArticleDataAPI, getArticleListAPI } from '@/api/Article';
 import dayjs from 'dayjs';
-import type { Article } from '@/types/article';
+import type { Article } from '@/types/app/article';
 import { titleSty } from '@/styles/sty'
 import Title from '@/components/Title';
 import type { Tag as ArticleTag } from '@/types/app/tag';

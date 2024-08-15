@@ -5,7 +5,7 @@ import Logo from '../../images/logo/logo.svg';
 import { BiEditAlt, BiFolderOpen, BiHomeSmile, BiSliderAlt } from "react-icons/bi";
 import { BiCategoryAlt } from "react-icons/bi";
 import { LiaRssSolid } from "react-icons/lia";
-
+import { IoIosStats } from "react-icons/io";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -293,11 +293,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
               <li>
                 <NavLink
-                  to="/statis"
-                  className={`${sidebarItemSty} ${pathname.includes('statis') && 'bg-graydark dark:bg-meta-4'
+                  to="/stats"
+                  className={`${sidebarItemSty} ${pathname.includes('stats') && 'bg-graydark dark:bg-meta-4'
                     }`}
                 >
-                  <LiaRssSolid className='text-[22px]' />
+                  <IoIosStats className='text-[22px]' />
                   数据可视化
                 </NavLink>
               </li>
