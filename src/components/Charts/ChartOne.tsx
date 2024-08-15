@@ -11,8 +11,8 @@ interface ChartOneState {
 }
 
 const ChartOne = () => {
-  const [startDate, setStartDate] = useState("2024/08/13")
-  const [endDate, setEndDate] = useState("2024/08/15")
+  const [startDate, setStartDate] = useState(dayjs(new Date()).subtract(7, "day").format("YYYY/MM/DD"))
+  const [endDate, setEndDate] = useState(dayjs(new Date()).format("YYYY/MM/DD"))
 
   const [options, setOptions] = useState<ApexOptions>({
     legend: {
@@ -140,7 +140,15 @@ const ChartOne = () => {
     const token = import.meta.env.VITE_BAIDU_TONGJI_ACCESS_TOKEN
     // fetch(`https://openapi.baidu.com/rest/2.0/tongji/report/getData?access_token=${token}&site_id=${siteId}&start_date=${startDate}&end_date=${endDate}&metrics=pv_count%2Cvisitor_count%2Cip_count%2Cavg_visit_time&method=overview%2FgetTimeTrendRpt`).then(async res => {
     fetch(`/api/rest/2.0/tongji/report/getData?access_token=${token}&site_id=${siteId}&start_date=${startDate}&end_date=${endDate}&metrics=pv_count%2Cvisitor_count%2Cip_count%2Cavg_visit_time&method=overview%2FgetTimeTrendRpt`).then(async res => {
-      console.log(await res.json());
+      const { result } = await res.json()
+      console.log(result);
+
+      // 处理分类数据
+      const categories = result.items[0].map(item => {
+        const year = new Date().getFullYear() + "/"
+        return item[0].replace(year, "")
+      })
+      setOptions((data) => ({ ...data, xaxis: { ...options.xaxis, categories } }))
     })
   }, [])
 
