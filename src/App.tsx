@@ -3,7 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
-import ECommerce from './pages/Dashboard/ECommerce';
+import ECommerce from './pages/Dashboard';
 import Create from './pages/Create';
 import Cate from './pages/Cate';
 import Article from './pages/Article';
@@ -13,6 +13,7 @@ import Web from './pages/Web';
 import Swiper from './pages/Swiper';
 import Setup from './pages/Setup';
 import Rss from './pages/Rss';
+import Statis from './pages/Statis';
 import Login from './pages/Login';
 import DefaultLayout from './layout/DefaultLayout';
 
@@ -158,6 +159,16 @@ function App() {
                 <>
                   <PageTitle title="Thrive - 订阅中心" />
                   <Rss />
+                </>
+              }
+            />
+
+            <Route
+              path="/statis"
+              element={
+                <>
+                  <PageTitle title="Thrive - 数据可视化" />
+                  <Statis />
                 </>
               }
             />

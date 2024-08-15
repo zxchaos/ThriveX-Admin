@@ -272,7 +272,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/rss"
-                  className={`${sidebarItemSty} ${pathname.includes('chart') && 'bg-graydark dark:bg-meta-4'
+                  className={`${sidebarItemSty} ${pathname.includes('rss') && 'bg-graydark dark:bg-meta-4'
                     }`}
                 >
                   <LiaRssSolid className='text-[22px]' />
@@ -288,6 +288,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 >
                   <BiFolderOpen className='text-[22px]' />
                   文件系统
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/statis"
+                  className={`${sidebarItemSty} ${pathname.includes('statis') && 'bg-graydark dark:bg-meta-4'
+                    }`}
+                >
+                  <LiaRssSolid className='text-[22px]' />
+                  数据可视化
                 </NavLink>
               </li>
             </ul>
