@@ -1,6 +1,14 @@
 import { Card, Timeline, TimelineItemProps } from 'antd';
 import { useEffect, useState } from 'react';
 import Title from '@/components/Title';
+import dayjs from 'dayjs'
+
+interface Commit {
+    commit: {
+        author: { date: string },
+        message: string
+    }
+}
 
 const Home = () => {
     const [blog_iterativeRecording, setBlog_IterativeRecording] = useState<TimelineItemProps[]>([])
@@ -11,7 +19,12 @@ const Home = () => {
     const getCommitData = async (project: string) => {
         const res = await fetch(`https://api.github.com/repos/LiuYuYang01/${project}/commits?per_page=10`)
         const data = await res.json()
-        const result = data.map((item: { commit: { message: string } }) => ({ children: item.commit.message }))
+        const result = data.map((item: Commit) => (
+            {
+                label: dayjs(item.commit.author.date).format("YYYY-MM-DD HH:mm:ss"),
+                children: item.commit.message
+            }
+        ))
 
         sessionStorage.setItem('blog_project_iterative', JSON.stringify(result))
         project === "Thrive_Blog" && setBlog_IterativeRecording(result)
@@ -40,20 +53,20 @@ const Home = () => {
             <Title value='项目迭代记录'></Title>
 
             <Card className='mt-2'>
-                <div className='flex justify-around'>
-                    <div>
+                <div className='flex justify-between'>
+                    <div className='flex-1'>
                         <h3 className='text-xl text-center pb-6 font-bold'>Thrive_Blog</h3>
-                        <Timeline items={blog_iterativeRecording} />
+                        <Timeline mode="left" items={blog_iterativeRecording} />
                     </div>
 
-                    <div>
+                    <div className='flex-1'>
                         <h3 className='text-xl text-center pb-6 font-bold'>Thrive_Admin</h3>
-                        <Timeline items={admin_iterativeRecording} />
+                        <Timeline mode="left" items={admin_iterativeRecording} />
                     </div>
 
-                    <div>
+                    <div className='flex-1'>
                         <h3 className='text-xl text-center pb-6 font-bold'>Thrive_Server</h3>
-                        <Timeline items={server_iterativeRecording} />
+                        <Timeline mode="left" items={server_iterativeRecording} />
                     </div>
                 </div>
             </Card>
