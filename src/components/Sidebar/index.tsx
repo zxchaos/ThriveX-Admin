@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import { BiEditAlt, BiFolderOpen, BiHomeSmile, BiSliderAlt } from "react-icons/bi";
 import { LuCrown } from "react-icons/lu";
-import { BiCategoryAlt } from "react-icons/bi";
+import { BiCategoryAlt, BiBug } from "react-icons/bi";
 import { LiaRssSolid } from "react-icons/lia";
 import { IoIosStats } from "react-icons/io";
 
@@ -92,7 +92,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       <div className="flex justify-center items-center gap-2 px-6 py-5.5 pb-2 lg:pt-6">
         <NavLink to="/">
           <h1 className='flex items-center text-2xl font-bold text-white'>
-            <LuCrown className='mr-2'/> Thrive Admin
+            <LuCrown className='mr-2' /> Thrive Admin
           </h1>
         </NavLink>
 
@@ -301,6 +301,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 >
                   <IoIosStats className='text-[22px]' />
                   数据可视化
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/iterative"
+                  className={`${sidebarItemSty} ${pathname.includes('iterative') && 'bg-graydark dark:bg-meta-4'
+                    }`}
+                >
+                  <BiBug className='text-[22px]' />
+                  更新日志
                 </NavLink>
               </li>
             </ul>

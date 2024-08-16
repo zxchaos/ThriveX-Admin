@@ -14,6 +14,7 @@ import Swiper from './pages/Swiper';
 import Setup from './pages/Setup';
 import Rss from './pages/Rss';
 import Stats from './pages/Stats';
+import Iterative from './pages/Iterative';
 import Login from './pages/Login';
 import DefaultLayout from './layout/DefaultLayout';
 
@@ -169,6 +170,16 @@ function App() {
                 <>
                   <PageTitle title="Thrive - 数据可视化" />
                   <Stats />
+                </>
+              }
+            />
+
+            <Route
+              path="/iterative"
+              element={
+                <>
+                  <PageTitle title="Thrive - 项目更新记录" />
+                  <Iterative />
                 </>
               }
             />
