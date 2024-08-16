@@ -17,6 +17,8 @@ const Article: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [articleList, setArticleList] = useState<Article[]>([]);
 
+    const { RangePicker } = DatePicker;
+
     const getArticleList = async () => {
         setLoading(true);
 
@@ -158,35 +160,35 @@ const Article: React.FC = () => {
         <>
             <Title value="文章管理" />
 
-            <Card className='my-2'>
-                <Form layout="inline" onFinish={onSubmit} autoComplete="off">
-                    <Form.Item label="标题" name="title" className='w-2/12'>
-                        <Input placeholder='请输入标题关键词' />
+            <Card className='my-2 overflow-scroll'>
+                <Form layout="inline" onFinish={onSubmit} autoComplete="off" className='flex-nowrap'>
+                    <Form.Item label="标题" name="title" className='w-4/12'>
+                        <Input placeholder='请输入关键词' />
                     </Form.Item>
 
-                    <Form.Item label="选择分类" name="cateIds" className='w-2/12'>
+                    <Form.Item label="分类" name="cateIds" className='w-3/12'>
                         <Cascader
                             options={cateList}
                             maxTagCount="responsive"
                             fieldNames={{ label: "name", value: "id" }}
-                            placeholder="请选择文章分类"
+                            placeholder="请选择分类"
                         />
                     </Form.Item>
 
-                    <Form.Item label="选择标签" name="tagIds" className='w-2/12'>
+                    <Form.Item label="标签" name="tagIds" className='w-3/12'>
                         <Select
                             allowClear
                             options={tagList}
                             fieldNames={{ label: 'name', value: 'id' }}
-                            placeholder="请选择文章标签"
+                            placeholder="请选择标签"
                         />
                     </Form.Item>
 
-                    <Form.Item label="选择发布时间" name="createTime" className='w-3/12'>
-                        <DatePicker showTime placeholder="选择时间范围" />
+                    <Form.Item label="时间范围" name="createTime" className='w-5/12'>
+                        <RangePicker placeholder={["选择开始时间", "选择结束时间"]} />
                     </Form.Item>
 
-                    <Form.Item>
+                    <Form.Item className='pr-6'>
                         <Button type="primary" htmlType="submit">查询</Button>
                     </Form.Item>
                 </Form>
