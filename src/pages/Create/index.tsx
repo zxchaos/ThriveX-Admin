@@ -6,7 +6,7 @@ import PublishForm from './components/PublishForm';
 import { useEffect, useState } from 'react';
 
 import Title from '@/components/Title';
-import { Article } from '@/types/article';
+import { Article } from '@/types/app/article';
 import { getArticleDataAPI } from '@/api/Article'
 import { useSearchParams } from 'react-router-dom';
 

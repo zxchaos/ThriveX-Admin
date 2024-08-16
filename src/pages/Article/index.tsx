@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Tag, notification, Card, Popconfirm } from 'antd';
-import { delArticleDataAPI, getArticleListAPI } from '@/api/Article';
-import dayjs from 'dayjs';
-import type { Article } from '@/types/app/article';
+import { Table, Button, Tag, notification, Card, Popconfirm, Form, Input, Cascader, Select, DatePicker } from 'antd';
 import { titleSty } from '@/styles/sty'
 import Title from '@/components/Title';
+import { Link } from 'react-router-dom';
+
+import { getCateListAPI } from '@/api/Cate'
+import { getTagListAPI } from '@/api/Tag'
+import { delArticleDataAPI, getArticleListAPI } from '@/api/Article';
 import type { Tag as ArticleTag } from '@/types/app/tag';
 import type { Cate } from '@/types/app/cate';
-import { Link } from 'react-router-dom';
+import type { Article } from '@/types/app/article';
+
+import dayjs from 'dayjs';
 
 const Article: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -116,11 +120,79 @@ const Article: React.FC = () => {
         },
     ];
 
+    const onSubmit = (values: any) => {
+        console.log(values);
+
+        const cateIds: number[] = [];
+
+        values.cateIds.forEach((item: number | number[]) => {
+            !(item instanceof Object) ? cateIds.push(item) : cateIds.push(...item.flat())
+        })
+
+        const data = {
+            cateIds: cateIds.join(""),
+            tagIds: values.tagIds.join(""),
+        }
+        console.log(data);
+    }
+
+    const [cateList, setCateList] = useState<Cate[]>([])
+    const [tagList, setTagList] = useState<ArticleTag[]>([])
+
+    const getCateList = async () => {
+        const { data } = await getCateListAPI()
+        setCateList(data as Cate[])
+    }
+
+    const getTagList = async () => {
+        const { data } = await getTagListAPI()
+        setTagList(data as ArticleTag[])
+    }
+
+    useEffect(() => {
+        getCateList()
+        getTagList()
+    }, [])
+
     return (
         <>
             <Title value="文章管理" />
 
-            <Card className={`${titleSty} mt-2`}>
+            <Card className='my-2'>
+                <Form layout="inline" onFinish={onSubmit} autoComplete="off">
+                    <Form.Item label="标题" name="title" className='w-2/12'>
+                        <Input placeholder='请输入标题关键词' />
+                    </Form.Item>
+
+                    <Form.Item label="选择分类" name="cateIds" className='w-2/12'>
+                        <Cascader
+                            options={cateList}
+                            maxTagCount="responsive"
+                            fieldNames={{ label: "name", value: "id" }}
+                            placeholder="请选择文章分类"
+                        />
+                    </Form.Item>
+
+                    <Form.Item label="选择标签" name="tagIds" className='w-2/12'>
+                        <Select
+                            allowClear
+                            options={tagList}
+                            fieldNames={{ label: 'name', value: 'id' }}
+                            placeholder="请选择文章标签"
+                        />
+                    </Form.Item>
+
+                    <Form.Item label="选择发布时间" name="createTime" className='w-3/12'>
+                        <DatePicker showTime placeholder="选择时间范围" />
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">查询</Button>
+                    </Form.Item>
+                </Form>
+            </Card>
+
+            <Card className={`${titleSty}`}>
                 <Table
                     rowKey="id"
                     dataSource={articleList}

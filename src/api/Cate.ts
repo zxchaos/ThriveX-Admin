@@ -14,11 +14,11 @@ export const editCateDataAPI = (data: Cate) => Request<Cate>("PATCH", "/cate", d
 export const getCateDataAPI = (id?: number) => Request<Cate>("GET", `/cate/${id}`)
 
 // 获取分类列表
-export const getCateListAPI = (pagination?: Page) => {
+export const getCateListAPI = (pattern?: "list" | "recursion", pagination?: Page) => {
     if (pagination) {
         const { page, size } = pagination
         return Request<Paginate<Cate[]>>("GET", `/cate?page=${page}&size=${size}`);
     } else {
-        return Request<Cate[]>("GET", `/cate/all`);
+        return Request<Cate[]>("GET", `/cate/all?pattern=${pattern ? pattern : "recursion"}`);
     }
 };

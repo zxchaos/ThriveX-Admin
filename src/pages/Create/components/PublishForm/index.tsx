@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import { Form, Input, Button, Select, DatePicker, Cascader, FormProps, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { RuleObject } from "antd/es/form";
+import { useNavigate } from "react-router-dom";
+import "./index.scss"
+
 import { addArticleDataAPI, editArticleDataAPI } from '@/api/Article'
 import { getCateListAPI } from '@/api/Cate'
 import { getTagListAPI } from '@/api/Tag'
 import { Cate } from "@/types/app/cate";
 import { Tag } from "@/types/app/tag";
+import { Article } from "@/types/app/article";
+
 import dayjs from 'dayjs';
-import "./index.scss"
-import { Article } from "@/types/article";
-import { useNavigate } from "react-router-dom";
 
 interface FieldType {
     title: string,
@@ -33,6 +35,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
 
         const cateIds = transCateArray(data.cateList)
         const tagIds = data.tagList.map(item => item.id)
+
         form.setFieldsValue({
             ...data,
             cateIds,
@@ -111,7 +114,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                         maxTagCount="responsive"
                         fieldNames={{ label: "name", value: "id" }}
                         placeholder="请选择文章分类"
-                        multiple
+                        onChange={(value) => console.log(value)}
                         className="w-full"
                     />
                 </Form.Item>
@@ -141,7 +144,6 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
 
 export default PublishForm;
 
-// 提取分类的id
 function transCateArray(arr: Cate[]): any {
     return arr.map((item: Cate) => {
         if (item.children && item.children.length > 0) {
