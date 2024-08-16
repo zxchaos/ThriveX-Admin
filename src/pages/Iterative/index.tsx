@@ -1,5 +1,6 @@
 import { Card, Timeline, TimelineItemProps } from 'antd';
 import { useEffect, useState } from 'react';
+import GitHubCalendar from 'react-github-calendar';
 import Title from '@/components/Title';
 import dayjs from 'dayjs'
 
@@ -53,6 +54,10 @@ const Home = () => {
             <Title value='项目迭代记录'></Title>
 
             <Card className='mt-2'>
+                <div className='flex justify-center mt-2 mb-10'>
+                    <GitHubCalendar username="liuyuyang01"/>
+                </div>
+
                 <div className='flex justify-between'>
                     <div className='flex-1'>
                         <h3 className='text-xl text-center pb-6 font-bold'>Thrive_Blog</h3>
