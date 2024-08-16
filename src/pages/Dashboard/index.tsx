@@ -1,21 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { getSystemDataAPI } from '@/api/Project';
-import { System } from '@/types/app/project';
-import HeaderInfo from './components/HeaderInfo';
 import { Card } from 'antd';
+import HeaderInfo from './components/HeaderInfo';
 
-const ECommerce: React.FC = () => {
-  const [system, setSystem] = useState<System>({} as System)
-
-  const getSystemData = async () => {
-    const { data } = await getSystemDataAPI()
-    setSystem(data)
-  }
-
-  useEffect(() => {
-    getSystemData()
-  }, [])
-
+const Home = () => {
   return (
     <>
       <Card>
@@ -29,4 +15,4 @@ const ECommerce: React.FC = () => {
   );
 };
 
-export default ECommerce;
+export default Home;

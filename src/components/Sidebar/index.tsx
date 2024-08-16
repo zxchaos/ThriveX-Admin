@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
-import Logo from '../../images/logo/logo.svg';
 import { BiEditAlt, BiFolderOpen, BiHomeSmile, BiSliderAlt } from "react-icons/bi";
+import { LuCrown } from "react-icons/lu";
 import { BiCategoryAlt } from "react-icons/bi";
 import { LiaRssSolid } from "react-icons/lia";
 import { IoIosStats } from "react-icons/io";
@@ -89,9 +89,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       className={`absolute left-0 top-0 z-9999 flex h-screen w-64 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
     >
-      <div className="flex justify-center items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
+      <div className="flex justify-center items-center gap-2 px-6 py-5.5 pb-2 lg:pt-6">
         <NavLink to="/">
-          <img src={Logo} alt="Logo" />
+          <h1 className='flex items-center text-2xl font-bold text-white'>
+            <LuCrown className='mr-2'/> Thrive Admin
+          </h1>
         </NavLink>
 
         <button
