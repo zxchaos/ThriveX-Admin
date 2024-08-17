@@ -129,7 +129,7 @@ const ArticlePage = () => {
             startDate: values.createTime ? +values.createTime[0].valueOf() : null,
             endDate: values.createTime ? +values.createTime[1].valueOf() : null,
             cateIds: values.cateIds ? values?.cateIds?.join(",") : null,
-            tagIds: values.tagIds ? values.tagIds + "" : null,
+            tagId: values.tagId ? values.tagId + "" : null,
         }
 
         const { data } = await getArticleListAPI({ query });
