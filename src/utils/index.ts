@@ -23,13 +23,11 @@ export const getListAPI = <T>(api: string) => {
 
             return Request<Paginate<T[]>>("GET", `${api}${sort}${pagination}${query}`);
         } else {
-            let sort = data?.sort ? `?sort=${data?.sort}` : '?'
-            const pattern = data?.pattern ? `&pattern=${data?.pattern}` : ''
-
-            const query = ObjectToUrlParam(data?.query as FilterData) ? "&" + ObjectToUrlParam(data?.query as FilterData) : ''
-            if (!query && !pattern) sort = ''
-
-            return Request<T[]>("GET", `${api}/all${sort}${pattern}${query}`);
+            return Request<T[]>("GET", `${api}/all`, {
+                sort: data?.sort,
+                pattern: data?.pattern,
+                ...data?.query
+            });
         }
     }
 };

@@ -10,10 +10,11 @@ import { delArticleDataAPI, getArticleListAPI } from '@/api/Article';
 import type { Tag as ArticleTag } from '@/types/app/tag';
 import type { Cate } from '@/types/app/cate';
 import type { Article } from '@/types/app/article';
+import { FilterArticle, FilterForm } from './type'
 
 import dayjs from 'dayjs';
 
-const Article: React.FC = () => {
+const ArticlePage = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [articleList, setArticleList] = useState<Article[]>([]);
 
@@ -29,7 +30,6 @@ const Article: React.FC = () => {
     };
 
     useEffect(() => {
-        // getArticleList();
         getArticleList()
     }, []);
 
@@ -123,20 +123,17 @@ const Article: React.FC = () => {
         },
     ];
 
-    const onSubmit = (values: any) => {
-        console.log(values);
-
-        const cateIds: number[] = [];
-
-        values.cateIds.forEach((item: number | number[]) => {
-            !(item instanceof Object) ? cateIds.push(item) : cateIds.push(...item.flat())
-        })
-
-        const data = {
-            cateIds: cateIds.join(""),
-            tagIds: values.tagIds.join(""),
+    const onSubmit = async (values: FilterForm) => {
+        const query: FilterArticle = {
+            key: values.title ? values.title : null,
+            startDate: values.createTime ? +values.createTime[0].valueOf() : null,
+            endDate: values.createTime ? +values.createTime[1].valueOf() : null,
+            cateIds: values.cateIds ? values?.cateIds?.join(",") : null,
+            tagIds: values.tagIds ? values.tagIds + "" : null,
         }
-        console.log(data);
+
+        const { data } = await getArticleListAPI({ query });
+        setArticleList(data as Article[]);
     }
 
     const [cateList, setCateList] = useState<Cate[]>([])
@@ -163,11 +160,11 @@ const Article: React.FC = () => {
 
             <Card className='my-2 overflow-scroll'>
                 <Form layout="inline" onFinish={onSubmit} autoComplete="off" className='flex-nowrap'>
-                    <Form.Item label="标题" name="title" className='w-4/12'>
+                    <Form.Item label="标题" name="title" className='w-2/12'>
                         <Input placeholder='请输入关键词' />
                     </Form.Item>
 
-                    <Form.Item label="分类" name="cateIds" className='w-3/12'>
+                    <Form.Item label="分类" name="cateIds" className='w-2/12'>
                         <Cascader
                             options={cateList}
                             maxTagCount="responsive"
@@ -176,7 +173,7 @@ const Article: React.FC = () => {
                         />
                     </Form.Item>
 
-                    <Form.Item label="标签" name="tagIds" className='w-3/12'>
+                    <Form.Item label="标签" name="tagIds" className='w-2/12'>
                         <Select
                             allowClear
                             options={tagList}
@@ -185,8 +182,8 @@ const Article: React.FC = () => {
                         />
                     </Form.Item>
 
-                    <Form.Item label="时间范围" name="createTime" className='w-5/12'>
-                        <RangePicker placeholder={["选择开始时间", "选择结束时间"]} />
+                    <Form.Item label="时间范围" name="createTime" className='w-3/12'>
+                        <RangePicker placeholder={["选择起始时间", "选择结束时间"]} />
                     </Form.Item>
 
                     <Form.Item className='pr-6'>
@@ -212,4 +209,4 @@ const Article: React.FC = () => {
     );
 };
 
-export default Article;
+export default ArticlePage;

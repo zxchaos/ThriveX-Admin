@@ -20,9 +20,9 @@ interface Page {
 }
 
 interface FilterData {
-    key?: string,
-    startDate?: number,
-    endDate?: number
+    key?: string | null,
+    startDate?: number | null,
+    endDate?: number | null
 }
 
 interface QueryData {
