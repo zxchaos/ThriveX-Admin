@@ -84,11 +84,127 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     </svg>
   }
 
+  // 路由列表
+  const routes = [
+    {
+      group: "Menu",
+      list: [
+        {
+          to: "/",
+          path: "dashboard",
+          icon: <BiHomeSmile className='text-[22px]' />,
+          name: "仪表盘"
+        },
+        {
+          to: "/create",
+          path: "create",
+          icon: <BiEditAlt className='text-[22px]' />,
+          name: "创作"
+        },
+        {
+          to: "#",
+          path: "manage",
+          icon: <BiCategoryAlt className='text-[22px]' />,
+          name: "管理",
+          subMenu: [
+            {
+              to: "/article",
+              path: "article",
+              name: "文章管理"
+            },
+            {
+              to: "/tag",
+              path: "tag",
+              name: "标签管理"
+            },
+            {
+              to: "/comment",
+              path: "comment",
+              name: "评论管理"
+            },
+            {
+              to: "/cate",
+              path: "cate",
+              name: "分类管理"
+            },
+            {
+              to: "/web",
+              path: "web",
+              name: "网站管理"
+            },
+            {
+              to: "/swiper",
+              path: "swiper",
+              name: "轮播图管理"
+            },
+            {
+              to: "/user",
+              path: "user",
+              name: "用户管理"
+            }
+          ]
+        },
+        {
+          to: "#",
+          path: "rights",
+          icon: <BiShieldQuarter className='text-[22px]' />,
+          name: "权限",
+          subMenu: [
+            {
+              to: "/route",
+              path: "route",
+              name: "路由管理"
+            },
+            {
+              to: "/role",
+              path: "role",
+              name: "角色管理"
+            },
+          ]
+        },
+        {
+          to: "/setup",
+          path: "setup",
+          icon: <BiSliderAlt className='text-[22px]' />,
+          name: "系统"
+        }
+      ]
+    },
+    {
+      group: "New",
+      list: [
+        {
+          to: "/rss",
+          path: "rss",
+          icon: <LiaRssSolid className='text-[22px]' />,
+          name: "订阅中心"
+        },
+        {
+          to: "/chart",
+          path: "chart",
+          icon: <BiFolderOpen className='text-[22px]' />,
+          name: "文件系统"
+        },
+        {
+          to: "/stats",
+          path: "stats",
+          icon: <BiLineChart className='text-[22px]' />,
+          name: "数据可视化"
+        },
+        {
+          to: "/iter",
+          path: "iter",
+          icon: <BiBug className='text-[22px]' />,
+          name: "更新日志"
+        }
+      ]
+    }
+  ];
+
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-64 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+      className={`absolute left-0 top-0 z-9999 flex h-screen w-64 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
     >
       <div className="flex justify-center items-center gap-2 px-6 py-5.5 pb-2 lg:pt-6">
         <NavLink to="/">
@@ -122,235 +238,69 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         <nav className="py-4 px-4 lg:px-6">
-          <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-              Menu
-            </h3>
+          {routes.map((group, index) => (
+            <div key={index}>
+              <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+                {group.group}
+              </h3>
 
-            <ul className="mb-6 flex flex-col gap-1.5">
-              <li>
-                <NavLink
-                  to="/"
-                  className={`${sidebarItemSty} ${pathname.includes('dashboard') && sidebarItemActiveSty}`}
-                >
-                  <BiHomeSmile className='text-[22px]' />
-                  仪表盘
-                </NavLink>
-              </li>
+              <ul className="mb-6 flex flex-col gap-1.5">
+                {group.list.map((item, subIndex) => (
+                  item.subMenu ? (
+                    <SidebarLinkGroup
+                      key={subIndex}
+                      activeCondition={false}
+                    >
+                      {(handleClick, open) => (
+                        <React.Fragment>
+                          <NavLink
+                            to={item.to}
+                            className={`${sidebarItemSty}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              sidebarExpanded ? handleClick() : setSidebarExpanded(true);
+                            }}
+                          >
+                            {item.icon}
+                            {item.name}
+                            <Arrow open={open} />
+                          </NavLink>
 
-              <li>
-                <NavLink
-                  to="/create"
-                  className={`${sidebarItemSty} ${pathname.includes('create') && sidebarItemActiveSty}`}
-                >
-                  <BiEditAlt className='text-[22px]' />
-                  创作
-                </NavLink>
-              </li>
-
-              <SidebarLinkGroup
-                activeCondition={false}
-              >
-                {(handleClick, open) => {
-                  return (
-                    <React.Fragment>
+                          <div className={`translate transform overflow-hidden ${!open && 'hidden'}`}>
+                            <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                              {item.subMenu.map((subItem, subSubIndex) => (
+                                <li key={subSubIndex}>
+                                  <NavLink
+                                    to={subItem.to}
+                                    className={({ isActive }) =>
+                                      'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                      (isActive && '!text-white')
+                                    }
+                                  >
+                                    {subItem.name}
+                                  </NavLink>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </React.Fragment>
+                      )}
+                    </SidebarLinkGroup>
+                  ) : (
+                    <li key={subIndex}>
                       <NavLink
-                        to="#"
-                        className={`${sidebarItemSty}`}
-                        onClick={(e) => {
-                          e.preventDefault();
-
-                          sidebarExpanded
-                            ? handleClick()
-                            : setSidebarExpanded(true);
-                        }}
+                        to={item.to}
+                        className={`${sidebarItemSty} ${pathname.includes(item.path) && sidebarItemActiveSty}`}
                       >
-                        <BiCategoryAlt className='text-[22px]' />
-                        管理
-                        <Arrow open={open} />
+                        {item.icon}
+                        {item.name}
                       </NavLink>
-
-                      <div
-                        className={`translate transform overflow-hidden ${!open && 'hidden'
-                          }`}
-                      >
-                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                          <li>
-                            <NavLink
-                              to="/article"
-                              className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
-                              }
-                            >
-                              文章管理
-                            </NavLink>
-                          </li>
-
-                          <li>
-                            <NavLink
-                              to="/tag"
-                              className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
-                              }
-                            >
-                              标签管理
-                            </NavLink>
-                          </li>
-
-                          <li>
-                            <NavLink
-                              to="/comment"
-                              className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
-                              }
-                            >
-                              评论管理
-                            </NavLink>
-                          </li>
-
-                          <li>
-                            <NavLink
-                              to="/cate"
-                              className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
-                              }
-                            >
-                              分类管理
-                            </NavLink>
-                          </li>
-
-                          <li>
-                            <NavLink
-                              to="/web"
-                              className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
-                              }
-                            >
-                              网站管理
-                            </NavLink>
-                          </li>
-
-                          <li>
-                            <NavLink
-                              to="/swiper"
-                              className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
-                              }
-                            >
-                              轮播图管理
-                            </NavLink>
-                          </li>
-
-                          <li>
-                            <NavLink
-                              to="/user"
-                              className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
-                              }
-                            >
-                              用户管理
-                            </NavLink>
-                          </li>
-
-                          <li>
-                            <NavLink
-                              to="/role"
-                              className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
-                              }
-                            >
-                              角色管理
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* <!-- Dropdown Menu End --> */}
-                    </React.Fragment>
-                  );
-                }}
-              </SidebarLinkGroup>
-
-              <li>
-                <NavLink
-                  to="/rights"
-                  className={`${sidebarItemSty} ${pathname.includes('rights') && sidebarItemActiveSty}`}
-                >
-                  <BiShieldQuarter className='text-[22px]' />
-                  权限
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink
-                  to="/setup"
-                  className={`${sidebarItemSty} ${pathname.includes('setup') && sidebarItemActiveSty}`}
-                >
-                  <BiSliderAlt className='text-[22px]' />
-                  系统
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-              New
-            </h3>
-
-            <ul className="mb-6 flex flex-col gap-1.5">
-              <li>
-                <NavLink
-                  to="/rss"
-                  className={`${sidebarItemSty} ${pathname.includes('rss') && 'bg-graydark dark:bg-meta-4'
-                    }`}
-                >
-                  <LiaRssSolid className='text-[22px]' />
-                  订阅中心
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink
-                  to="/chart"
-                  className={`${sidebarItemSty} ${pathname.includes('chart') && 'bg-graydark dark:bg-meta-4'
-                    }`}
-                >
-                  <BiFolderOpen className='text-[22px]' />
-                  文件系统
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink
-                  to="/stats"
-                  className={`${sidebarItemSty} ${pathname.includes('stats') && 'bg-graydark dark:bg-meta-4'
-                    }`}
-                >
-                  <BiLineChart className='text-[22px]' />
-                  数据可视化
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink
-                  to="/iterative"
-                  className={`${sidebarItemSty} ${pathname.includes('iterative') && 'bg-graydark dark:bg-meta-4'
-                    }`}
-                >
-                  <BiBug className='text-[22px]' />
-                  更新日志
-                </NavLink>
-              </li>
-            </ul>
-          </div>
+                    </li>
+                  )
+                ))}
+              </ul>
+            </div>
+          ))}
         </nav>
       </div>
     </aside>

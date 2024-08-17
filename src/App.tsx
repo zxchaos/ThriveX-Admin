@@ -15,6 +15,7 @@ import Setup from './pages/Setup';
 import Rss from './pages/Rss';
 import Stats from './pages/Stats';
 import Iterative from './pages/Iterative';
+import Page from './pages/Route'
 import Login from './pages/Login';
 import DefaultLayout from './layout/DefaultLayout';
 
@@ -37,6 +38,76 @@ function App() {
   }, []);
 
   const isLoginRoute = pathname === '/login';
+
+  // 路由列表
+  const routes = [
+    {
+      path: "/",
+      title: "仪表盘",
+      component: <ECommerce />
+    },
+    {
+      path: "/create",
+      title: "发挥灵感",
+      component: <Create />
+    },
+    {
+      path: "/cate",
+      title: "分类管理",
+      component: <Cate />
+    },
+    {
+      path: "/article",
+      title: "文章管理",
+      component: <Article />
+    },
+    {
+      path: "/tag",
+      title: "标签管理",
+      component: <Tag />
+    },
+    {
+      path: "/comment",
+      title: "评论管理",
+      component: <Comment />
+    },
+    {
+      path: "/web",
+      title: "网站管理",
+      component: <Web />
+    },
+    {
+      path: "/swiper",
+      title: "轮播图管理",
+      component: <Swiper />
+    },
+    {
+      path: "/setup",
+      title: "项目配置",
+      component: <Setup />
+    },
+    {
+      path: "/page",
+      title: "路由配置",
+      component: <Page />
+    },
+    {
+      path: "/rss",
+      title: "订阅中心",
+      component: <Rss />
+    },
+    {
+      path: "/stats",
+      title: "数据可视化",
+      component: <Stats />
+    },
+    {
+      path: "/iter",
+      title: "项目更新记录",
+      component: <Iterative />
+    }
+  ];
+
 
   return loading ? (
     <Loader />
@@ -64,125 +135,18 @@ function App() {
       ) : (
         <DefaultLayout>
           <Routes>
-            <Route
-              index
-              element={
-                <>
-                  <PageTitle title="Thrive - 仪表盘" />
-                  <ECommerce />
-                </>
-              }
-            />
-
-            <Route
-              path="/create"
-              element={
-                <>
-                  <PageTitle title="Thrive - 发挥灵感" />
-                  <Create />
-                </>
-              }
-            />
-
-            <Route
-              path="/cate"
-              element={
-                <>
-                  <PageTitle title="Thrive - 分类管理" />
-                  <Cate />
-                </>
-              }
-            />
-
-            <Route
-              path="/article"
-              element={
-                <>
-                  <PageTitle title="Thrive - 文章管理" />
-                  <Article />
-                </>
-              }
-            />
-
-            <Route
-              path="/tag"
-              element={
-                <>
-                  <PageTitle title="Thrive - 标签管理" />
-                  <Tag />
-                </>
-              }
-            />
-
-            <Route
-              path="/comment"
-              element={
-                <>
-                  <PageTitle title="Thrive - 评论管理" />
-                  <Comment />
-                </>
-              }
-            />
-
-            <Route
-              path="/web"
-              element={
-                <>
-                  <PageTitle title="Thrive - 网站管理" />
-                  <Web />
-                </>
-              }
-            />
-
-            <Route
-              path="/swiper"
-              element={
-                <>
-                  <PageTitle title="Thrive - 轮播图管理" />
-                  <Swiper />
-                </>
-              }
-            />
-
-            <Route
-              path="/setup"
-              element={
-                <>
-                  <PageTitle title="Thrive - 项目配置" />
-                  <Setup />
-                </>
-              }
-            />
-
-            <Route
-              path="/rss"
-              element={
-                <>
-                  <PageTitle title="Thrive - 订阅中心" />
-                  <Rss />
-                </>
-              }
-            />
-
-            <Route
-              path="/stats"
-              element={
-                <>
-                  <PageTitle title="Thrive - 数据可视化" />
-                  <Stats />
-                </>
-              }
-            />
-
-            <Route
-              path="/iterative"
-              element={
-                <>
-                  <PageTitle title="Thrive - 项目更新记录" />
-                  <Iterative />
-                </>
-              }
-            />
+            {routes.map(({ path, title, component }) => (
+              <Route
+                key={path}
+                path={path}
+                element={
+                  <>
+                    <PageTitle title={`Thrive - ${title}`} />
+                    {component}
+                  </>
+                }
+              />
+            ))}
           </Routes>
         </DefaultLayout>
       )}
