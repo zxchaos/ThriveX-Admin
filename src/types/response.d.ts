@@ -18,3 +18,15 @@ interface Page {
     page?: number,
     size?: number,
 }
+
+interface FilterData {
+    key?: string,
+    startDate?: number,
+    endDate?: number
+  }
+  
+  interface QueryData {
+    sort?: "asc" | "desc",
+    query?: FilterData,
+    pagination?: Page
+  }

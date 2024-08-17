@@ -5,7 +5,8 @@ import { BiEditAlt, BiFolderOpen, BiHomeSmile, BiSliderAlt } from "react-icons/b
 import { LuCrown } from "react-icons/lu";
 import { BiCategoryAlt, BiBug } from "react-icons/bi";
 import { LiaRssSolid } from "react-icons/lia";
-import { IoIosStats } from "react-icons/io";
+import { BiLineChart } from "react-icons/bi";
+import { BiShieldQuarter } from "react-icons/bi";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -245,6 +246,30 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               轮播图管理
                             </NavLink>
                           </li>
+
+                          <li>
+                            <NavLink
+                              to="/user"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              用户管理
+                            </NavLink>
+                          </li>
+
+                          <li>
+                            <NavLink
+                              to="/role"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              角色管理
+                            </NavLink>
+                          </li>
                         </ul>
                       </div>
                       {/* <!-- Dropdown Menu End --> */}
@@ -252,6 +277,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   );
                 }}
               </SidebarLinkGroup>
+
+              <li>
+                <NavLink
+                  to="/rights"
+                  className={`${sidebarItemSty} ${pathname.includes('rights') && sidebarItemActiveSty}`}
+                >
+                  <BiShieldQuarter className='text-[22px]' />
+                  权限
+                </NavLink>
+              </li>
 
               <li>
                 <NavLink
@@ -299,7 +334,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   className={`${sidebarItemSty} ${pathname.includes('stats') && 'bg-graydark dark:bg-meta-4'
                     }`}
                 >
-                  <IoIosStats className='text-[22px]' />
+                  <BiLineChart className='text-[22px]' />
                   数据可视化
                 </NavLink>
               </li>

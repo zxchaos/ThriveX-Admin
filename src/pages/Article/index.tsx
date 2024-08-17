@@ -29,7 +29,8 @@ const Article: React.FC = () => {
     };
 
     useEffect(() => {
-        getArticleList();
+        // getArticleList();
+        getArticleList()
     }, []);
 
     const delArticleData = async (id: number) => {
