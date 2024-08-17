@@ -1,5 +1,6 @@
 import Request from '@/utils/request'
 import { Cate } from '@/types/app/cate'
+import { getListAPI } from '@/utils'
 
 // 新增分类
 export const addCateDataAPI = (data: Cate) => Request<Cate>("POST", "/cate", data)
@@ -14,11 +15,4 @@ export const editCateDataAPI = (data: Cate) => Request<Cate>("PATCH", "/cate", d
 export const getCateDataAPI = (id?: number) => Request<Cate>("GET", `/cate/${id}`)
 
 // 获取分类列表
-export const getCateListAPI = (pattern?: "list" | "recursion", pagination?: Page) => {
-    if (pagination) {
-        const { page, size } = pagination
-        return Request<Paginate<Cate[]>>("GET", `/cate?page=${page}&size=${size}`);
-    } else {
-        return Request<Cate[]>("GET", `/cate/all?pattern=${pattern ? pattern : "recursion"}`);
-    }
-};
+export const getCateListAPI = getListAPI<Cate>("/cate")

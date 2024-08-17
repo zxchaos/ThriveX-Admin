@@ -1,5 +1,6 @@
 import Request from '@/utils/request'
 import { Swiper } from '@/types/app/swiper'
+import { getListAPI } from '@/utils'
 
 // 新增轮播图
 export const addSwiperDataAPI = (data: Swiper) => Request<Swiper>("POST", "/swiper", data)
@@ -14,11 +15,4 @@ export const editSwiperDataAPI = (data: Swiper) => Request<Swiper>("PATCH", "/sw
 export const getSwiperDataAPI = (id?: number) => Request<Swiper>("GET", `/swiper/${id}`)
 
 // 获取轮播图列表
-export const getSwiperListAPI = (pagination?: Page) => {
-    if (pagination) {
-        const { page, size } = pagination
-        return Request<Paginate<Swiper[]>>("GET", `/swiper?page=${page}&size=${size}`);
-    } else {
-        return Request<Swiper[]>("GET", `/swiper/all`);
-    }
-};
+export const getSwiperListAPI = getListAPI<Swiper>("/swiper")

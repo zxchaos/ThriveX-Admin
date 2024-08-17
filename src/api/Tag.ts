@@ -1,5 +1,6 @@
 import Request from '@/utils/request'
 import { Tag } from '@/types/app/tag'
+import { getListAPI } from '@/utils'
 
 // 新增标签
 export const addTagDataAPI = (data: Tag) => Request<Tag>("POST", "/tag", data)
@@ -14,11 +15,4 @@ export const editTagDataAPI = (data: Tag) => Request<Tag>("PATCH", "/tag", data)
 export const getTagDataAPI = (id?: number) => Request<Tag>("GET", `/tag/${id}`)
 
 // 获取标签列表
-export const getTagListAPI = (pagination?: Page) => {
-    if (pagination) {
-        const { page, size } = pagination
-        return Request<Paginate<Tag[]>>("GET", `/tag?page=${page}&size=${size}`);
-    } else {
-        return Request<Tag[]>("GET", `/tag/all`);
-    }
-};
+export const getTagListAPI = getListAPI<Tag>("/tag")

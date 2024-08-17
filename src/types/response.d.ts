@@ -23,10 +23,11 @@ interface FilterData {
     key?: string,
     startDate?: number,
     endDate?: number
-  }
-  
-  interface QueryData {
+}
+
+interface QueryData {
     sort?: "asc" | "desc",
+    pattern?: "list" | "recursion",
     query?: FilterData,
     pagination?: Page
-  }
+}

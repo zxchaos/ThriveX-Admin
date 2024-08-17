@@ -1,5 +1,6 @@
 import Request from '@/utils/request'
 import { Comment } from '@/types/app/comment'
+import { getListAPI } from '@/utils'
 
 // 新增评论
 export const addCommentDataAPI = (data: Comment) => Request<Comment>("POST", "/comment", data)
@@ -17,11 +18,4 @@ export const editCommentDataAPI = (data: Comment) => Request<Comment>("PATCH", "
 export const getCommentDataAPI = (id?: number) => Request<Paginate<Comment>>("GET", `/comment/${id}`)
 
 // 获取评论列表
-export const getCommentListAPI = (pattern?: "list" | "recursion", pagination?: Page) => {
-    if (pagination) {
-        const { page, size } = pagination
-        return Request<Paginate<Comment[]>>("GET", `/comment?page=${page}&size=${size}`);
-    } else {
-        return Request<Comment[]>("GET", `/comment/all?pattern=${pattern ? pattern : "recursion"}`);
-    }
-};
+export const getCommentListAPI = getListAPI<Comment>("/comment")

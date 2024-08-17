@@ -15,14 +15,6 @@ export const editLinkDataAPI = (data: Web) => Request<Web>("PATCH", "/link", dat
 export const getLinkDataAPI = (id?: number) => Request<Web>("GET", `/link/${id}`)
 
 // 获取网站列表
-// export const getLinkListAPI = (pagination?: Page) => {
-//     if (pagination) {
-//         const { page, size } = pagination
-//         return Request<Paginate<Web[]>>("GET", `/link?page=${page}&size=${size}`);
-//     } else {
-//         return Request<Web[]>("GET", `/link/all`);
-//     }
-// };
 export const getLinkListAPI = getListAPI<Web>("/link")
 
 // 获取网站类型列表
