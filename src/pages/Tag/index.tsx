@@ -73,7 +73,7 @@ const TagPage = () => {
             <Title value="标签管理" />
 
             <div className='flex justify-between mx-auto mt-2'>
-                <Card className="w-[40%] h-73">
+                <Card className="w-[40%] h-48">
                     <Form
                         form={form}
                         layout="vertical"
