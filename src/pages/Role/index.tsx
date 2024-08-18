@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Table, Button, Form, Input, Popconfirm, message, Card, Modal, Transfer, TransferProps, Spin } from 'antd';
+import { Table, Button, Form, Input, Popconfirm, message, Card, Modal, Transfer, Spin } from 'antd';
 import { getRouteListAPI } from '@/api/Route';
 import { getRoleListAPI, addRoleDataAPI, editRoleDataAPI, delRoleDataAPI, getRouteListAPI as getRoleRouteListAPI, bindingRouteAPI } from '@/api/Role';
 import { Role } from '@/types/app/role';
@@ -16,7 +16,6 @@ const RolePage = () => {
     const [routeList, setRouteList] = useState<{ key: number, title: string }[]>([]);
     // 当前角色的路由列表
     const [targetKeys, setTargetKeys] = useState<number[]>([]);
-    const [selectedKeys, setSelectedKeys] = useState<number[]>([]);
 
     // 角色权限框
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -107,9 +106,6 @@ const RolePage = () => {
     };
 
     const onChange: any = (list: number[]) => {
-        console.log(selectedKeys);
-
-        console.log('targetKeys:', list);
         setTargetKeys(list);
     };
 
@@ -131,7 +127,7 @@ const RolePage = () => {
             <Title value="角色管理" />
 
             <div className='flex justify-between mx-auto mt-2'>
-                <Card className="w-[40%] h-73">
+                <Card className="w-[40%] h-96">
                     <Form
                         form={form}
                         layout="vertical"

@@ -7,6 +7,8 @@ import { BiCategoryAlt, BiBug } from "react-icons/bi";
 import { LiaRssSolid } from "react-icons/lia";
 import { BiLineChart } from "react-icons/bi";
 import { BiShieldQuarter } from "react-icons/bi";
+import { useUserStore } from '@/stores';
+import { getRouteListAPI } from '@/api/Role'
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -15,6 +17,8 @@ interface SidebarProps {
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const location = useLocation();
+  const store = useUserStore();
+
   const { pathname } = location;
 
   const trigger = useRef<any>(null);
@@ -85,7 +89,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   }
 
   // 路由列表
-  const routes = [
+  const routesAll = [
     {
       group: "Menu",
       list: [
@@ -201,9 +205,34 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     }
   ];
 
-  useEffect(() => {
+  const [routes, setRoutes] = useState<typeof routesAll>([])
 
-  },[])
+  // 获取路由列表
+  const getRouteList = async (id: number) => {
+    const { data } = await getRouteListAPI(id)
+    // 处理成路径
+    const pathSet = new Set(data.map((item: any) => item.path));
+
+    // 过滤出接口中存在的路由
+    const filteredRoutes = routesAll.map(group => ({
+      ...group,
+      list: group.list.map(item => {
+        if (item.subMenu) {
+          // 过滤出当前子菜单中所有存在的路由
+          const filteredSubMenu = item.subMenu.filter(subItem => pathSet.has(subItem.to));
+          return filteredSubMenu.length > 0 ? { ...item, subMenu: filteredSubMenu } : null;
+        }
+
+        return pathSet.has(item.to) ? item : null;
+      }).filter(item => item !== null)
+    })).filter(group => group.list.length > 0);
+
+    setRoutes(filteredRoutes);
+  }
+
+  useEffect(() => {
+    if (store.role.id) getRouteList(store.role.id)
+  }, [store])
 
   return (
     <aside
