@@ -9,6 +9,7 @@ import { BiLineChart } from "react-icons/bi";
 import { BiShieldQuarter } from "react-icons/bi";
 import { useUserStore } from '@/stores';
 import { getRouteListAPI } from '@/api/Role'
+import { Route } from '@/types/app/route';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -211,7 +212,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const getRouteList = async (id: number) => {
     const { data } = await getRouteListAPI(id)
     // 处理成路径
-    const pathSet = new Set(data.map((item: any) => item.path));
+    const pathSet = new Set(data.map((item: Route) => item.path));
 
     // 过滤出接口中存在的路由
     const filteredRoutes = routesAll.map(group => ({

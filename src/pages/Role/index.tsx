@@ -42,7 +42,6 @@ const RolePage = () => {
     // 获取指定角色的路由列表
     const getRoleRouteList = async (id: number) => {
         const { data } = await getRoleRouteListAPI(id);
-        console.log(data, 333);
 
         setTargetKeys(data.map(item => item.id) as number[])
     };
