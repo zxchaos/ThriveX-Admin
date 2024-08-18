@@ -54,9 +54,7 @@ export default () => {
     };
 
     useEffect(() => {
-        if (store.role.id) {
-            getRouteList(store.role.id);
-        }
+        if (store.role.id) getRouteList(store.role.id)
     }, [store]);
 
     if (isLoginRoute) {
@@ -66,7 +64,7 @@ export default () => {
                     path="/login"
                     element={
                         <>
-                            <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                            <PageTitle title="Thrive | 现代化博客管理系统" />
                             <Login />
                         </>
                     }

@@ -116,6 +116,9 @@ const RolePage = () => {
 
         message.success('🎉 绑定成功');
         setIsModalOpen(false)
+
+        // 刷新页面
+        window.location.reload()
     }
 
     // 让n改变 触发Transfer重新渲染
