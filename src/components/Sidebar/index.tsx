@@ -201,6 +201,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     }
   ];
 
+  useEffect(() => {
+
+  },[])
+
   return (
     <aside
       ref={sidebar}

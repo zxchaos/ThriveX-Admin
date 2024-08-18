@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'antd/es/form/Form';
 import { Button, Form, Input, notification } from 'antd';
@@ -19,8 +19,9 @@ const LoginPage = () => {
         const { data } = await loginDataAPI(values);
 
         // 将用户信息和token保存起来
-        store.setUser(data.user);
         store.setToken(data.token);
+        store.setUser(data.user);
+        store.setRole(data.role)
 
         notification.success({
             message: '🎉 登录成功',
@@ -29,10 +30,6 @@ const LoginPage = () => {
 
         navigate(returnUrl);
     };
-
-    useEffect(() => {
-
-    },)
 
     return (
         <div className="w-screen h-screen flex justify-center items-center">

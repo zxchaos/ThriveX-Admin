@@ -9,14 +9,16 @@ export interface UserInfo {
     email: string,
     avatar: string,
     info: string,
-    role?: string
+    roleId: number
+    role: Role
 }
 
 export type User = Login & UserInfo
 
-export interface account {
+export interface LoginReturn {
     token: string,
-    user: User
+    user: User,
+    role: Role
 }
 
 export interface EditUser {
