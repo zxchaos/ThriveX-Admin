@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { useUserStore } from "@/stores";
 import { getRouteListAPI } from "@/api/Role";
 import { Route as RouteType } from "@/types/app/route";
+import NotFound from "../NotFound";
 
 export default () => {
     const store = useUserStore();
@@ -90,6 +91,8 @@ export default () => {
                         }
                     />
                 ))}
+
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </DefaultLayout>
     );
