@@ -16,6 +16,7 @@ import Rss from './pages/Rss';
 import Stats from './pages/Stats';
 import Iterative from './pages/Iterative';
 import Page from './pages/Route'
+import Role from './pages/Role'
 import Login from './pages/Login';
 import DefaultLayout from './layout/DefaultLayout';
 
@@ -87,9 +88,14 @@ function App() {
       component: <Setup />
     },
     {
-      path: "/page",
+      path: "/route",
       title: "路由配置",
       component: <Page />
+    },
+    {
+      path: "/role",
+      title: "角色管理",
+      component: <Role />
     },
     {
       path: "/rss",

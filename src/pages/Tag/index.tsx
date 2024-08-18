@@ -1,31 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, Table, Card, message, Popconfirm, Spin } from 'antd';
-import { addTagDataAPI, delTagDataAPI, editTagDataAPI, getTagListAPI } from '@/api/Tag';
+import { useState, useEffect } from 'react';
+import { Table, Button, Form, Input, Popconfirm, message, Card } from 'antd';
+import { getTagListAPI, addTagDataAPI, editTagDataAPI, delTagDataAPI } from '@/api/Tag';
+import { Tag } from '@/types/app/tag';
 import Title from '@/components/Title';
+import { ColumnsType } from 'antd/es/table';
 
-interface Tag {
-    id?: number;
-    name: string;
-}
-
-const TagManagement: React.FC = () => {
-    const [form] = Form.useForm<Tag>();
-    const [loading, setLoading] = useState(false);
-    const [tag, setTag] = useState<Tag>({ name: '' });
-    const [title, setTitle] = useState<string>('新增标签');
+const TagPage = () => {
+    const [loading, setLoading] = useState<boolean>(false);
+    const [tag, setTag] = useState<Tag>({} as Tag);
     const [list, setList] = useState<Tag[]>([]);
 
-    // 获取标签列表
+    const columns: ColumnsType<Tag> = [
+        { title: 'ID', dataIndex: 'id', key: 'id', align: 'center' },
+        { title: '标签名称', dataIndex: 'name', key: 'name', align: 'center' },
+        {
+            title: '操作', key: 'action',
+            render: (text: string, record: Tag) => (
+                <>
+                    <Button onClick={() => editTagData(record)}>修改</Button>
+                    <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delTagData(record.id!)}>
+                        <Button type="primary" danger className="ml-2">删除</Button>
+                    </Popconfirm>
+                </>
+            )
+        }
+    ];
+
     const getTagList = async () => {
+        setLoading(true);
         const { data } = await getTagListAPI();
         setList(data as Tag[]);
         setLoading(false);
     };
 
     useEffect(() => {
-        setLoading(true);
         getTagList();
     }, []);
+
+    const [form] = Form.useForm();
+    const editTagData = (record: Tag) => {
+        setTag(record);
+        form.setFieldsValue(record);
+    };
 
     const delTagData = async (id: number) => {
         setLoading(true);
@@ -34,31 +50,21 @@ const TagManagement: React.FC = () => {
         getTagList();
     };
 
-    const editTagData = (data: Tag) => {
-        setTag(data);
-        form.setFieldsValue(data)
-        setTitle('编辑标签');
-    };
-
-    const submit = () => {
-        form.validateFields().then(async (values) => {
-            setLoading(true);
-            const fn = (value: string) => {
-                form.resetFields();
-                form.setFieldsValue({ name: '' })
-                setTag({} as Tag)
-                message.success(value);
-                getTagList();
-            };
-
+    const onSubmit = async () => {
+        setLoading(true);
+        form.validateFields().then(async (values: Tag) => {
             if (tag.id) {
                 await editTagDataAPI({ ...tag, ...values });
-                setTitle('新增标签');
-                fn('🎉 编辑标签成功');
+                message.success('🎉 编辑标签成功');
             } else {
                 await addTagDataAPI(values);
-                fn('🎉 新增标签成功');
+                message.success('🎉 新增标签成功');
             }
+
+            getTagList();
+            form.resetFields();
+            form.setFieldsValue({ name: '' })
+            setTag({} as Tag);
         });
     };
 
@@ -66,55 +72,42 @@ const TagManagement: React.FC = () => {
         <>
             <Title value="标签管理" />
 
-            <Card className="mt-2">
-                <Spin spinning={loading}>
-                    <div className="w-10/12 flex justify-between px-8 mx-auto">
-                        <div className="flex flex-col w-[40%]">
-                            <h2 className="text-xl pb-4 text-center">{title}</h2>
+            <div className='flex justify-between mx-auto mt-2'>
+                <Card className="w-[40%] h-73">
+                    <Form
+                        form={form}
+                        layout="vertical"
+                        initialValues={tag}
+                        onFinish={onSubmit}
+                        size='large'
 
-                            <Form form={form} size="large" layout="vertical" initialValues={tag}>
-                                <Form.Item
-                                    label="标签名称"
-                                    name="name"
-                                    rules={[{ required: true, message: '标签不能为空' }]}
-                                >
-                                    <Input placeholder="大前端" />
-                                </Form.Item>
+                    >
+                        <Form.Item label="标签名称" name="name" rules={[{ required: true, message: '标签名称不能为空' }]}>
+                            <Input placeholder="请输入标签名称" />
+                        </Form.Item>
 
-                                <Form.Item>
-                                    <Button type="primary" size="large" onClick={submit} className="w-full">{title}</Button>
-                                </Form.Item>
-                            </Form>
-                        </div>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" className="w-full">{tag.id ? '编辑标签' : '新增标签'}</Button>
+                        </Form.Item>
+                    </Form>
+                </Card>
 
-                        <div className="flex flex-col w-[50%]">
-                            <h2 className="text-xl pb-4 text-center">标签列表</h2>
-
-                            <Table dataSource={list} rowKey="id">
-                                <Table.Column title="ID" dataIndex="id" align="center" />
-                                <Table.Column title="名称" dataIndex="name" align="center" />
-                                <Table.Column
-                                    title="操作"
-                                    align="center"
-                                    render={(text, record: Tag) => (
-                                        <>
-                                            <div className='flex justify-center space-x-4'>
-                                                <Button size="small" onClick={() => editTagData(record)}>编辑</Button>
-
-                                                <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delTagData(record.id!)}>
-                                                    <Button size="small" type="primary" danger>删除</Button>
-                                                </Popconfirm>
-                                            </div>
-                                        </>
-                                    )}
-                                />
-                            </Table>
-                        </div>
-                    </div>
-                </Spin>
-            </Card>
+                <Card className="w-[59%] [&>.ant-card-body]:!p-0">
+                    <Table
+                        rowKey="id"
+                        dataSource={list}
+                        columns={columns}
+                        scroll={{ x: 'max-content' }}
+                        pagination={{
+                            position: ['bottomCenter'],
+                            pageSize: 8
+                        }}
+                        loading={loading}
+                    />
+                </Card>
+            </div>
         </>
     );
 };
 
-export default TagManagement;
+export default TagPage;
