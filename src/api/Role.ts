@@ -1,5 +1,6 @@
 import Request from '@/utils/request'
 import { Role } from '@/types/app/role'
+import { Route } from '@/types/app/route'
 
 // 新增角色
 export const addRoleDataAPI = (data: Role) => Request<Role>("POST", "/role", data)
@@ -15,3 +16,6 @@ export const getRoleDataAPI = (id?: number) => Request<Role>("GET", `/role/${id}
 
 // 获取角色列表
 export const getRoleListAPI = () => Request<Role[]>("GET", "/role");
+
+// 获取指定角色的路由列表
+export const getRouteListAPI = (id: number) => Request<Route[]>("GET", `/role/route?id=${id}`);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Table, Button, Form, Input, Popconfirm, message, Card, Modal, Transfer, TransferProps } from 'antd';
 import { getRouteListAPI } from '@/api/Route';
-import { getRoleListAPI, addRoleDataAPI, editRoleDataAPI, delRoleDataAPI } from '@/api/Role';
+import { getRoleListAPI, addRoleDataAPI, editRoleDataAPI, delRoleDataAPI, getRouteListAPI as getRoleRouteListAPI } from '@/api/Role';
 import { Role } from '@/types/app/role';
 import Title from '@/components/Title';
 import { ColumnsType } from 'antd/es/table';
@@ -12,6 +12,8 @@ const RolePage = () => {
     const [role, setRole] = useState<Role>({} as Role);
     const [roleList, setRoleList] = useState<Role[]>([]);
     const [routeList, setRouteList] = useState<{ key: number, title: string }[]>([]);
+    // 当前角色的路由列表
+    const [targetKeys, setTargetKeys] = useState<number[]>([]);
 
     // 角色权限框
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +26,7 @@ const RolePage = () => {
             title: '操作', key: 'action',
             render: (text: string, record: Role) => (
                 <>
-                    <Button type="primary" onClick={() => setIsModalOpen(true)}>权限</Button>
+                    <Button type="primary" onClick={() => [setIsModalOpen(true), getRoleRouteList(record.id!)]}>权限</Button>
                     <Button onClick={() => editRoleData(record)} className="mx-2">修改</Button>
                     <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delRoleData(record.id!)}>
                         <Button type="primary" danger>删除</Button>
@@ -34,13 +36,21 @@ const RolePage = () => {
         }
     ];
 
-    const getRouteList = async () => {
-        setLoading(true);
-        const { data } = await getRouteListAPI();
-        setRouteList(data.map(item => ({ key: item.id, title: item.path })) as { key: number, title: string }[]);
-        setLoading(false);
+    // 获取指定角色的路由列表
+    const getRoleRouteList = async (id: number) => {
+        const { data } = await getRoleRouteListAPI(id);
+        console.log(data, 333);
+
+        setTargetKeys(data.map(item => item.id) as number[])
     };
 
+    // 获取路由列表
+    const getRouteList = async () => {
+        const { data } = await getRouteListAPI();
+        setRouteList(data.map(item => ({ key: item.id, title: item.path })) as { key: number, title: string }[]);
+    };
+
+    // 获取角色列表
     const getRoleList = async () => {
         setLoading(true);
         const { data } = await getRoleListAPI();
@@ -49,8 +59,8 @@ const RolePage = () => {
     };
 
     useEffect(() => {
+        getRoleList()
         getRouteList()
-        getRoleList();
     }, []);
 
     const [form] = Form.useForm();
@@ -84,12 +94,9 @@ const RolePage = () => {
         });
     };
 
-
-    const [targetKeys, setTargetKeys] = useState<TransferProps['targetKeys']>([]);
-
-    const onChange: TransferProps['onChange'] = (nextTargetKeys) => {
-        console.log('targetKeys:', nextTargetKeys);
-        setTargetKeys(nextTargetKeys);
+    const onChange: any = (list: number[]) => {
+        console.log('targetKeys:', list);
+        setTargetKeys(list);
     };
 
     return (
