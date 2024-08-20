@@ -52,11 +52,11 @@ const SetupPage = () => {
 
             <Card className='SetupPage mt-2'>
                 <div className="flex">
-                    <ul className="w[20%] mr-5 border-r border-[#eee]">
+                    <ul className="w[20%] mr-5 border-r border-[#eee] divide-y divide-solid divide-[#F6F6F6]">
                         {list.map((item) => (
                             <li
                                 key={item.key}
-                                className={`item p-3 pl-5 mb-2 cursor-pointer transition-colors ${active === item.key ? 'active' : ''}`}
+                                className={`item p-3 pl-5 cursor-pointer transition-colors ${active === item.key ? 'active' : ''}`}
                                 onClick={() => setActive(item.key)}
                             >
                                 <h3 className="flex items-center text-base">

@@ -11,6 +11,7 @@ import Web from '@/pages/Web';
 import Swiper from '@/pages/Swiper';
 import Setup from '@/pages/Setup';
 import Rss from '@/pages/Rss';
+import File from "@/pages/File";
 import Stats from '@/pages/Stats';
 import Iterative from '@/pages/Iterative';
 import Page from '@/pages/Route';
@@ -42,6 +43,7 @@ export default () => {
         { path: "/route", title: "路由配置", component: <Page /> },
         { path: "/role", title: "角色管理", component: <Role /> },
         { path: "/rss", title: "订阅中心", component: <Rss /> },
+        { path: "/file", title: "文件管理", component: <File /> },
         { path: "/stats", title: "数据可视化", component: <Stats /> },
         { path: "/iter", title: "项目更新记录", component: <Iterative /> },
     ];

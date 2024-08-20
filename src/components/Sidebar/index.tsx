@@ -185,8 +185,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           name: "订阅中心"
         },
         {
-          to: "/chart",
-          path: "chart",
+          to: "/file",
+          path: "file",
           icon: <BiFolderOpen className='text-[22px]' />,
           name: "文件系统"
         },

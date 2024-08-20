@@ -1,8 +1,6 @@
 import Title from "@/components/Title"
 import VisitorsStatisChat from "./components/VisitorsStatisChat"
 import NewOldVisitors from './components/NewOldVisitors'
-import ChartTwo from "./components/VisitorsStatisChat"
-import ChatCard from "@/components/Chat/ChatCard"
 import CardDataStats from "@/components/CardDataStats"
 
 import { AiOutlineEye, AiOutlineMeh, AiOutlineStock, AiOutlineFieldTime } from "react-icons/ai";
