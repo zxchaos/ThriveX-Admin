@@ -1,0 +1,33 @@
+.FilePage {
+    .ant-image {
+        width: 100%;
+        height: 100%;
+
+        .ant-image-img {
+            height: 100%;
+        }
+    }
+}
+
+// 自定义图片预览样式
+.ant-image-preview-footer {
+    overflow: hidden;
+    background: #fff;
+    border-radius: 10px;
+
+    .ant-space-gap-col-small {
+        column-gap: 0
+    }
+
+    .ant-space-item {
+        .anticon {
+            font-size: 20px;
+            color: #666;
+            padding: 10px;
+        }
+
+        &:hover {
+            background-color: #f7f7ff;
+        }
+    }
+}

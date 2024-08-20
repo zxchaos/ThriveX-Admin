@@ -1,10 +1,21 @@
 import { useEffect, useState } from 'react'
-import { Card, Spin } from 'antd'
+import { Image, Card, Space, Spin } from 'antd'
 import Title from '@/components/Title'
+
 import fileSvg from './image/file.svg'
 import { getFileListAPI } from '@/api/File'
 import { File, FileDir } from '@/types/app/file'
 import { PiKeyReturnFill } from "react-icons/pi";
+import {
+    DownloadOutlined,
+    RotateLeftOutlined,
+    RotateRightOutlined,
+    SwapOutlined,
+    UndoOutlined,
+    ZoomInOutlined,
+    ZoomOutOutlined,
+} from '@ant-design/icons';
+import "./index.scss"
 
 export default () => {
     const [active, setActive] = useState("")
@@ -21,6 +32,22 @@ export default () => {
         setLoading(false)
     }
 
+    // 下载图片
+    const onDownload = (data: File) => {
+        fetch(data.url)
+            .then((response) => response.blob())
+            .then((blob) => {
+                const url = URL.createObjectURL(new Blob([blob]));
+                const link = document.createElement<'a'>('a');
+                link.href = url;
+                link.download = data.name;
+                document.body.appendChild(link);
+                link.click();
+                URL.revokeObjectURL(url);
+                link.remove();
+            });
+    };
+
     useEffect(() => {
         // getFileList()
     }, [])
@@ -29,7 +56,7 @@ export default () => {
         <>
             <Title value='文件管理' />
 
-            <Card className='mt-2'>
+            <Card className='FilePage mt-2'>
                 <div className='flex mb-4 px-4'>
                     {
                         !fileList.length
@@ -42,10 +69,32 @@ export default () => {
                     <div className='flex flex-wrap'>
                         {
                             fileList.length
-                                ? fileList.map((item, index) =>
-                                    <div key={index} className={`group overflow-hidden w-35 p-2 flex flex-col items-center cursor-pointer mx-4 border-[2px] ${active === item.name ? 'border-primary' : 'border-[#eee]'}  rounded-md`} onClick={() => setActive(item.name)}>
-                                        <img src={item.url} alt="" className='rounded-md' />
-                                    </div>
+                                ? (
+                                    fileList.map((item, index) =>
+                                        <div key={index} className={`group relative overflow-hidden w-44 h-44 p-2 flex flex-col items-center cursor-pointer mx-4 border-[2px] ${active === item.name ? 'border-primary' : 'border-[#eee]'} rounded-md`} onClick={() => setActive(item.name)}>
+                                            <Image src={item.url} className='rounded-md object-cover object-center' preview={{
+                                                toolbarRender: (
+                                                    _,
+                                                    {
+                                                        image: { url },
+                                                        transform: { scale },
+                                                        actions: { onFlipY, onFlipX, onRotateLeft, onRotateRight, onZoomOut, onZoomIn, onReset },
+                                                    },
+                                                ) => (
+                                                    <Space className="toolbar-wrapper">
+                                                        <DownloadOutlined onClick={() => onDownload(item)} />
+                                                        <SwapOutlined rotate={90} onClick={onFlipY} />
+                                                        <SwapOutlined onClick={onFlipX} />
+                                                        <RotateLeftOutlined onClick={onRotateLeft} />
+                                                        <RotateRightOutlined onClick={onRotateRight} />
+                                                        <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
+                                                        <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
+                                                        <UndoOutlined onClick={onReset} />
+                                                    </Space>
+                                                ),
+                                            }} />
+                                        </div>
+                                    )
                                 )
                                 : dirList.map((dir, index) => (
                                     <div key={index} className='group w-25 flex flex-col items-center cursor-pointer mx-4' onClick={() => getFileList(dir)}>
