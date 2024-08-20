@@ -26,8 +26,12 @@ interface FilterData {
 }
 
 interface QueryData {
+    // 通用的
     sort?: "asc" | "desc",
     pattern?: "list" | "recursion",
     query?: FilterData,
-    pagination?: Page
+    pagination?: Page,
+
+    // 文件相关
+    dir?: "all" | string
 }
