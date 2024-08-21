@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Image, Card, Space, Spin, message, Popconfirm } from 'antd'
+import { Image, Card, Space, Spin, message, Popconfirm, Button } from 'antd'
 import Title from '@/components/Title'
 import FileUpload from '@/components/FileUpload'
 
@@ -11,6 +11,7 @@ import { DeleteOutlined, DownloadOutlined, RotateLeftOutlined, RotateRightOutlin
 import "./index.scss"
 
 export default () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [active, setActive] = useState("")
     const [loading, setLoading] = useState(false)
     const [dirName, setDirName] = useState("")
@@ -76,12 +77,14 @@ export default () => {
             <Title value='文件管理' />
 
             <Card className='FilePage mt-2'>
-                <div className='flex mb-4 px-4'>
+                <div className='flex justify-between mb-4 px-4'>
                     {
                         !fileList.length
                             ? <PiKeyReturnFill className='text-4xl text-[#E0DFDF] cursor-pointer' />
                             : <PiKeyReturnFill className='text-4xl text-primary cursor-pointer' onClick={() => setFileList([])} />
                     }
+
+                    <Button type="primary" disabled={!fileList.length} onClick={() => setIsModalOpen(true)}>上传文件</Button>
                 </div>
 
                 <Spin spinning={loading}>
@@ -92,7 +95,7 @@ export default () => {
                                     fileList.map((item, index) =>
                                         <div
                                             key={index}
-                                            className={`group relative overflow-hidden w-44 h-44 p-[2px] flex flex-col items-center cursor-pointer mx-4 border-2 ${active === item.name ? 'border-primary' : 'border-[#eee]'} rounded-md`}
+                                            className={`group relative overflow-hidden w-44 h-44 p-[2px] flex flex-col items-center cursor-pointer m-4 border-2 ${active === item.name ? 'border-primary' : 'border-[#eee]'} rounded-md`}
                                             onClick={() => setActive(item.name)}>
                                             <Image
                                                 src={item.url}
@@ -144,7 +147,7 @@ export default () => {
                 </Spin>
             </Card>
 
-            <FileUpload dir='default' isModalOpen={true}/>
+            <FileUpload dir={dirName} open={isModalOpen} onSuccess={() => getFileList(dirName)} onCancel={() => setIsModalOpen(false)} />
         </>
     )
 }

@@ -2,7 +2,6 @@ import { FileDir } from '@/types/app/file';
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { message, Modal, Upload } from 'antd';
-import { useEffect, useState } from 'react';
 import { useUserStore } from '@/stores'
 import { baseURL } from '@/utils/request'
 
@@ -10,11 +9,12 @@ const { Dragger } = Upload;
 
 interface UploadFileProps {
     dir: FileDir,
-    isModalOpen: boolean
+    open: boolean,
+    onSuccess: () => void,
+    onCancel: () => void
 }
 
-export default ({ dir, isModalOpen }: UploadFileProps) => {
-    const [open, setOpen] = useState(isModalOpen)
+export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
     const store = useUserStore()
 
     const uploadProps: UploadProps = {
@@ -36,6 +36,7 @@ export default ({ dir, isModalOpen }: UploadFileProps) => {
             }
             if (status === 'done') {
                 message.success(`文件上传成功`);
+                onSuccess()
             } else if (status === 'error') {
                 message.error(`文件上传失败：${res.message}`);
             }
@@ -43,13 +44,9 @@ export default ({ dir, isModalOpen }: UploadFileProps) => {
         className: "py-4"
     };
 
-    useEffect(() => {
-        setOpen(isModalOpen)
-    }, [isModalOpen])
-
     return (
         <>
-            <Modal title="文件上传" open={open} onCancel={() => setOpen(false)} footer={null}>
+            <Modal title="文件上传" open={open} onCancel={onCancel} footer={null}>
                 <Dragger {...uploadProps}>
                     <p className="ant-upload-drag-icon">
                         <InboxOutlined />

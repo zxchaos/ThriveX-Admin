@@ -1,4 +1,4 @@
-export type FileDir = ("default" | "article" | "swiper")
+export type FileDir = ("default" | "article" | "swiper" | string)
 
 export interface File {
     name: string;
