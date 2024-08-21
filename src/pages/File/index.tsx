@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Image, Card, Space, Spin, message, Popconfirm } from 'antd'
 import Title from '@/components/Title'
+import FileUpload from '@/components/FileUpload'
 
 import fileSvg from './image/file.svg'
 import { delFileDataAPI, getDirListAPI, getFileListAPI } from '@/api/File'
@@ -142,6 +143,8 @@ export default () => {
                     </div>
                 </Spin>
             </Card>
+
+            <FileUpload dir='default' isModalOpen={true}/>
         </>
     )
 }
