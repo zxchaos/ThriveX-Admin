@@ -1,39 +1,51 @@
 import { useEffect, useState } from 'react'
-import { Image, Card, Space, Spin } from 'antd'
+import { Image, Card, Space, Spin, message, Popconfirm } from 'antd'
 import Title from '@/components/Title'
 
 import fileSvg from './image/file.svg'
-import { getFileListAPI } from '@/api/File'
-import { File, FileDir } from '@/types/app/file'
+import { delFileDataAPI, getDirListAPI, getFileListAPI } from '@/api/File'
+import { File } from '@/types/app/file'
 import { PiKeyReturnFill } from "react-icons/pi";
-import {
-    DownloadOutlined,
-    RotateLeftOutlined,
-    RotateRightOutlined,
-    SwapOutlined,
-    UndoOutlined,
-    ZoomInOutlined,
-    ZoomOutOutlined,
-} from '@ant-design/icons';
+import { DeleteOutlined, DownloadOutlined, RotateLeftOutlined, RotateRightOutlined, SwapOutlined, UndoOutlined, ZoomInOutlined, ZoomOutOutlined, } from '@ant-design/icons';
 import "./index.scss"
 
 export default () => {
     const [active, setActive] = useState("")
     const [loading, setLoading] = useState(false)
-    const [dirList, setDirList] = useState<FileDir[]>(["default", "article", "swiper"])
+    const [dirName, setDirName] = useState("")
+    const [dirList, setDirList] = useState<string[]>([])
     const [fileList, setFileList] = useState<File[]>([])
+
+    // 获取目录列表
+    const getDirList = async () => {
+        setLoading(true)
+        const { data } = await getDirListAPI()
+        setDirList(data)
+        setLoading(false)
+    }
 
     // 获取指定目录的文件列表
     const getFileList = async (dir: string) => {
         setLoading(true)
         const { data } = await getFileListAPI({ dir })
-        console.log(data);
+
+        if (!fileList.length && !(data as File[]).length) message.error("该目录中没有文件")
+
         setFileList(data as File[])
         setLoading(false)
     }
 
+    // 删除图片
+    const onDeleteImage = async (data: File) => {
+        setLoading(true)
+        await delFileDataAPI(`${dirName}/${data.name}`)
+        message.success("🎉 删除图片成功")
+        getFileList(dirName)
+        setLoading(false)
+    }
+
     // 下载图片
-    const onDownload = (data: File) => {
+    const onDownloadImage = (data: File) => {
         fetch(data.url)
             .then((response) => response.blob())
             .then((blob) => {
@@ -48,8 +60,14 @@ export default () => {
             });
     };
 
+    // 打开目录
+    const openDir = (dir: string) => {
+        setDirName(dir)
+        getFileList(dir)
+    }
+
     useEffect(() => {
-        // getFileList()
+        getDirList()
     }, [])
 
     return (
@@ -71,33 +89,51 @@ export default () => {
                             fileList.length
                                 ? (
                                     fileList.map((item, index) =>
-                                        <div key={index} className={`group relative overflow-hidden w-44 h-44 p-2 flex flex-col items-center cursor-pointer mx-4 border-[2px] ${active === item.name ? 'border-primary' : 'border-[#eee]'} rounded-md`} onClick={() => setActive(item.name)}>
-                                            <Image src={item.url} className='rounded-md object-cover object-center' preview={{
-                                                toolbarRender: (
-                                                    _,
-                                                    {
-                                                        image: { url },
-                                                        transform: { scale },
-                                                        actions: { onFlipY, onFlipX, onRotateLeft, onRotateRight, onZoomOut, onZoomIn, onReset },
-                                                    },
-                                                ) => (
-                                                    <Space className="toolbar-wrapper">
-                                                        <DownloadOutlined onClick={() => onDownload(item)} />
-                                                        <SwapOutlined rotate={90} onClick={onFlipY} />
-                                                        <SwapOutlined onClick={onFlipX} />
-                                                        <RotateLeftOutlined onClick={onRotateLeft} />
-                                                        <RotateRightOutlined onClick={onRotateRight} />
-                                                        <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
-                                                        <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
-                                                        <UndoOutlined onClick={onReset} />
-                                                    </Space>
-                                                ),
-                                            }} />
+                                        <div
+                                            key={index}
+                                            className={`group relative overflow-hidden w-44 h-44 p-[2px] flex flex-col items-center cursor-pointer mx-4 border-2 ${active === item.name ? 'border-primary' : 'border-[#eee]'} rounded-md`}
+                                            onClick={() => setActive(item.name)}>
+                                            <Image
+                                                src={item.url}
+                                                className='rounded-md object-cover object-center'
+                                                preview={{
+                                                    toolbarRender: (
+                                                        _,
+                                                        {
+                                                            transform: { scale },
+                                                            actions: { onFlipY, onFlipX, onRotateLeft, onRotateRight, onZoomOut, onZoomIn, onReset },
+                                                        },
+                                                    ) => (
+                                                        <Space className="toolbar-wrapper">
+                                                            <Popconfirm
+                                                                title="警告"
+                                                                description="删除后无法恢复，确定要删除吗"
+                                                                onConfirm={() => onDeleteImage(item)}
+                                                                okText="删除"
+                                                                cancelText="取消"
+                                                            >
+                                                                <DeleteOutlined />
+                                                            </Popconfirm>
+
+                                                            <DownloadOutlined onClick={() => onDownloadImage(item)} />
+                                                            <SwapOutlined rotate={90} onClick={onFlipY} />
+                                                            <SwapOutlined onClick={onFlipX} />
+                                                            <RotateLeftOutlined onClick={onRotateLeft} />
+                                                            <RotateRightOutlined onClick={onRotateRight} />
+                                                            <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
+                                                            <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
+                                                            <UndoOutlined onClick={onReset} />
+                                                        </Space>
+                                                    ),
+                                                }} />
                                         </div>
                                     )
                                 )
                                 : dirList.map((dir, index) => (
-                                    <div key={index} className='group w-25 flex flex-col items-center cursor-pointer mx-4' onClick={() => getFileList(dir)}>
+                                    <div
+                                        key={index}
+                                        className='group w-25 flex flex-col items-center cursor-pointer mx-4'
+                                        onClick={() => openDir(dir)}>
                                         <img src={fileSvg} alt="" />
                                         <p className='group-hover:text-primary transition-colors'>{dir}</p>
                                     </div>

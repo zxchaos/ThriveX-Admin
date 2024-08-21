@@ -1,9 +1,8 @@
 import Request from '@/utils/request'
 import { File } from '@/types/app/file'
-import { ObjectToUrlParam } from '@/utils'
 
 // 删除文件
-export const delFileDataAPI = (data: string[]) => Request<File>("DELETE", "/file", { files: data })
+export const delFileDataAPI = (filePath: string) => Request<File>("DELETE", `/file?filePath=${filePath}`)
 
 // 获取文件
 export const getFileDataAPI = (filePath: string) => Request<File>("GET", `/file/info?filePath=${filePath}`)
@@ -26,3 +25,6 @@ export const getFileListAPI = (data?: QueryData) => {
         return Request<File[]>("GET", `/file/all${sort}${dir}`);
     }
 };
+
+// 获取目录列表
+export const getDirListAPI = () => Request<string[]>("GET", '/file/dir');;
