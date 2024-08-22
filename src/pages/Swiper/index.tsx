@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Table, Button, Modal, Form, Input, Tabs, Card, Popconfirm, message } from 'antd';
+import { Table, Button, Image, Form, Input, Tabs, Card, Popconfirm, message } from 'antd';
 import { getSwiperListAPI, addSwiperDataAPI, editSwiperDataAPI, delSwiperDataAPI } from '@/api/Swiper';
 import { Swiper } from '@/types/app/swiper';
 import Title from '@/components/Title';
@@ -12,14 +12,13 @@ const SwiperPage = () => {
     const [swiper, setSwiper] = useState<Swiper>({} as Swiper);
     const [list, setList] = useState<Swiper[]>([]);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [viewImage, setViewImage] = useState<string>('');
     const [tab, setTab] = useState<string>('list');
 
     const columns: ColumnsType<Swiper> = [
         { title: 'ID', dataIndex: 'id', key: 'id', align: 'center' },
         {
             title: '图片', dataIndex: 'image', key: 'image', width: 200,
-            render: (text: string) => <img src={text} alt="swiper" className="w-full rounded cursor-pointer" onClick={() => setViewImage(text)} />
+            render: (url: string) => <Image width={200} src={url} className="w-full rounded cursor-pointer" />
         },
         { title: '标题', dataIndex: 'title', key: 'title' },
         { title: '描述', dataIndex: 'description', key: 'description', width: 500, },

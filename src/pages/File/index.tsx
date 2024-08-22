@@ -109,24 +109,26 @@ export default () => {
                                                         },
                                                     ) => (
                                                         <Space className="toolbar-wrapper">
-                                                            <Popconfirm
-                                                                title="警告"
-                                                                description="删除后无法恢复，确定要删除吗"
-                                                                onConfirm={() => onDeleteImage(item)}
-                                                                okText="删除"
-                                                                cancelText="取消"
-                                                            >
-                                                                <DeleteOutlined />
-                                                            </Popconfirm>
+                                                            <div className='customAntdPreviewsItem'>
+                                                                <Popconfirm
+                                                                    title="警告"
+                                                                    description="删除后无法恢复，确定要删除吗"
+                                                                    onConfirm={() => onDeleteImage(item)}
+                                                                    okText="删除"
+                                                                    cancelText="取消"
+                                                                >
+                                                                    <DeleteOutlined />
+                                                                </Popconfirm>
 
-                                                            <DownloadOutlined onClick={() => onDownloadImage(item)} />
-                                                            <SwapOutlined rotate={90} onClick={onFlipY} />
-                                                            <SwapOutlined onClick={onFlipX} />
-                                                            <RotateLeftOutlined onClick={onRotateLeft} />
-                                                            <RotateRightOutlined onClick={onRotateRight} />
-                                                            <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
-                                                            <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
-                                                            <UndoOutlined onClick={onReset} />
+                                                                <DownloadOutlined onClick={() => onDownloadImage(item)} />
+                                                                <SwapOutlined rotate={90} onClick={onFlipY} />
+                                                                <SwapOutlined onClick={onFlipX} />
+                                                                <RotateLeftOutlined onClick={onRotateLeft} />
+                                                                <RotateRightOutlined onClick={onRotateRight} />
+                                                                <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
+                                                                <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
+                                                                <UndoOutlined onClick={onReset} />
+                                                            </div>
                                                         </Space>
                                                     ),
                                                 }} />

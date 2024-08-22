@@ -10,24 +10,18 @@
 }
 
 // 自定义图片预览样式
-.ant-image-preview-footer {
+.customAntdPreviewsItem {
     overflow: hidden;
     background: #fff;
     border-radius: 10px;
 
-    .ant-space-gap-col-small {
-        column-gap: 0
-    }
-
-    .ant-space-item {
-        .anticon {
-            font-size: 20px;
-            color: #5d5d5d;
-            padding: 10px;
-        }
+    .anticon {
+        font-size: 20px;
+        color: #5d5d5d;
+        padding: 10px;
 
         &:hover {
-            background-color: #f7f7ff;
+            color: #727cf5;
         }
     }
 }
