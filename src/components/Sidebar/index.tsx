@@ -9,6 +9,7 @@ import { LiaRssSolid } from "react-icons/lia";
 import { useUserStore } from '@/stores';
 import { getRouteListAPI } from '@/api/Role'
 import { Route } from '@/types/app/route';
+import logo from '@/images/logo/logo.png'
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -241,9 +242,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     >
       <div className="flex justify-center items-center gap-2 px-6 py-5.5 pb-2 lg:pt-6">
         <NavLink to="/">
-          <h1 className='flex items-center text-2xl font-bold text-white'>
-            <LuCrown className='mr-2' /> Thrive Admin
-          </h1>
+          <img src={logo} alt="logo" className='w-30' />
         </NavLink>
 
         <button

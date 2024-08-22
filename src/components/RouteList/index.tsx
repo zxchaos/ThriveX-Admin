@@ -3,7 +3,7 @@ import DefaultLayout from "@/layout/DefaultLayout";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import Home from '@/pages/Dashboard';
-import Create from '@/pages/Cate';
+import Create from '@/pages/Create';
 import Cate from '@/pages/Cate';
 import Article from '@/pages/Article';
 import Comment from '@/pages/Comment';
