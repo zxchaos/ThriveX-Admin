@@ -30,12 +30,9 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
         headers: {
             "Authorization": `Bearer ${store.token}`
         },
-        fileList, // 设置文件列表
-        onChange(info) {
+        showUploadList: false, // 不显示文件列表
+        async onChange(info) {
             const { status } = info.file;
-
-            // 更新文件列表状态
-            setFileList(info.fileList);
 
             let res;
             if (status !== 'uploading') {
@@ -44,8 +41,16 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
                 if (res?.code === 400) return message.error(res.message);
             }
             if (status === 'done') {
-                message.success(`文件上传成功`);
+                // 上传时候先去重，避免重复url
+                const urls = [...new Set([...fileList, res.data])]
+                setFileList(urls)
+
+                // 复制文件链接到剪贴板
+                await navigator.clipboard.writeText(urls.join("\n"));
+
+                message.success(`文件上传成功，URL链接已复制到剪贴板`);
                 onSuccess();
+                onCloseModel()
             } else if (status === 'error') {
                 message.error(`文件上传失败：${res?.message}`);
             }

@@ -11,9 +11,9 @@ import { DeleteOutlined, DownloadOutlined, RotateLeftOutlined, RotateRightOutlin
 import "./index.scss"
 
 export default () => {
+    const [loading, setLoading] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [active, setActive] = useState("")
-    const [loading, setLoading] = useState(false)
     const [dirName, setDirName] = useState("")
     const [dirList, setDirList] = useState<string[]>([])
     const [fileList, setFileList] = useState<File[]>([])
@@ -147,7 +147,12 @@ export default () => {
                 </Spin>
             </Card>
 
-            <FileUpload dir={dirName} open={isModalOpen} onSuccess={() => getFileList(dirName)} onCancel={() => setIsModalOpen(false)} />
+            <FileUpload
+                dir={dirName}
+                open={isModalOpen}
+                onSuccess={() => getFileList(dirName)}
+                onCancel={() => setIsModalOpen(false)}
+            />
         </>
     )
 }
