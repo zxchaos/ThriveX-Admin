@@ -4,7 +4,7 @@ import { getSwiperListAPI, addSwiperDataAPI, editSwiperDataAPI, delSwiperDataAPI
 import { Swiper } from '@/types/app/swiper';
 import Title from '@/components/Title';
 import { ColumnsType } from 'antd/es/table';
-import { CloudUploadOutlined } from '@ant-design/icons';
+import { CloudUploadOutlined, PictureOutlined } from '@ant-design/icons';
 import FileUpload from '@/components/FileUpload';
 
 const SwiperPage = () => {
@@ -137,7 +137,7 @@ const SwiperPage = () => {
                         </Form.Item>
 
                         <Form.Item label="图片" name="image" rules={[{ required: true, message: '轮播图不能为空' }]}>
-                            <Input placeholder="https://blog.liuyuyang.net/swiper.jpg" addonAfter={<UploadBtn />} className='customizeAntdInputAddonAfter' />
+                            <Input placeholder="https://blog.liuyuyang.net/swiper.jpg" prefix={<PictureOutlined />} addonAfter={<UploadBtn />} className='customizeAntdInputAddonAfter' />
                         </Form.Item>
 
                         <Form.Item>
@@ -157,22 +157,10 @@ const SwiperPage = () => {
                 <Tabs activeKey={tab} onChange={handleTabChange} items={tabItems} />
             </Card>
 
-            {/* <Modal
-                open={isModelOpen}
-                title="查看图片"
-                footer={null}
-                onCancel={() => setIsModelOpen(false)}
-            >
-                <img src={viewImage} alt="swiper" className="w-full rounded mt-4" />
-            </Modal> */}
-
             <FileUpload
                 dir="swiper"
                 open={isModalOpen}
-                onSuccess={(url: string) => {
-                    form.setFieldValue("image", url)
-                    getSwiperList()
-                }}
+                onSuccess={(url: string) => form.setFieldValue("image", url)}
                 onCancel={() => setIsModalOpen(false)}
             />
         </>

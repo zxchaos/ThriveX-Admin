@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { notification, Divider, Input, Alert, Button, Spin } from 'antd';
-import { PictureOutlined, LoadingOutlined } from '@ant-design/icons';
+import { PictureOutlined, LoadingOutlined, CloudUploadOutlined } from '@ant-design/icons';
 import { editLayoutDataAPI, getLayoutDataAPI } from '@/api/Project';
 import { Layout } from '@/types/app/project';
+import FileUpload from '@/components/FileUpload';
 
 const LayoutPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [swiperText, setSwiperText] = useState<string>('');
-
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [layout, setLayout] = useState<Layout>({} as Layout);
 
     const onSidebar = (value: string) => {
@@ -47,8 +48,13 @@ const LayoutPage = () => {
         return new URL(`./image/${name}.png`, import.meta.url).href
     }
 
+    // 文件上传
+    const UploadBtn = () => (
+        <CloudUploadOutlined className='text-xl cursor-pointer' onClick={() => setIsModalOpen(true)} />
+    )
+
     return (
-        <div>
+        <>
             <Spin spinning={loading} indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}>
                 <h2 className="text-xl pb-4 text-center">布局配置</h2>
 
@@ -59,6 +65,9 @@ const LayoutPage = () => {
                         onChange={(e) => setLayout({ ...layout, swiperImage: e.target.value })}
                         placeholder="请输入背景图地址"
                         prefix={<PictureOutlined />}
+                        addonAfter={<UploadBtn />}
+                        size='large'
+                        className='customizeAntdInputAddonAfter'
                     />
                     <img src={layout.swiperImage} alt="" className="w-1/3 mt-4 rounded" />
                 </div>
@@ -69,6 +78,7 @@ const LayoutPage = () => {
                         value={swiperText}
                         onChange={(e) => setSwiperText(e.target.value)}
                         autoSize={{ minRows: 2, maxRows: 4 }}
+                        size='large'
                     />
                     <Alert message="以换行分隔，每行表示一段文本" type="info" className="mt-2" />
                 </div>
@@ -101,7 +111,14 @@ const LayoutPage = () => {
 
                 <Button type="primary" size="large" className="w-full mt-4" onClick={editLayoutData}>修改布局</Button>
             </Spin>
-        </div>
+
+            <FileUpload
+                dir="swiper"
+                open={isModalOpen}
+                onSuccess={(url: string) => setLayout({ ...layout, swiperImage: url })}
+                onCancel={() => setIsModalOpen(false)}
+            />
+        </>
     );
 };
 

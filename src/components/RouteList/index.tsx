@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import DefaultLayout from "@/layout/DefaultLayout";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import Home from '@/pages/Dashboard';
 import Create from '@/pages/Cate';
@@ -19,13 +20,13 @@ import Role from '@/pages/Role';
 import PageTitle from "../PageTitle";
 import Login from "@/pages/Login";
 
-import { useEffect, useState } from "react";
 import { useUserStore } from "@/stores";
 import { getRouteListAPI } from "@/api/Role";
 import { Route as RouteType } from "@/types/app/route";
 import NotFound from "../NotFound";
 
 export default () => {
+    const navigate = useNavigate();
     const store = useUserStore();
     const { pathname } = useLocation();
     const isLoginRoute = pathname === '/login';
@@ -57,6 +58,9 @@ export default () => {
     };
 
     useEffect(() => {
+        // 如果没有token就跳转到登录页
+        if (!store.token) return navigate("/login")
+
         if (store.role.id) getRouteList(store.role.id)
     }, [store]);
 
