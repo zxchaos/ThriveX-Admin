@@ -4,6 +4,7 @@ import Loader from './common/Loader';
 import useAuthRedirect from '@/hooks/useAuthRedirect';
 import { ConfigProvider } from 'antd';
 import RouteList from './components/RouteList';
+import "@/styles/customAntd.scss"
 
 function App() {
   useAuthRedirect()

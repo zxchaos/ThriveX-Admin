@@ -1,0 +1,10 @@
+// 自定义input后置按钮样式
+.customizeAntdInputAddonAfter {
+    .ant-input-group-addon {
+        padding: 0;
+
+        >span {
+            padding: 8px 10px;
+        }
+    }
+}

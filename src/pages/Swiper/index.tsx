@@ -137,7 +137,7 @@ const SwiperPage = () => {
                         </Form.Item>
 
                         <Form.Item label="图片" name="image" rules={[{ required: true, message: '轮播图不能为空' }]}>
-                            <Input placeholder="https://blog.liuyuyang.net/swiper.jpg" addonAfter={<UploadBtn />} />
+                            <Input placeholder="https://blog.liuyuyang.net/swiper.jpg" addonAfter={<UploadBtn />} className='customizeAntdInputAddonAfter' />
                         </Form.Item>
 
                         <Form.Item>

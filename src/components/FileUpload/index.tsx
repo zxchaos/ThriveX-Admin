@@ -90,8 +90,8 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
                         isCompressionUpload && <Select
                             onChange={setQuality}
                             options={[
-                                { value: "NaN", label: '自适应压缩（推荐）' },
-                                { value: 1, label: '轻量压缩' },
+                                { value: 1, label: '轻量压缩(推荐)' },
+                                { value: "NaN", label: '自适应压缩' },
                                 { value: 0.9, label: '0.9' },
                                 { value: 0.8, label: '0.8' },
                                 { value: 0.7, label: '0.7' },
