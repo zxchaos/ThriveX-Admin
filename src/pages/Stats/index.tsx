@@ -97,7 +97,7 @@ export default () => {
                     <AiOutlineMeh className="fill-primary dark:fill-white text-2xl" />
                 </CardDataStats>
 
-                <CardDataStats title="跳出率" total={stats.bounce + '%'} rate="4.35%" levelUp>
+                <CardDataStats title="跳出率" total={(stats.bounce).toFixed(2) + '%'} rate="4.35%" levelUp>
                     <AiOutlineStock className="fill-primary dark:fill-white text-2xl" />
                 </CardDataStats>
 
