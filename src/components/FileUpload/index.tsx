@@ -20,6 +20,7 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
     const store = useUserStore();
     const [quality, setQuality] = useState(1000);
     const [isCompressionUpload, setIsCompressionUpload] = useState(false);
+    const [fileList, setFileList] = useState<any[]>([]); // 已上传的文件列表
 
     const uploadProps: UploadProps = {
         name: 'files',
@@ -29,7 +30,26 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
         headers: {
             "Authorization": `Bearer ${store.token}`
         },
-        // 上传之前触发
+        fileList, // 设置文件列表
+        onChange(info) {
+            const { status } = info.file;
+
+            // 更新文件列表状态
+            setFileList(info.fileList);
+
+            let res;
+            if (status !== 'uploading') {
+                res = info?.file?.response;
+
+                if (res?.code === 400) return message.error(res.message);
+            }
+            if (status === 'done') {
+                message.success(`文件上传成功`);
+                onSuccess();
+            } else if (status === 'error') {
+                message.error(`文件上传失败：${res?.message}`);
+            }
+        },
         beforeUpload: async (file) => {
             if (quality === 1000) return file
 
@@ -46,22 +66,6 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
                 });
             })
         },
-        onChange(info) {
-            const { status } = info.file;
-
-            let res;
-            if (status !== 'uploading') {
-                res = info?.file?.response;
-
-                if (res?.code === 400) return message.error(res.message);
-            }
-            if (status === 'done') {
-                message.success(`文件上传成功`);
-                onSuccess();
-            } else if (status === 'error') {
-                message.error(`文件上传失败：${res?.message}`);
-            }
-        },
         className: "py-4"
     };
 
@@ -69,6 +73,7 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
     const onCloseModel = () => {
         setIsCompressionUpload(false);
         setQuality(1000);
+        setFileList([]); // 清空文件列表
         onCancel();
     }
 
@@ -76,7 +81,7 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
         <>
             <Modal title="文件上传" open={open} onCancel={onCloseModel} footer={null}>
                 <div className='my-4'>
-                    <Radio.Group defaultValue={0} onChange={(e) => setIsCompressionUpload(e.target.value ? true : false)}>
+                    <Radio.Group defaultValue={0} value={isCompressionUpload ? 1 : 0} onChange={(e) => setIsCompressionUpload(e.target.value ? true : false)}>
                         <Radio value={0}>无损上传</Radio>
                         <Radio value={1}>压缩上传</Radio>
                     </Radio.Group>
@@ -85,7 +90,7 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
                         isCompressionUpload && <Select
                             onChange={setQuality}
                             options={[
-                                { value: NaN, label: '自适应压缩（推荐）' },
+                                { value: "NaN", label: '自适应压缩（推荐）' },
                                 { value: 1, label: '轻量压缩' },
                                 { value: 0.9, label: '0.9' },
                                 { value: 0.8, label: '0.8' },
