@@ -5,12 +5,13 @@ import { Swiper } from '@/types/app/swiper';
 import Title from '@/components/Title';
 import { ColumnsType } from 'antd/es/table';
 import { CloudUploadOutlined } from '@ant-design/icons';
+import FileUpload from '@/components/FileUpload';
 
 const SwiperPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [swiper, setSwiper] = useState<Swiper>({} as Swiper);
     const [list, setList] = useState<Swiper[]>([]);
-    const [isModelOpen, setIsModelOpen] = useState<boolean>(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [viewImage, setViewImage] = useState<string>('');
     const [tab, setTab] = useState<string>('list');
 
@@ -18,7 +19,7 @@ const SwiperPage = () => {
         { title: 'ID', dataIndex: 'id', key: 'id', align: 'center' },
         {
             title: '图片', dataIndex: 'image', key: 'image', width: 200,
-            render: (text: string) => <img src={text} alt="swiper" className="w-full rounded cursor-pointer" onClick={() => { setViewImage(text); setIsModelOpen(true) }} />
+            render: (text: string) => <img src={text} alt="swiper" className="w-full rounded cursor-pointer" onClick={() => setViewImage(text)} />
         },
         { title: '标题', dataIndex: 'title', key: 'title' },
         { title: '描述', dataIndex: 'description', key: 'description', width: 500, },
@@ -87,7 +88,7 @@ const SwiperPage = () => {
 
     // 文件上传
     const UploadBtn = () => (
-        <CloudUploadOutlined className='text-xl cursor-pointer'/>
+        <CloudUploadOutlined className='text-xl cursor-pointer' onClick={() => setIsModalOpen(true)} />
     )
 
     const tabItems = [
@@ -157,14 +158,24 @@ const SwiperPage = () => {
                 <Tabs activeKey={tab} onChange={handleTabChange} items={tabItems} />
             </Card>
 
-            <Modal
+            {/* <Modal
                 open={isModelOpen}
                 title="查看图片"
                 footer={null}
                 onCancel={() => setIsModelOpen(false)}
             >
                 <img src={viewImage} alt="swiper" className="w-full rounded mt-4" />
-            </Modal>
+            </Modal> */}
+
+            <FileUpload
+                dir="swiper"
+                open={isModalOpen}
+                onSuccess={(url: string) => {
+                    form.setFieldValue("image", url)
+                    getSwiperList()
+                }}
+                onCancel={() => setIsModalOpen(false)}
+            />
         </>
     );
 };
