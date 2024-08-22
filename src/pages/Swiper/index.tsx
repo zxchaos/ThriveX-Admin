@@ -4,6 +4,7 @@ import { getSwiperListAPI, addSwiperDataAPI, editSwiperDataAPI, delSwiperDataAPI
 import { Swiper } from '@/types/app/swiper';
 import Title from '@/components/Title';
 import { ColumnsType } from 'antd/es/table';
+import { CloudUploadOutlined } from '@ant-design/icons';
 
 const SwiperPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -14,13 +15,13 @@ const SwiperPage = () => {
     const [tab, setTab] = useState<string>('list');
 
     const columns: ColumnsType<Swiper> = [
-        { title: 'ID', dataIndex: 'id', key: 'id' },
+        { title: 'ID', dataIndex: 'id', key: 'id', align: 'center' },
         {
             title: '图片', dataIndex: 'image', key: 'image', width: 200,
             render: (text: string) => <img src={text} alt="swiper" className="w-full rounded cursor-pointer" onClick={() => { setViewImage(text); setIsModelOpen(true) }} />
         },
         { title: '标题', dataIndex: 'title', key: 'title' },
-        { title: '描述', dataIndex: 'description', key: 'description' },
+        { title: '描述', dataIndex: 'description', key: 'description', width: 500, },
         {
             title: '操作', key: 'action', align: 'center',
             render: (text: string, record: Swiper) => (
@@ -84,6 +85,11 @@ const SwiperPage = () => {
         setSwiper({} as Swiper);
     };
 
+    // 文件上传
+    const UploadBtn = () => (
+        <CloudUploadOutlined className='text-xl cursor-pointer'/>
+    )
+
     const tabItems = [
         {
             label: '轮播图列表',
@@ -131,7 +137,7 @@ const SwiperPage = () => {
                         </Form.Item>
 
                         <Form.Item label="图片" name="image" rules={[{ required: true, message: '轮播图不能为空' }]}>
-                            <Input placeholder="https://blog.liuyuyang.net/swiper.jpg" />
+                            <Input placeholder="https://blog.liuyuyang.net/swiper.jpg" addonAfter={<UploadBtn />} />
                         </Form.Item>
 
                         <Form.Item>
