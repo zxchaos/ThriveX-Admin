@@ -18,22 +18,21 @@ export const editArticleDataAPI = (data: Article) =>
 export const getArticleDataAPI = (id?: number) => Request<Article>("GET", `/article/${id}`)
 
 // 获取文章列表
-export const getArticleListAPI = getListAPI<Article>("/article")
-
-// export const getArticleListAPI = (data?: QueryData) => {
-//   if (data?.pagination) {
-//     let sort = data?.sort ? `?sort=${data?.sort}` : '?'
-//     const query = ObjectToUrlParam(data?.query as FilterData) ? "&" + ObjectToUrlParam(data?.query as FilterData) : ''
-//     const { page, size } = data.pagination
-//     const pagination = page && size ? `&page=${page}&size=${size}` : page && !size ? `&page=${page}` : size && !page ? `&size=${size}` : ''
-//     if (!query && !pagination) sort = ''
-
-//     return Request<Paginate<Article[]>>("GET", `/article${sort}${pagination}${query}`);
-//   } else {
-//     let sort = data?.sort ? `?sort=${data?.sort}` : '?'
-//     const query = ObjectToUrlParam(data?.query as FilterData) ? "&" + ObjectToUrlParam(data?.query as FilterData) : ''
-//     if (!query) sort = ''
-
-//     return Request<Article[]>("GET", `/article/all${sort}${query}`);
-//   }
-// };
+export const getArticleListAPI = (data?: QueryData) => {
+  if (data?.pagination) {
+    return Request<Paginate<Article[]>>("POST", `/article/paging`, {
+      data: { ...data?.query },
+      params: {
+        sort: data.sort,
+        ...data.pagination
+      }
+    });
+  } else {
+    return Request<Article[]>("POST", `/article/list`, {
+      data: { ...data?.query },
+      params: {
+        sort: data?.sort
+      }
+    });
+  }
+};

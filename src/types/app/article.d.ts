@@ -7,7 +7,7 @@ export interface Article {
     description: string,
     content: string,
     cover: string,
-    cateIds: string,
+    cateIds: number[],
     cateList: Cate[]
     tagIds: string,
     tagList: Tag[]
