@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
 interface FieldType {
     title: string,
     createTime: number;
-    cateIds: number[] | string;
+    cateIds: number[];
     tagIds: number[] | string;
     cover: string;
     description: string;
@@ -33,7 +33,15 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
     useEffect(() => {
         if (!data.id) return
 
-        const cateIds = transCateArray(data.cateList)
+        // 把数据处理成[[1], [4, 5], [4, 6]]格式
+        const cateIds = data?.cateList?.flatMap(item => {
+            if (item?.children?.length) {
+                return item.children.map(child => [item.id, child.id]);
+            } else {
+                return [[item.id]];
+            }
+        });
+
         const tagIds = data.tagList.map(item => item.id)
 
         form.setFieldsValue({
@@ -66,7 +74,8 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
 
     const onSubmit: FormProps<FieldType>['onFinish'] = async (values) => {
         values.createTime = values.createTime.valueOf()
-        values.cateIds = (values.cateIds as number[]).flat().join(',')
+        values.cateIds = [...new Set(values.cateIds?.flat())]
+
         values.tagIds = values.tagIds ? (values.tagIds as number[]).join(',') : ""
 
         if (data.id) {
@@ -112,9 +121,10 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                     <Cascader
                         options={cateList}
                         maxTagCount="responsive"
+                        multiple
                         fieldNames={{ label: "name", value: "id" }}
                         placeholder="请选择文章分类"
-                        onChange={(value) => console.log(value)}
+                        onChange={(value) => { console.log(value) }}
                         className="w-full"
                     />
                 </Form.Item>

@@ -75,13 +75,11 @@ instance.interceptors.response.use(
     }
 );
 
-// 如果是GET传参就自动识别为query，POST为data
 const Request = <T>(method: string, url: string, reqParams?: object) => {
     return instance.request<any, Response<T>>({
         method,
         url,
         ...reqParams
-        // [method.toLocaleUpperCase() === "GET" ? "params" : "data"]: reqParams
     });
 };
 

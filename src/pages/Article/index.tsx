@@ -132,9 +132,6 @@ const ArticlePage = () => {
             tagId: values.tagId ? values.tagId + "" : null,
         }
 
-        console.log(query);
-        
-
         const { data } = await getArticleListAPI({ query });
         setArticleList(data as Article[]);
     }
