@@ -14,4 +14,9 @@ export const editFootprintDataAPI = (data: Footprint) => Request<Footprint>("PAT
 export const getFootprintDataAPI = (id?: number) => Request<Footprint>("GET", `/footprint/${id}`)
 
 // 获取路由列表
-export const getFootprintListAPI = () => Request<Footprint[]>("POST", "/footprint");
+export const getFootprintListAPI = (data?: QueryData) => Request<Footprint[]>("POST", "/footprint/list", {
+    data: { ...data?.query },
+    params: {
+        sort: data?.sort
+    }
+});

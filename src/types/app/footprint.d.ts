@@ -13,3 +13,8 @@ export interface FilterFootprint {
     startDate?: string | null;
     endDate?: string | null;
 }
+
+export interface FilterForm {
+    address?: string;
+    createTime?: [moment.Moment, moment.Moment];
+}

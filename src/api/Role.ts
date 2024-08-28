@@ -21,4 +21,4 @@ export const getRoleListAPI = () => Request<Role[]>("GET", "/role");
 export const getRouteListAPI = (id: number) => Request<Route[]>("GET", `/role/route?id=${id}`);
 
 // 给指定角色绑定路由
-export const bindingRouteAPI = (id: number, ids: number[]) => Request<Route[]>("PATCH", `/role/bindingRoute/${id}`, ids);
+export const bindingRouteAPI = (id: number, ids: number[]) => Request<Route[]>("PATCH", `/role/bindingRoute/${id}`, { data: ids });

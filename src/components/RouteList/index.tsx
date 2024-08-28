@@ -10,6 +10,7 @@ import Comment from '@/pages/Comment';
 import Tag from '@/pages/Tag';
 import Web from '@/pages/Web';
 import Swiper from '@/pages/Swiper';
+import Footprint from '@/pages/Footprint';
 import Setup from '@/pages/Setup';
 import Rss from '@/pages/Rss';
 import File from "@/pages/File";
@@ -40,6 +41,7 @@ export default () => {
         { path: "/comment", title: "评论管理", component: <Comment /> },
         { path: "/web", title: "网站管理", component: <Web /> },
         { path: "/swiper", title: "轮播图管理", component: <Swiper /> },
+        { path: "/footprint", title: "足迹管理", component: <Footprint /> },
         { path: "/setup", title: "项目配置", component: <Setup /> },
         { path: "/route", title: "路由配置", component: <Page /> },
         { path: "/role", title: "角色管理", component: <Role /> },
