@@ -3,9 +3,9 @@ export interface Footprint {
     title: string;
     address: string;
     content: string;
-    position: number[];
-    image: string[];
-    time: string;
+    position: string;
+    images: string | string[];
+    createTime?: string | Dayjs;
 }
 
 export interface FilterFootprint {
