@@ -1,4 +1,3 @@
-import Request from '@/utils/request'
 import { Rss } from '@/types/app/rss';
 import { getListAPI } from '@/utils';
 

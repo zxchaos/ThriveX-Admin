@@ -3,7 +3,7 @@ import { Article } from "@/types/app/article";
 
 // 新增文章
 export const addArticleDataAPI = (data: Article) =>
-  Request<Article>("POST", "/article", {data});
+  Request<Article>("POST", "/article", { data });
 
 // 删除文章
 export const delArticleDataAPI = (id: number) =>
@@ -11,7 +11,7 @@ export const delArticleDataAPI = (id: number) =>
 
 // 编辑文章
 export const editArticleDataAPI = (data: Article) =>
-  Request<Article>("PATCH", "/article", {data});
+  Request<Article>("PATCH", "/article", { data });
 
 // 获取文章
 export const getArticleDataAPI = (id?: number) => Request<Article>("GET", `/article/${id}`)

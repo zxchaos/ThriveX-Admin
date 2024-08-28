@@ -146,6 +146,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               to: "/user",
               path: "user",
               name: "用户管理"
+            },
+            {
+              to: "/footprint",
+              path: "footprint",
+              name: "足迹管理"
             }
           ]
         },

@@ -12,7 +12,7 @@ const RoutePage = () => {
 
     const columns: ColumnsType<Route> = [
         { title: 'ID', dataIndex: 'id', key: 'id', align: 'center' },
-        { title: '路由名称', dataIndex: 'path', key: 'path' },
+        { title: '路径', dataIndex: 'path', key: 'path' },
         { title: '描述', dataIndex: 'description', key: 'description' },
         {
             title: '操作', key: 'action',
@@ -54,6 +54,10 @@ const RoutePage = () => {
     const onSubmit = async () => {
         setLoading(true);
         form.validateFields().then(async (values: Route) => {
+            console.log(111,route.id);
+            console.log(222,values);
+            
+            
             if (route.id) {
                 await editRouteDataAPI({ ...route, ...values });
                 message.success('🎉 编辑路由成功');
@@ -83,8 +87,8 @@ const RoutePage = () => {
                         size='large'
 
                     >
-                        <Form.Item label="路由名称" name="path" rules={[{ required: true, message: '路由名称不能为空' }]}>
-                            <Input placeholder="请输入路由名称" />
+                        <Form.Item label="路由路径" name="path" rules={[{ required: true, message: '路由路径不能为空' }]}>
+                            <Input placeholder="请输入路由路径" />
                         </Form.Item>
 
                         <Form.Item label="路由描述" name="description" rules={[{ required: true, message: '路由描述不能为空' }]}>

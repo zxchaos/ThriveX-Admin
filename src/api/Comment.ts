@@ -3,7 +3,7 @@ import { Comment } from '@/types/app/comment'
 import { getListAPI } from '@/utils'
 
 // 新增评论
-export const addCommentDataAPI = (data: Comment) => Request<Comment>("POST", "/comment", data)
+export const addCommentDataAPI = (data: Comment) => Request<Comment>("POST", "/comment", { data })
 
 // 删除评论
 export const delCommentDataAPI = (id: number) => Request<Comment>("DELETE", `/comment/${id}`)
@@ -12,10 +12,27 @@ export const delCommentDataAPI = (id: number) => Request<Comment>("DELETE", `/co
 export const auditCommentDataAPI = (id: number) => Request<Comment>("PATCH", `/comment/audit/${id}`)
 
 // 修改评论
-export const editCommentDataAPI = (data: Comment) => Request<Comment>("PATCH", "/comment", data)
+export const editCommentDataAPI = (data: Comment) => Request<Comment>("PATCH", "/comment", { data })
 
 // 获取评论
 export const getCommentDataAPI = (id?: number) => Request<Paginate<Comment>>("GET", `/comment/${id}`)
 
 // 获取评论列表
-export const getCommentListAPI = getListAPI<Comment>("/comment")
+export const getCommentListAPI = (data?: QueryData) => {
+    if (data?.pagination) {
+        return Request<Paginate<Comment[]>>("POST", `/comment/paging`, {
+            data: { ...data?.query },
+            params: {
+                sort: data.sort,
+                ...data.pagination
+            }
+        });
+    } else {
+        return Request<Comment[]>("POST", `/comment/list`, {
+            data: { ...data?.query },
+            params: {
+                sort: data?.sort
+            }
+        });
+    }
+};

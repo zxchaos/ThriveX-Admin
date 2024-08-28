@@ -3,13 +3,13 @@ import { Web, LinkType } from '@/types/app/web'
 import { getListAPI } from '@/utils'
 
 // 新增网站
-export const addLinkDataAPI = (data: Web) => Request<Web>("POST", "/link", data)
+export const addLinkDataAPI = (data: Web) => Request<Web>("POST", "/link", { data })
 
 // 删除网站
 export const delLinkDataAPI = (id: number) => Request<Web>("DELETE", `/link/${id}`)
 
 // 修改网站
-export const editLinkDataAPI = (data: Web) => Request<Web>("PATCH", "/link", data)
+export const editLinkDataAPI = (data: Web) => Request<Web>("PATCH", "/link", { data })
 
 // 获取网站
 export const getLinkDataAPI = (id?: number) => Request<Web>("GET", `/link/${id}`)
