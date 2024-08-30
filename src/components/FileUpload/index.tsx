@@ -20,7 +20,6 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
     const store = useUserStore();
     const [quality, setQuality] = useState(1000);
     const [isCompressionUpload, setIsCompressionUpload] = useState(false);
-    const [fileList, setFileList] = useState<any[]>([]); // 已上传的文件列表
     const [isLoading, setIsLoading] = useState(false); // 添加加载状态
 
     const uploadProps: UploadProps = {
@@ -42,15 +41,12 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
                 if (res?.code === 400) return message.error(res.message);
             }
             if (status === 'done') {
-                // 上传时候先去重，避免重复url
-                const urls = [...new Set([...fileList, res.data])]
-                setFileList(urls)
-
-                // 复制文件链接到剪贴板
-                await navigator.clipboard.writeText(urls.join("\n"));
+                // // 复制文件链接到剪贴板
+                await navigator.clipboard.writeText(res.data.join("\n"));
+                console.log(5555, res.data.join("\n"));
 
                 message.success(`🎉 文件上传成功，URL链接已复制到剪贴板`);
-                onSuccess(urls.join("\n"));
+                onSuccess(res.data.join("\n"));
                 onCloseModel()
             } else if (status === 'error') {
                 message.error(`文件上传失败：${res?.message}`);
@@ -83,7 +79,6 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
     const onCloseModel = () => {
         setIsCompressionUpload(false);
         setQuality(1000);
-        setFileList([]); // 清空文件列表
         setIsLoading(false); // 确保关闭时停止加载状态
         onCancel();
     }
