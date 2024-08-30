@@ -11,14 +11,16 @@ import { DeleteOutlined, DownloadOutlined, RotateLeftOutlined, RotateRightOutlin
 import "./index.scss"
 
 export default () => {
-    const [openFileInfoDrawer, setOpenFileInfoDrawer] = useState(false);
     const [loading, setLoading] = useState(false)
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [active, setActive] = useState("")
-    const [dirName, setDirName] = useState("")
+
+    const [openUploadModalOpen, setOpenUploadModalOpen] = useState(false);
+    const [openFileInfoDrawer, setOpenFileInfoDrawer] = useState(false);
+    const [openFilePreviewDrawer, setOpenFilePreviewDrawer] = useState(false);
+
     const [dirList, setDirList] = useState<string[]>([])
     const [fileList, setFileList] = useState<File[]>([])
 
+    const [dirName, setDirName] = useState("")
     const [file, setFile] = useState<File>({} as File)
 
     // 获取目录列表
@@ -31,7 +33,6 @@ export default () => {
 
     // 获取指定目录的文件列表
     const getFileList = async (dir: string) => {
-        setLoading(true)
         const { data } = await getFileListAPI({ dir })
 
         if (!fileList.length && !(data as File[]).length) message.error("该目录中没有文件")
@@ -46,7 +47,10 @@ export default () => {
         await delFileDataAPI(`${dirName}/${data.name}`)
         message.success("🎉 删除图片成功")
         getFileList(dirName)
-        setLoading(false)
+        setFile({} as File)
+
+        setOpenFileInfoDrawer(false)
+        setOpenFilePreviewDrawer(false)
     }
 
     // 下载图片
@@ -72,6 +76,7 @@ export default () => {
     }
 
     useEffect(() => {
+        setLoading(true)
         getDirList()
     }, [])
 
@@ -93,7 +98,7 @@ export default () => {
                             : <PiKeyReturnFill className='text-4xl text-primary cursor-pointer' onClick={() => setFileList([])} />
                     }
 
-                    <Button type="primary" disabled={!fileList.length} onClick={() => setIsModalOpen(true)}>上传文件</Button>
+                    <Button type="primary" disabled={!fileList.length} onClick={() => setOpenUploadModalOpen(true)}>上传文件</Button>
                 </div>
 
                 {/* 文件列表 */}
@@ -128,9 +133,9 @@ export default () => {
             {/* 文件上传 */}
             <FileUpload
                 dir={dirName}
-                open={isModalOpen}
+                open={openUploadModalOpen}
                 onSuccess={() => getFileList(dirName)}
-                onCancel={() => setIsModalOpen(false)}
+                onCancel={() => setOpenUploadModalOpen(false)}
             />
 
             {/* 文件信息 */}
@@ -172,6 +177,8 @@ export default () => {
                     src={file.url}
                     className='rounded-md object-cover object-center'
                     preview={{
+                        onVisibleChange: (visible) => setOpenFilePreviewDrawer(visible),
+                        visible: openFilePreviewDrawer,
                         toolbarRender: (
                             _,
                             {
