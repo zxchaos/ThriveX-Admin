@@ -129,7 +129,7 @@ const FootprintPage = () => {
   const onSubmit = async () => {
     form.validateFields().then(async (values: Footprint) => {
       values.createTime = values.createTime.valueOf()
-      values.images = (values.images as string).split("\n")
+      values.images = values.images?(values.images as string).split("\n"):[]
 
       if (isMethod === "edit") {
         await editFootprintDataAPI({ ...footprint, ...values });
