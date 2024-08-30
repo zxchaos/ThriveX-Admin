@@ -48,7 +48,7 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
                 // 复制文件链接到剪贴板
                 await navigator.clipboard.writeText(urls.join("\n"));
 
-                message.success(`文件上传成功，URL链接已复制到剪贴板`);
+                message.success(`🎉 文件上传成功，URL链接已复制到剪贴板`);
                 onSuccess(urls.join("\n"));
                 onCloseModel()
             } else if (status === 'error') {

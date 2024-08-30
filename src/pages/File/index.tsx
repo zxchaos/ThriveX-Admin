@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Image, Card, Space, Spin, message, Popconfirm, Button } from 'antd'
+import { Image, Card, Space, Spin, message, Popconfirm, Button, Drawer, Divider } from 'antd'
 import Title from '@/components/Title'
 import FileUpload from '@/components/FileUpload'
 
@@ -11,12 +11,15 @@ import { DeleteOutlined, DownloadOutlined, RotateLeftOutlined, RotateRightOutlin
 import "./index.scss"
 
 export default () => {
+    const [openFileInfoDrawer, setOpenFileInfoDrawer] = useState(false);
     const [loading, setLoading] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [active, setActive] = useState("")
     const [dirName, setDirName] = useState("")
     const [dirList, setDirList] = useState<string[]>([])
     const [fileList, setFileList] = useState<File[]>([])
+
+    const [file, setFile] = useState<File>({} as File)
 
     // 获取目录列表
     const getDirList = async () => {
@@ -72,6 +75,12 @@ export default () => {
         getDirList()
     }, [])
 
+    // 查看文件信息
+    const viewOpenFileInfo = (item: File) => {
+        setOpenFileInfoDrawer(true)
+        setFile(item)
+    }
+
     return (
         <>
             <Title value='文件管理' />
@@ -87,6 +96,7 @@ export default () => {
                     <Button type="primary" disabled={!fileList.length} onClick={() => setIsModalOpen(true)}>上传文件</Button>
                 </div>
 
+                {/* 文件列表 */}
                 <Spin spinning={loading}>
                     <div className='flex flex-wrap'>
                         {
@@ -95,43 +105,9 @@ export default () => {
                                     fileList.map((item, index) =>
                                         <div
                                             key={index}
-                                            className={`group relative overflow-hidden w-44 h-44 p-[2px] flex flex-col items-center cursor-pointer m-4 border-2 ${active === item.name ? 'border-primary' : 'border-[#eee]'} rounded-md`}
-                                            onClick={() => setActive(item.name)}>
-                                            <Image
-                                                src={item.url}
-                                                className='rounded-md object-cover object-center'
-                                                preview={{
-                                                    toolbarRender: (
-                                                        _,
-                                                        {
-                                                            transform: { scale },
-                                                            actions: { onFlipY, onFlipX, onRotateLeft, onRotateRight, onZoomOut, onZoomIn, onReset },
-                                                        },
-                                                    ) => (
-                                                        <Space className="toolbar-wrapper">
-                                                            <div className='customAntdPreviewsItem'>
-                                                                <Popconfirm
-                                                                    title="警告"
-                                                                    description="删除后无法恢复，确定要删除吗"
-                                                                    onConfirm={() => onDeleteImage(item)}
-                                                                    okText="删除"
-                                                                    cancelText="取消"
-                                                                >
-                                                                    <DeleteOutlined />
-                                                                </Popconfirm>
-
-                                                                <DownloadOutlined onClick={() => onDownloadImage(item)} />
-                                                                <SwapOutlined rotate={90} onClick={onFlipY} />
-                                                                <SwapOutlined onClick={onFlipX} />
-                                                                <RotateLeftOutlined onClick={onRotateLeft} />
-                                                                <RotateRightOutlined onClick={onRotateRight} />
-                                                                <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
-                                                                <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
-                                                                <UndoOutlined onClick={onReset} />
-                                                            </div>
-                                                        </Space>
-                                                    ),
-                                                }} />
+                                            className={`group relative overflow-hidden w-44 h-44 p-[2px] flex flex-col items-center cursor-pointer m-4 border-2 ${file.url === item.url ? 'border-primary' : 'border-[#eee]'} rounded-md`}
+                                            onClick={() => viewOpenFileInfo(item)}>
+                                            <img src={item.url} alt="" className='rounded-md h-full object-cover object-center' />
                                         </div>
                                     )
                                 )
@@ -149,12 +125,97 @@ export default () => {
                 </Spin>
             </Card>
 
+            {/* 文件上传 */}
             <FileUpload
                 dir={dirName}
                 open={isModalOpen}
                 onSuccess={() => getFileList(dirName)}
                 onCancel={() => setIsModalOpen(false)}
             />
+
+            {/* 文件信息 */}
+            <Drawer
+                width={600}
+                title="图片信息"
+                placement="right"
+                closable={false}
+                open={openFileInfoDrawer}
+                onClose={() => { setOpenFileInfoDrawer(false); setFile({} as File) }}
+            >
+                <div className='flex flex-col'>
+                    <div className='flex'>
+                        <span className='min-w-20 font-bold'>文件名称</span>
+                        <span className='text-[#333]'>{file.name}</span>
+                    </div>
+
+                    <div className='flex'>
+                        <span className='min-w-20 font-bold'>文件类型</span>
+                        <span className='text-[#333]'>{file.type}</span>
+                    </div>
+
+                    <div className='flex'>
+                        <span className='min-w-20 font-bold'>文件大小</span>
+                        <span className='text-[#333]'>{(file.size / 1048576).toFixed(2)}MB</span>
+                    </div>
+
+                    <div className='flex'>
+                        <span className='min-w-20  font-bold'>文件链接</span>
+                        <span className='text-[#333] hover:text-primary cursor-pointer transition' onClick={async () => {
+                            await navigator.clipboard.writeText(file.url)
+                            message.success("🎉 复制成功")
+                        }}>{file.url}</span>
+                    </div>
+                </div>
+
+                <Divider orientation="center">图片预览</Divider>
+                <Image
+                    src={file.url}
+                    className='rounded-md object-cover object-center'
+                    preview={{
+                        toolbarRender: (
+                            _,
+                            {
+                                transform: { scale },
+                                actions: { onFlipY, onFlipX, onRotateLeft, onRotateRight, onZoomOut, onZoomIn, onReset },
+                            },
+                        ) => (
+                            <Space className="toolbar-wrapper flex-col">
+                                <div className='customAntdPreviewsItem'>
+                                    <Popconfirm
+                                        title="警告"
+                                        description="删除后无法恢复，确定要删除吗"
+                                        onConfirm={() => onDeleteImage(file)}
+                                        okText="删除"
+                                        cancelText="取消"
+                                    >
+                                        <DeleteOutlined />
+                                    </Popconfirm>
+
+                                    <DownloadOutlined onClick={() => onDownloadImage(file)} />
+                                    <SwapOutlined rotate={90} onClick={onFlipY} />
+                                    <SwapOutlined onClick={onFlipX} />
+                                    <RotateLeftOutlined onClick={onRotateLeft} />
+                                    <RotateRightOutlined onClick={onRotateRight} />
+                                    <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
+                                    <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
+                                    <UndoOutlined onClick={onReset} />
+                                </div>
+                            </Space>
+                        ),
+                    }} />
+
+                <Divider orientation="center">图片操作</Divider>
+                <Button type='primary' className='w-full mb-2' onClick={() => onDownloadImage(file)}>下载图片</Button>
+                <Popconfirm
+                    title="警告"
+                    description="删除后无法恢复，确定要删除吗"
+                    onConfirm={() => onDeleteImage(file)}
+                    okText="删除"
+                    cancelText="取消"
+                >
+                    <Button type='primary' danger className='w-full'>删除图片</Button>
+                </Popconfirm>
+            </Drawer>
         </>
     )
 }
