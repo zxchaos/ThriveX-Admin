@@ -1,14 +1,10 @@
 import { FileDir } from '@/types/app/file';
 import { InboxOutlined } from '@ant-design/icons';
-import type { UploadProps } from 'antd';
-import { message, Modal, Radio, Select, Upload, Spin } from 'antd';
+import { message, Modal, Radio, Select, Spin } from 'antd';
 import { useUserStore } from '@/stores';
 import { baseURL } from '@/utils/request';
 import Compressor from 'compressorjs';
-import { useState } from 'react';
-import { UploadFile } from 'antd/es/upload';
-
-const { Dragger } = Upload;
+import { useRef, useState } from 'react';
 
 interface UploadFileProps {
     dir: FileDir,
@@ -19,81 +15,66 @@ interface UploadFileProps {
 
 export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
     const store = useUserStore();
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const [quality, setQuality] = useState(1000);
     const [isCompressionUpload, setIsCompressionUpload] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const onUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        let files = [...e.target.files!];
 
-    const uploadProps: UploadProps = {
-        name: 'files',
-        multiple: true,
-        action: `${baseURL}/file`,
-        data: { dir },
-        headers: {
-            "Authorization": `Bearer ${store.token}`
-        },
-        showUploadList: true,
-        async onChange(info) {
-            const { status, response } = info.file;
+        setIsLoading(true);
 
-            if (status !== 'uploading' && response?.code === 400) return message.error(response.message);
-
-            setFileList(info.fileList);
-
-            if (status === 'done') {
-                message.success(`${info.file.name} 文件上传成功`);
-            } else if (status === 'error') {
-                message.error(`${info.file.name} 文件上传失败`);
-                setIsLoading(false);
-                return
-            }
-
-            // if (info.fileList.some(file => file.status === "error")) {
-            //     message.error(`${info.file.name} 文件上传失败`);
-            //     setIsLoading(false);
-            //     return
-            // }
-
-            // 所有文件的状态都不为uploading就证明上传成功
-            if (info.fileList.every(file => file.status !== 'uploading')) {
-                // 等待所有请求完毕后再执行
-                const allResponses = await info.fileList.map(file => file.response?.data).filter(data => data);
-                const data = await allResponses.flat().join("\n");
-
-                // 把数据写入到剪贴板
-                await navigator.clipboard.writeText(data);
-                message.success(`🎉 文件上传成功，URL链接已复制到剪贴板`);
-                onSuccess(data);
-                setIsLoading(false);
-                onCloseModel();
-            }
-        },
-        beforeUpload: async (file) => {
-            setIsLoading(true);
-
-            if (quality === 1000) return file;
-
-            return new Promise((resolve, reject) => {
+        // 上传前先压缩文件大小
+        const compressedFiles = await Promise.all(files.map(file => {
+            return new Promise<File>((resolve, reject) => {
                 new Compressor(file, {
                     quality,
-                    success: (compressedFile) => {
-                        resolve(compressedFile);
+                    success: (blob) => {
+                        // 将 Blob 转换为 File
+                        const f = new File([blob], file.name, {
+                            type: file.type,
+                            lastModified: Date.now()
+                        });
+                        resolve(f);
                     },
-                    error: (err) => {
-                        reject(err);
-                    },
+                    error: (err) => reject(err)
                 });
             });
-        },
-        className: "py-4"
+        }));
+
+        // 处理文件上传需要的格式
+        const formData = new FormData();
+        formData.append("dir", dir);
+        for (let i = 0; i < compressedFiles.length; i++) {
+            formData.append('files', compressedFiles[i]);
+        }
+
+        // 发起网络请求
+        const res = await fetch(`${baseURL}/file`, {
+            method: "POST",
+            body: formData,
+            headers: {
+                "Authorization": `Bearer ${store.token}`
+            }
+        });
+
+        const { code, message: msg, data } = await res.json();
+        if (code !== 200) return message.error("文件上传失败：" + msg);
+
+        // 把数据写入到剪贴板
+        await navigator.clipboard.writeText(data.join("\n"));
+        message.success(`🎉 文件上传成功，URL链接已复制到剪贴板`);
+        onSuccess(data.join("\n"));
+        setIsLoading(false);
+        onCloseModel();
     };
 
     const onCloseModel = () => {
         setIsCompressionUpload(false);
         setQuality(1000);
         setIsLoading(false);
-        setFileList([]);
         onCancel();
     };
 
@@ -129,13 +110,27 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
                         }
                     </div>
 
-                    <Dragger {...uploadProps} fileList={fileList}>
-                        <p className="ant-upload-drag-icon">
-                            <InboxOutlined />
-                        </p>
-                        <p className="ant-upload-text">点击或拖动文件到此区域进行上传</p>
-                        <p className="ant-upload-hint">支持单个或多个上传</p>
-                    </Dragger>
+                    <div className='mt-4'>
+                        <div
+                            onClick={() => fileInputRef?.current?.click()}
+                            className='w-full h-40 p-4 border border-dashed border-[#D7D7D7] rounded-lg hover:border-primary bg-[#FAFAFA] space-y-2 cursor-pointer transition'
+                        >
+                            <div className='flex justify-center'>
+                                <InboxOutlined className='text-5xl text-primary' />
+                            </div>
+
+                            <p className="text-base text-center">点击或拖动文件到此区域进行上传</p>
+                            <p className="text-sm text-[#999] text-center">支持单个或多个上传</p>
+                        </div>
+
+                        <input
+                            multiple
+                            type="file"
+                            onChange={onUploadFile}
+                            ref={fileInputRef}
+                            className='hidden'
+                        />
+                    </div>
                 </Spin>
             </Modal>
         </>

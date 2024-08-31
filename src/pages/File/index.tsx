@@ -134,6 +134,7 @@ export default () => {
             <FileUpload
                 dir={dirName}
                 open={openUploadModalOpen}
+                // open={true}
                 onSuccess={() => getFileList(dirName)}
                 onCancel={() => setOpenUploadModalOpen(false)}
             />
