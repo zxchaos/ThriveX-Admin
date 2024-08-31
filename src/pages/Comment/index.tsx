@@ -23,10 +23,11 @@ const CommentPage = () => {
         setLoading(false)
     }
 
-    const auditCommentData = async (id: number) => {
+    const auditCommentData = async () => {
         setLoading(true)
-        await auditCommentDataAPI(id);
+        await auditCommentDataAPI(comment?.id!);
         getCommentList();
+        setIsModalOpen(false)
         message.success('🎉 审核评论成功');
     };
 
@@ -155,7 +156,7 @@ const CommentPage = () => {
                         : <Tag bordered={false} color="error">待审核</Tag>}
                     </div>
 
-                    {!comment?.auditStatus ? <Button type="primary" className='w-full !mt-4' onClick={() => auditCommentData(1)}>通过审核</Button> : null}
+                    {!comment?.auditStatus ? <Button type="primary" className='w-full !mt-4' onClick={auditCommentData}>通过审核</Button> : null}
                 </div>
             </Modal>
         </>

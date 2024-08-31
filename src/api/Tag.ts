@@ -15,4 +15,4 @@ export const editTagDataAPI = (data: Tag) => Request<Tag>("PATCH", "/tag", { dat
 export const getTagDataAPI = (id?: number) => Request<Tag>("GET", `/tag/${id}`)
 
 // 获取标签列表
-export const getTagListAPI = getListAPI<Tag>("/tag")
+export const getTagListAPI = (data?: QueryData) => getListAPI<Tag>("/tag", data)

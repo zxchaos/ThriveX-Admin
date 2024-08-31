@@ -6,6 +6,7 @@ import { useUserStore } from '@/stores';
 import { baseURL } from '@/utils/request';
 import Compressor from 'compressorjs';
 import { useState } from 'react';
+import { UploadFile } from 'antd/es/upload';
 
 const { Dragger } = Upload;
 
@@ -20,7 +21,9 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
     const store = useUserStore();
     const [quality, setQuality] = useState(1000);
     const [isCompressionUpload, setIsCompressionUpload] = useState(false);
-    const [isLoading, setIsLoading] = useState(false); // 添加加载状态
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
 
     const uploadProps: UploadProps = {
         name: 'files',
@@ -30,63 +33,74 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
         headers: {
             "Authorization": `Bearer ${store.token}`
         },
-        showUploadList: false, // 不显示文件列表
+        showUploadList: true,
         async onChange(info) {
-            const { status } = info.file;
+            const { status, response } = info.file;
 
-            let res;
-            if (status !== 'uploading') {
-                res = info?.file?.response;
+            if (status !== 'uploading' && response?.code === 400) return message.error(response.message);
 
-                if (res?.code === 400) return message.error(res.message);
-            }
+            setFileList(info.fileList);
+
             if (status === 'done') {
-                // // 复制文件链接到剪贴板
-                await navigator.clipboard.writeText(res.data.join("\n"));
-                console.log(5555, res.data.join("\n"));
-
-                message.success(`🎉 文件上传成功，URL链接已复制到剪贴板`);
-                onSuccess(res.data.join("\n"));
-                onCloseModel()
+                message.success(`${info.file.name} 文件上传成功`);
             } else if (status === 'error') {
-                message.error(`文件上传失败：${res?.message}`);
+                message.error(`${info.file.name} 文件上传失败`);
+                setIsLoading(false);
+                return
             }
 
-            // setIsLoading(false); // 结束加载状态
+            // if (info.fileList.some(file => file.status === "error")) {
+            //     message.error(`${info.file.name} 文件上传失败`);
+            //     setIsLoading(false);
+            //     return
+            // }
+
+            // 所有文件的状态都不为uploading就证明上传成功
+            if (info.fileList.every(file => file.status !== 'uploading')) {
+                // 等待所有请求完毕后再执行
+                const allResponses = await info.fileList.map(file => file.response?.data).filter(data => data);
+                const data = await allResponses.flat().join("\n");
+
+                // 把数据写入到剪贴板
+                await navigator.clipboard.writeText(data);
+                message.success(`🎉 文件上传成功，URL链接已复制到剪贴板`);
+                onSuccess(data);
+                setIsLoading(false);
+                onCloseModel();
+            }
         },
         beforeUpload: async (file) => {
-            setIsLoading(true); // 开始加载状态
+            setIsLoading(true);
 
-            if (quality === 1000) return file
+            if (quality === 1000) return file;
 
-            // 对图片进行压缩处理
             return new Promise((resolve, reject) => {
                 new Compressor(file, {
                     quality,
-                    success: (file) => {
-                        resolve(file);
+                    success: (compressedFile) => {
+                        resolve(compressedFile);
                     },
                     error: (err) => {
                         reject(err);
                     },
                 });
-            })
+            });
         },
         className: "py-4"
     };
 
-    // 初始化操作
     const onCloseModel = () => {
         setIsCompressionUpload(false);
         setQuality(1000);
-        setIsLoading(false); // 确保关闭时停止加载状态
+        setIsLoading(false);
+        setFileList([]);
         onCancel();
-    }
+    };
 
     return (
         <>
             <Modal title="文件上传" open={open} onCancel={onCloseModel} footer={null}>
-                <Spin spinning={isLoading}> {/* 包裹内容的 Spin 组件 */}
+                <Spin spinning={isLoading}>
                     <div className='my-4'>
                         <Radio.Group defaultValue={0} value={isCompressionUpload ? 1 : 0} onChange={(e) => setIsCompressionUpload(e.target.value ? true : false)}>
                             <Radio value={0}>无损上传</Radio>
@@ -115,7 +129,7 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
                         }
                     </div>
 
-                    <Dragger {...uploadProps}>
+                    <Dragger {...uploadProps} fileList={fileList}>
                         <p className="ant-upload-drag-icon">
                             <InboxOutlined />
                         </p>

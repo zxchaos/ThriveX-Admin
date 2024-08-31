@@ -15,4 +15,5 @@ export const editSwiperDataAPI = (data: Swiper) => Request<Swiper>("PATCH", "/sw
 export const getSwiperDataAPI = (id?: number) => Request<Swiper>("GET", `/swiper/${id}`)
 
 // 获取轮播图列表
-export const getSwiperListAPI = getListAPI<Swiper>("/swiper")
+// export const getSwiperListAPI = getListAPI<Swiper>("/swiper")
+export const getSwiperListAPI = (data?: QueryData) => getListAPI<Swiper>("/swiper", data)

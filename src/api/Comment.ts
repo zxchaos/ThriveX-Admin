@@ -18,21 +18,4 @@ export const editCommentDataAPI = (data: Comment) => Request<Comment>("PATCH", "
 export const getCommentDataAPI = (id?: number) => Request<Paginate<Comment>>("GET", `/comment/${id}`)
 
 // 获取评论列表
-export const getCommentListAPI = (data?: QueryData) => {
-    if (data?.pagination) {
-        return Request<Paginate<Comment[]>>("POST", `/comment/paging`, {
-            data: { ...data?.query },
-            params: {
-                sort: data.sort,
-                ...data.pagination
-            }
-        });
-    } else {
-        return Request<Comment[]>("POST", `/comment/list`, {
-            data: { ...data?.query },
-            params: {
-                sort: data?.sort
-            }
-        });
-    }
-};
+export const getCommentListAPI = (data?: QueryData) => getListAPI<Comment>("/comment", data)

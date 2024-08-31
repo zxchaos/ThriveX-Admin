@@ -15,7 +15,7 @@ export const editLinkDataAPI = (data: Web) => Request<Web>("PATCH", "/link", { d
 export const getLinkDataAPI = (id?: number) => Request<Web>("GET", `/link/${id}`)
 
 // 获取网站列表
-export const getLinkListAPI = getListAPI<Web>("/link")
+export const getLinkListAPI = (data?: QueryData) => getListAPI<Web>("/link", data)
 
 // 获取网站类型列表
 export const getLinkTypeListAPI = () => {
