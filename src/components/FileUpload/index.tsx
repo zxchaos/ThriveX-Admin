@@ -1,10 +1,10 @@
-import { FileDir } from '@/types/app/file';
+import { useRef, useState } from 'react';
 import { InboxOutlined } from '@ant-design/icons';
 import { message, Modal, Radio, Select, Spin } from 'antd';
 import { useUserStore } from '@/stores';
+import { FileDir } from '@/types/app/file';
 import { baseURL } from '@/utils/request';
 import Compressor from 'compressorjs';
-import { useRef, useState } from 'react';
 
 interface UploadFileProps {
     dir: FileDir,

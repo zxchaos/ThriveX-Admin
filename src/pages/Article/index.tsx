@@ -59,15 +59,16 @@ const ArticlePage = () => {
             dataIndex: 'title',
             key: 'title',
             align: 'center',
-            width: 250,
+            width: 300,
+            render: (text: string) => <div className='line-clamp-1'>{text}</div>,
         },
         {
             title: '摘要',
             dataIndex: 'description',
             key: 'description',
             align: 'center',
-            width: 400,
-            render: (text: string) => (text ? text : '该文章暂未设置文章摘要'),
+            width: 350,
+            render: (text: string) => <div className='line-clamp-2'>{text ? text : '该文章暂未设置文章摘要'}</div>,
         },
         {
             title: '分类',
@@ -201,7 +202,7 @@ const ArticlePage = () => {
                     scroll={{ x: 'max-content' }}
                     pagination={{
                         position: ['bottomCenter'],
-                        pageSize: 8
+                        defaultPageSize: 8,
                     }}
                 />
             </Card>

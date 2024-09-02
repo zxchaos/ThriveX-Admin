@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Spin, Card, message, Table, Popconfirm, Button, Tag, Modal } from 'antd';
+import { Spin, Card, message, Table, Popconfirm, Button, Tag, Modal, Form, Input, DatePicker } from 'antd';
 import { getCommentListAPI } from '@/api/Comment';
 import { auditCommentDataAPI, delCommentDataAPI } from '@/api/Comment';
 import { ColumnsType } from 'antd/es/table';
@@ -17,9 +17,10 @@ const CommentPage = () => {
 
     const getCommentList = async () => {
         const { data } = await getCommentListAPI();
+
         // 根据时间排序：最新时间在前
-        const sortedData = (data as Comment[]).sort((a, b) => +b.createTime - +a.createTime);
-        setList(sortedData as Comment[])
+        // const sortedData = (data as Comment[]).sort((a, b) => +b.createTime - +a.createTime);
+        setList(data)
         setLoading(false)
     }
 
@@ -74,7 +75,8 @@ const CommentPage = () => {
             title: '内容',
             dataIndex: 'content',
             key: 'content',
-            render: (text: string, record) => <span className="hover:text-primary cursor-pointer" onClick={() => {
+            width: 400,
+            render: (text: string, record) => <span className="hover:text-primary cursor-pointer line-clamp-2" onClick={() => {
                 setComment(record)
                 setIsModalOpen(true)
             }}>{text}</span>
@@ -89,12 +91,13 @@ const CommentPage = () => {
             title: '所属文章',
             dataIndex: 'articleTitle',
             key: 'articleTitle',
+            render: (text: string) => (text ? text : '该评论暂未绑定文章'),
         },
         {
             title: '评论时间',
             dataIndex: 'createTime',
             key: 'createTime',
-            render: (date: string) => dayjs(date).format('YYYY-MM-DD HH:mm:ss'),
+            render: (date: string) => dayjs(+date).format('YYYY-MM-DD HH:mm:ss'),
         },
         {
             title: '操作',
@@ -123,24 +126,51 @@ const CommentPage = () => {
         },
     ];
 
+    const { RangePicker } = DatePicker;
+
+    const onSubmit = async (values: FilterForm) => {
+        const query: FilterData = {
+            key: values.title ? values.title : null,
+            startDate: values.createTime ? values.createTime[0].valueOf() + '' : null,
+            endDate: values.createTime ? values.createTime[1].valueOf() + '' : null,
+        }
+
+        const { data } = await getCommentListAPI({ query });
+    }
+
     return (
         <>
             <Title value='评论管理' />
 
+            <Card className='my-2 overflow-scroll'>
+                <Form layout="inline" onFinish={onSubmit} autoComplete="off" className='flex-nowrap'>
+                    <Form.Item label="标题" name="title" className='w-2/12'>
+                        <Input placeholder='请输入关键词' />
+                    </Form.Item>
+
+                    <Form.Item label="时间范围" name="createTime" className='w-3/12'>
+                        <RangePicker placeholder={["选择起始时间", "选择结束时间"]} />
+                    </Form.Item>
+
+                    <Form.Item className='pr-6'>
+                        <Button type="primary" htmlType="submit">查询</Button>
+                    </Form.Item>
+                </Form>
+            </Card>
+
             <Card className={`${titleSty} mt-2`}>
-                <Spin spinning={loading} indicator={<svg />}>
-                    {list.length && <Table
-                        rowKey="id"
-                        dataSource={list}
-                        columns={columns}
-                        expandable={{ defaultExpandAllRows: true }}
-                        scroll={{ x: 'max-content' }}
-                        pagination={{
-                            position: ['bottomCenter'],
-                            pageSize: 8
-                        }}
-                    />}
-                </Spin>
+                <Table
+                    rowKey="id"
+                    dataSource={list}
+                    columns={columns}
+                    loading={loading}
+                    expandable={{ defaultExpandAllRows: true }}
+                    scroll={{ x: 'max-content' }}
+                    pagination={{
+                        position: ['bottomCenter'],
+                        defaultPageSize: 8,
+                    }}
+                />
             </Card>
 
             <Modal title='评论详情' open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
