@@ -12,6 +12,6 @@ export interface Web {
   url: string;
   rss: string;
   typeId: number;
-  typeName: string;
+  type: LinkType;
   createTime?: string;
 }

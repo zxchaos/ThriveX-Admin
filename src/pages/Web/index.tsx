@@ -4,8 +4,8 @@ import { SearchOutlined } from '@ant-design/icons';
 import { getLinkListAPI, addLinkDataAPI, editLinkDataAPI, delLinkDataAPI, getLinkTypeListAPI } from '@/api/Web';
 import { LinkType, Web } from '@/types/app/web';
 import Title from '@/components/Title';
-import './index.scss';
 import { RuleObject } from 'antd/es/form';
+import './index.scss';
 
 const LinkPage = () => {
     const [loading, setLoading] = useState(false);
@@ -127,7 +127,7 @@ const LinkPage = () => {
 
                                         <div className="name">{item.title}</div>
                                         <div className="description">{item.description}</div>
-                                        <div className="type">{item.typeName}</div>
+                                        <div className="type">{item.type.name}</div>
 
                                         <div className="operate">
                                             <div onClick={() => editLinkData(item)} className="edit">修改</div>
