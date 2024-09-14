@@ -127,7 +127,7 @@ const LinkPage = () => {
 
                                         <div className="name">{item.title}</div>
                                         <div className="description">{item.description}</div>
-                                        <div className="type">{item.type.name}</div>
+                                        <div className="type">{item.typeName}</div>
 
                                         <div className="operate">
                                             <div onClick={() => editLinkData(item)} className="edit">修改</div>

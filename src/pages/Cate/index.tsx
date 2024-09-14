@@ -23,7 +23,6 @@ const CatePage = () => {
     const addCateData = (id: number) => {
         setIsMethod("create")
         setIsModelOpen(true);
-        console.log(cate, 333);
 
         form.resetFields();
 
@@ -133,20 +132,26 @@ const CatePage = () => {
                 <Modal title={isMethod === "edit" ? "编辑分类" : "新增分类"} open={isModelOpen} onCancel={closeModel} destroyOnClose footer={null}>
                     <Form form={form} layout="vertical" initialValues={cate} size='large' preserve={false} className='mt-6'>
                         <Form.Item label="名称" name="name" rules={[{ required: true, message: '分类名称不能为空' }]}>
-                            <Input placeholder="大前端" />
+                            <Input placeholder="请输入分类名称" />
                         </Form.Item>
 
                         <Form.Item label="标识" name="mark" rules={[{ required: true, message: '分类标识不能为空' }]}>
-                            <Input placeholder="dqd" />
+                            <Input placeholder="请输入分类标识" />
                         </Form.Item>
 
                         <Form.Item label="图标" name="icon">
-                            <Input placeholder="🎉" />
+                            <Input placeholder="请输入分类图标" />
                         </Form.Item>
 
-                        <Form.Item label="链接（选填）" name="url">
-                            <Input placeholder="https://blog.liuyuyang.net/" />
+                        <Form.Item label="链接" name="url">
+                            <Input placeholder="请输入分类链接" />
                         </Form.Item>
+
+                        <Form.Item label="顺序" name="order">
+                            <Input placeholder="请输入分类顺序（值越小越靠前）" />
+                        </Form.Item>
+
+                        {/* TODO：有时间做个分类的类型，导航或者分类选项 */}
 
                         <Form.Item className='!mb-0 flex justify-end'>
                             <Button onClick={closeModel}>取消</Button>

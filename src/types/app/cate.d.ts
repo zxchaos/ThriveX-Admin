@@ -5,5 +5,7 @@ export interface Cate {
     url: string,
     icon: string,
     level: number,
+    order: number,
+    type: string,
     children?: Cate[]
 }
