@@ -98,7 +98,7 @@ const CatePage = () => {
             return ({
                 title: (
                     <div className='group w-full flex justify-between items-center'>
-                        <h3>{item.name}</h3>
+                        <h3>{item.icon} <span className='ml-2'>{item.name}</span></h3>
 
                         <Dropdown menu={{ items }} arrow>
                             <Button type='link' size='small'>操作 <DownOutlined /></Button>
