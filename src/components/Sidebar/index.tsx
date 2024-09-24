@@ -3,8 +3,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 
 import { BiEditAlt, BiFolderOpen, BiHomeSmile, BiSliderAlt, BiShieldQuarter, BiLineChart, BiCategoryAlt, BiBug } from "react-icons/bi";
-import { LuCrown } from "react-icons/lu";
 import { LiaRssSolid } from "react-icons/lia";
+import { TbBrandAirtable } from "react-icons/tb";
 
 import { useUserStore } from '@/stores';
 import { getRouteListAPI } from '@/api/Role'
@@ -183,6 +183,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     {
       group: "New",
       list: [
+        {
+          to: "/work",
+          path: "work",
+          icon: <TbBrandAirtable className='text-[22px]' />,
+          name: "工作台"
+        },
         {
           to: "/rss",
           path: "rss",

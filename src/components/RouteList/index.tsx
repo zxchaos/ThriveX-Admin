@@ -18,8 +18,10 @@ import Stats from '@/pages/Stats';
 import Iterative from '@/pages/Iterative';
 import Page from '@/pages/Route';
 import Role from '@/pages/Role';
-import PageTitle from "../PageTitle";
 import Login from "@/pages/Login";
+import Work from "@/pages/Work";
+
+import PageTitle from "../PageTitle";
 
 import { useUserStore } from "@/stores";
 import { getRouteListAPI } from "@/api/Role";
@@ -49,6 +51,7 @@ export default () => {
         { path: "/file", title: "文件管理", component: <File /> },
         { path: "/stats", title: "数据可视化", component: <Stats /> },
         { path: "/iter", title: "项目更新记录", component: <Iterative /> },
+        { path: "/work", title: "工作台", component: <Work /> },
     ];
 
     const [routes, setRoutes] = useState<typeof routesAll | null>(null);
