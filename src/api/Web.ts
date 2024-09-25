@@ -21,3 +21,6 @@ export const getLinkListAPI = (data?: QueryData) => getListAPI<Web>("/link", dat
 export const getLinkTypeListAPI = () => {
     return Request<LinkType[]>("GET", `/link/type`);
 };
+
+// 审核网站
+export const auditWebDataAPI = (id: number) => Request<Web>("PATCH", `/link/audit/${id}`)

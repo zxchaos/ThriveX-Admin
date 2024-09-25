@@ -4,7 +4,7 @@ export interface LinkType {
 }
 
 export interface Web {
-  id?: number;
+  id: number;
   title: string;
   description: string;
   email: string;
@@ -13,5 +13,6 @@ export interface Web {
   rss: string;
   typeId: number;
   type: LinkType;
+  auditStatus: number;
   createTime?: string;
 }
