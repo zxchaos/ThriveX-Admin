@@ -1,4 +1,4 @@
-import { Button, Card, Drawer, message } from 'antd';
+import { Button, Card, Drawer, Dropdown, MenuProps, message } from 'antd';
 import { BiSave } from "react-icons/bi";
 
 import VditorEditor from './components/VditorMD';
@@ -9,6 +9,21 @@ import Title from '@/components/Title';
 import { Article } from '@/types/app/article';
 import { getArticleDataAPI } from '@/api/Article'
 import { useSearchParams } from 'react-router-dom';
+
+const items: MenuProps['items'] = [
+  {
+    key: '1',
+    label: 'AI 续写',
+  },
+  {
+    key: '2',
+    label: 'AI 优化',
+  },
+  {
+    key: '3',
+    label: 'AI 生成',
+  },
+];
 
 const CreatePage = () => {
   const [params] = useSearchParams()
@@ -48,7 +63,9 @@ const CreatePage = () => {
       <Title value="创作" />
 
       <Card className='relative mt-2'>
-        <div className='absolute top-12 right-[5%] w-22 z-10'>
+        <div className='absolute top-[4.5%] right-[5%] z-10 flex space-x-4'>
+          <Dropdown.Button menu={{ items }}>创作神器</Dropdown.Button>
+
           <Button type="primary" className='w-full flex justify-between' onClick={baseBtn} >
             <BiSave className='text-base' /> 保存
           </Button>

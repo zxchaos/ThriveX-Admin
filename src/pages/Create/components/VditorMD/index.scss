@@ -5,12 +5,22 @@
         padding-left: 0 !important;
         background-color: transparent;
         border-bottom: none;
+
+        .vditor-tooltipped__ai {
+            padding: 0;
+
+            svg {
+                width: 25px;
+                height: 25px;
+                margin-left: 20px;
+            }
+        }
     }
 
     .vditor-reset {
         background-color: transparent !important;
 
-        .vditor-ir__marker--heading{
+        .vditor-ir__marker--heading {
             color: #727cf5;
         }
     }

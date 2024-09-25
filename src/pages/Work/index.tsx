@@ -12,7 +12,7 @@ import dayjs from 'dayjs';
 
 export default () => {
     const activeSty = "bg-[#f9f9ff] text-primary"
-    const [active, setActive] = useState(0)
+    const [active, setActive] = useState(1)
     const [linkList, setLinkList] = useState<Web[]>([])
 
     const getLinkList = async () => {
