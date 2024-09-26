@@ -24,14 +24,19 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://openapi.baidu.com/', // 你的后端服务器地址
+        target: 'https://openapi.baidu.com/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
       '/qiniu': {
-        target: 'https://rsf.qiniuapi.com/', // 你的后端服务器地址
+        target: 'https://rsf.qiniuapi.com/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/qiniu/, ''),
+      },
+      '/ai': {
+        target: 'https://spark-api-open.xf-yun.com/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/ai/, ''),
       },
     },
   },

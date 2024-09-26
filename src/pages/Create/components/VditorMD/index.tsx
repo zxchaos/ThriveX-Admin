@@ -208,7 +208,7 @@ const VditorEditor = ({ value, getValue }: VditorProps) => {
 
     // 监听 value 变化并更新编辑器内容
     useEffect(() => {
-        if (vd && value) {
+        if (vd && value !== undefined && value !== vd.getValue()) {
             vd.setValue(value);
         }
     }, [value, vd]);
