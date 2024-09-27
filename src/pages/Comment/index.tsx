@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, message, Table, Popconfirm, Button, Tag, Modal, Form, Input, DatePicker } from 'antd';
 import { getCommentListAPI } from '@/api/Comment';
-import { auditCommentDataAPI, delCommentDataAPI } from '@/api/Comment';
+import { delCommentDataAPI } from '@/api/Comment';
 import { ColumnsType } from 'antd/es/table';
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
@@ -23,14 +23,6 @@ const CommentPage = () => {
         setList(data)
         setLoading(false)
     }
-
-    const auditCommentData = async () => {
-        setLoading(true)
-        await auditCommentDataAPI(comment?.id!);
-        getCommentList();
-        setIsModalOpen(false)
-        message.success('🎉 审核评论成功');
-    };
 
     const delCommentData = async (id: number) => {
         setLoading(true)
@@ -106,17 +98,10 @@ const CommentPage = () => {
             align: 'center',
             render: (text: string, record: Comment) => (
                 <div className='flex justify-center space-x-2'>
-                    {
-                        !record.auditStatus
-                            ? <Button type='primary' onClick={() => {
-                                setComment(record)
-                                setIsModalOpen(true)
-                            }}>审核</Button>
-                            : <Button onClick={() => {
-                                setComment(record)
-                                setIsModalOpen(true)
-                            }}>查看</Button>
-                    }
+                    <Button onClick={() => {
+                        setComment(record)
+                        setIsModalOpen(true)
+                    }}>查看</Button>
 
                     <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delCommentData(record.id)}>
                         <Button type="primary" danger>删除</Button>
@@ -130,12 +115,15 @@ const CommentPage = () => {
 
     const onSubmit = async (values: FilterForm) => {
         const query: FilterData = {
-            key: values.title ? values.title : null,
-            startDate: values.createTime ? values.createTime[0].valueOf() + '' : null,
-            endDate: values.createTime ? values.createTime[1].valueOf() + '' : null,
+            key: values.title ? values.title : undefined,
+            content: values.content ? values.content : undefined,
+            startDate: values.createTime ? values.createTime[0].valueOf() + '' : undefined,
+            endDate: values.createTime ? values.createTime[1].valueOf() + '' : undefined,
         }
 
         const { data } = await getCommentListAPI({ query });
+        console.log(data);
+        setList(data)
     }
 
     return (
@@ -145,7 +133,11 @@ const CommentPage = () => {
             <Card className='my-2 overflow-scroll'>
                 <Form layout="inline" onFinish={onSubmit} autoComplete="off" className='flex-nowrap'>
                     <Form.Item label="标题" name="title" className='w-2/12'>
-                        <Input placeholder='请输入关键词' />
+                        <Input placeholder='请输入标题关键词' />
+                    </Form.Item>
+
+                    <Form.Item label="内容" name="content" className='w-2/12'>
+                        <Input placeholder='请输入内容关键词' />
                     </Form.Item>
 
                     <Form.Item label="时间范围" name="createTime" className='w-3/12'>
@@ -178,15 +170,9 @@ const CommentPage = () => {
                     <div><b>所属文章：</b> {comment?.articleTitle}</div>
                     <div><b>评论时间：</b> {dayjs(comment?.createTime).format("YYYY-MM-DD HH:mm:ss")}</div>
                     <div><b>评论用户：</b> {comment?.name}</div>
-                    <div><b>邮箱：</b> {comment?.email}</div>
+                    <div><b>邮箱：</b> {comment?.email ? comment?.email : "暂无邮箱"}</div>
                     <div><b>网站：</b> {comment?.url ? <a href={comment?.url} className="hover:text-primary">{comment?.url}</a> : '无网站'}</div>
                     <div><b>内容：</b> {comment?.content}</div>
-                    <div><b>状态：</b> {comment?.auditStatus
-                        ? <Tag bordered={false} color="processing">通过</Tag>
-                        : <Tag bordered={false} color="error">待审核</Tag>}
-                    </div>
-
-                    {!comment?.auditStatus ? <Button type="primary" className='w-full !mt-4' onClick={auditCommentData}>通过审核</Button> : null}
                 </div>
             </Modal>
         </>
