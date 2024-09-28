@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Card, message, Table, Popconfirm, Button, Tag, Modal, Form, Input, DatePicker, Select } from 'antd';
-import { getWallListAPI, delWallDataAPI, getWallCateListAPI } from '@/api/Wall';
 import { ColumnsType } from 'antd/es/table';
+import { getWallListAPI, delWallDataAPI, getWallCateListAPI } from '@/api/Wall';
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
 import { Cate, Wall } from '@/types/app/wall';
+import { FilterForm, FilterWall } from './type';
 import dayjs from 'dayjs';
 
 const WallPage = () => {
@@ -107,15 +108,14 @@ const WallPage = () => {
     const { RangePicker } = DatePicker;
 
     const onSubmit = async (values: FilterForm) => {
-        const query: FilterData = {
-            key: values.title ? values.title : undefined,
-            content: values.content ? values.content : undefined,
+        const query: FilterWall = {
+            key: values.content,
+            cateId: values.cateId,
             startDate: values.createTime ? values.createTime[0].valueOf() + '' : undefined,
             endDate: values.createTime ? values.createTime[1].valueOf() + '' : undefined,
         }
 
         const { data } = await getWallListAPI({ query });
-        console.log(data);
         setList(data)
     }
 

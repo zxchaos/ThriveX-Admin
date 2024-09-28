@@ -6,6 +6,6 @@ export interface FilterForm {
 }
 
 export interface FilterArticle extends FilterData {
-    cateIds?: number[] | null,
-    tagId?: string | null,
+    cateIds?: number[],
+    tagId?: number,
 }
