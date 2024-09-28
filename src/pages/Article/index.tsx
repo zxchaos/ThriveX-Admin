@@ -126,11 +126,11 @@ const ArticlePage = () => {
 
     const onSubmit = async (values: FilterForm) => {
         const query: FilterArticle = {
-            key: values.title ? values.title : null,
-            startDate: values.createTime ? values.createTime[0].valueOf() + '' : null,
-            endDate: values.createTime ? values.createTime[1].valueOf() + '' : null,
-            cateIds: values.cateIds ? values.cateIds : null,
-            tagId: values.tagId ? values.tagId + "" : null,
+            key: values.title,
+            startDate: values.createTime ? values.createTime[0].valueOf() + '' : undefined,
+            endDate: values.createTime ? values.createTime[1].valueOf() + '' : undefined,
+            cateIds: values.cateIds,
+            tagId: values.tagId ? values.tagId + "" : undefined,
         }
 
         const { data } = await getArticleListAPI({ query });

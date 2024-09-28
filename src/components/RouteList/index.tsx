@@ -7,6 +7,7 @@ import Create from '@/pages/Create';
 import Cate from '@/pages/Cate';
 import Article from '@/pages/Article';
 import Comment from '@/pages/Comment';
+import Wall from "@/pages/Wall";
 import Tag from '@/pages/Tag';
 import Web from '@/pages/Web';
 import Swiper from '@/pages/Swiper';
@@ -41,6 +42,7 @@ export default () => {
         { path: "/article", title: "文章管理", component: <Article /> },
         { path: "/tag", title: "标签管理", component: <Tag /> },
         { path: "/comment", title: "评论管理", component: <Comment /> },
+        { path: "/wall", title: "评论管理", component: <Wall /> },
         { path: "/web", title: "网站管理", component: <Web /> },
         { path: "/swiper", title: "轮播图管理", component: <Swiper /> },
         { path: "/footprint", title: "足迹管理", component: <Footprint /> },

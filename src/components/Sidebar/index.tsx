@@ -128,6 +128,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               name: "评论管理"
             },
             {
+              to: "/wall",
+              path: "wall",
+              name: "留言管理"
+            },
+            {
               to: "/cate",
               path: "cate",
               name: "分类管理"

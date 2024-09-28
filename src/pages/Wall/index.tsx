@@ -1,39 +1,46 @@
 import { useState, useEffect } from 'react';
-import { Card, message, Table, Popconfirm, Button, Tag, Modal, Form, Input, DatePicker } from 'antd';
-import { getCommentListAPI } from '@/api/Comment';
-import { delCommentDataAPI } from '@/api/Comment';
+import { Card, message, Table, Popconfirm, Button, Tag, Modal, Form, Input, DatePicker, Select } from 'antd';
+import { getWallListAPI, delWallDataAPI, getWallCateListAPI } from '@/api/Wall';
 import { ColumnsType } from 'antd/es/table';
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
-import { Comment } from '@/types/app/comment'
+import { Cate, Wall } from '@/types/app/wall';
 import dayjs from 'dayjs';
 
-const CommentPage = () => {
+const WallPage = () => {
     const [loading, setLoading] = useState(false);
-    const [comment, setComment] = useState<Comment>();
-    const [list, setList] = useState<Comment[]>([]);
+    const [wall, setWall] = useState<Wall>();
+    const [list, setList] = useState<Wall[]>([]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const getCommentList = async () => {
-        const { data } = await getCommentListAPI();
+    const getWallList = async () => {
+        const { data } = await getWallListAPI();
 
         // 根据时间排序：最新时间在前
-        // const sortedData = (data as Comment[]).sort((a, b) => +b.createTime - +a.createTime);
+        // const sortedData = (data as Wall[]).sort((a, b) => +b.createTime - +a.createTime);
         setList(data)
         setLoading(false)
     }
 
-    const delCommentData = async (id: number) => {
+    const delWallData = async (id: number) => {
         setLoading(true)
-        await delCommentDataAPI(id);
-        getCommentList();
-        message.success('🎉 删除评论成功');
+        await delWallDataAPI(id);
+        getWallList();
+        message.success('🎉 删除留言成功');
     };
+
+    // 获取留言的分类列表
+    const [cateList, setCateList] = useState<Cate[]>([])
+    const getCateList = async () => {
+        const { data } = await getWallCateListAPI()
+        setCateList((data as Cate[]).filter(item => item.id !== 1))
+    }
 
     useEffect(() => {
         setLoading(true)
-        getCommentList();
+        getWallList();
+        getCateList()
     }, []);
 
     const columns: ColumnsType = [
@@ -43,15 +50,12 @@ const CommentPage = () => {
             key: 'id',
             align: "center"
         },
-        // {
-        //     title: '状态',
-        //     dataIndex: 'auditStatus',
-        //     key: 'auditStatus',
-        //     fixed: 'left',
-        //     render: (status: number) => status ?
-        //         <Tag bordered={false} color="processing">通过</Tag>
-        //         : <Tag bordered={false} color="error">待审核</Tag>
-        // },
+        {
+            title: '分类',
+            dataIndex: 'cate',
+            key: 'cate',
+            render: ({ name }, { color }) => <Tag bordered={false} color={color} className='!text-[#565656]'>{name}</Tag>,
+        },
         {
             title: '名称',
             dataIndex: 'name',
@@ -64,7 +68,7 @@ const CommentPage = () => {
             key: 'content',
             width: 400,
             render: (text: string, record) => <span className="hover:text-primary cursor-pointer line-clamp-2" onClick={() => {
-                setComment(record)
+                setWall(record)
                 setIsModalOpen(true)
             }}>{text}</span>
         },
@@ -75,19 +79,7 @@ const CommentPage = () => {
             render: (text: string) => text ? text : '暂无邮箱',
         },
         {
-            title: '网站',
-            dataIndex: 'url',
-            key: 'url',
-            render: (url: string) => url ? <a href={url} className="hover:text-primary">{url}</a> : '无网站',
-        },
-        {
-            title: '所属文章',
-            dataIndex: 'articleTitle',
-            key: 'articleTitle',
-            render: (text: string) => (text ? text : '该评论暂未绑定文章'),
-        },
-        {
-            title: '评论时间',
+            title: '留言时间',
             dataIndex: 'createTime',
             key: 'createTime',
             render: (date: string) => dayjs(+date).format('YYYY-MM-DD HH:mm:ss'),
@@ -97,14 +89,14 @@ const CommentPage = () => {
             key: 'action',
             fixed: 'right',
             align: 'center',
-            render: (text: string, record: Comment) => (
+            render: (text: string, record: Wall) => (
                 <div className='flex justify-center space-x-2'>
                     <Button onClick={() => {
-                        setComment(record)
+                        setWall(record)
                         setIsModalOpen(true)
                     }}>查看</Button>
 
-                    <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delCommentData(record.id)}>
+                    <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delWallData(record.id)}>
                         <Button type="primary" danger>删除</Button>
                     </Popconfirm>
                 </div>
@@ -122,23 +114,28 @@ const CommentPage = () => {
             endDate: values.createTime ? values.createTime[1].valueOf() + '' : undefined,
         }
 
-        const { data } = await getCommentListAPI({ query });
+        const { data } = await getWallListAPI({ query });
         console.log(data);
         setList(data)
     }
 
     return (
         <>
-            <Title value='评论管理' />
+            <Title value='留言管理' />
 
             <Card className='my-2 overflow-scroll'>
                 <Form layout="inline" onFinish={onSubmit} autoComplete="off" className='flex-nowrap'>
-                    <Form.Item label="标题" name="title" className='w-2/12'>
-                        <Input placeholder='请输入标题关键词' />
-                    </Form.Item>
-
                     <Form.Item label="内容" name="content" className='w-2/12'>
                         <Input placeholder='请输入内容关键词' />
+                    </Form.Item>
+
+                    <Form.Item label="分类" name="cateId" className='w-2/12'>
+                        <Select
+                            allowClear
+                            options={cateList}
+                            fieldNames={{ label: 'name', value: 'id' }}
+                            placeholder="请选择分类"
+                        />
                     </Form.Item>
 
                     <Form.Item label="时间范围" name="createTime" className='w-3/12'>
@@ -166,18 +163,15 @@ const CommentPage = () => {
                 />
             </Card>
 
-            <Modal title='评论详情' open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
+            <Modal title='留言详情' open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
                 <div className='pt-2 space-y-2'>
-                    <div><b>所属文章：</b> {comment?.articleTitle}</div>
-                    <div><b>评论时间：</b> {dayjs(comment?.createTime).format("YYYY-MM-DD HH:mm:ss")}</div>
-                    <div><b>评论用户：</b> {comment?.name}</div>
-                    <div><b>邮箱：</b> {comment?.email ? comment?.email : "暂无邮箱"}</div>
-                    <div><b>网站：</b> {comment?.url ? <a href={comment?.url} className="hover:text-primary">{comment?.url}</a> : '无网站'}</div>
-                    <div><b>内容：</b> {comment?.content}</div>
+                    <div><b>留言时间：</b> {dayjs(wall?.createTime).format("YYYY-MM-DD HH:mm:ss")}</div>
+                    <div><b>留言用户：</b> {wall?.name}</div>
+                    <div><b>内容：</b> {wall?.content}</div>
                 </div>
             </Modal>
         </>
     );
 };
 
-export default CommentPage;
+export default WallPage;
