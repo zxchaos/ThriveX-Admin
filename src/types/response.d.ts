@@ -22,6 +22,7 @@ interface Page {
 interface FilterData {
     key?: string,
     content?: string,
+    status?: 0 | 1,
     startDate?: string,
     endDate?: string
 }

@@ -10,14 +10,18 @@ import link from './image/link.svg'
 import { Web } from "@/types/app/web"
 import dayjs from 'dayjs';
 
+type Menu = "comment" | "link" | "wall"
+
 export default () => {
     const activeSty = "bg-[#f9f9ff] text-primary"
-    const [active, setActive] = useState(1)
+    const [active, setActive] = useState<Menu>("link")
     const [linkList, setLinkList] = useState<Web[]>([])
 
     const getLinkList = async () => {
-        const { data } = await getLinkListAPI()
-        setLinkList((data as Web[]).filter(item => item.auditStatus === 0))
+        const { data } = await getLinkListAPI({ query: { status: 0 } })
+        console.log(data, 444);
+
+        setLinkList(data as Web[])
     }
     useEffect(() => {
         getLinkList()
@@ -54,24 +58,24 @@ export default () => {
                     <div className="w-2/12 min-h-96 pr-4 border-r border-[#eee]">
                         <ul className="space-y-1">
                             <li
-                                className={`flex items-center w-full py-3 px-4 hover:bg-[#f9f9ff] hover:text-primary ${active === 0 ? activeSty : ''} rounded-md text-base cursor-pointer transition-colors`}
-                                onClick={() => setActive(0)}
+                                className={`flex items-center w-full py-3 px-4 hover:bg-[#f9f9ff] hover:text-primary ${active === "comment" ? activeSty : ''} rounded-md text-base cursor-pointer transition-colors`}
+                                onClick={() => setActive("comment")}
                             >
                                 <img src={comment} alt="" className="w-8 mr-4" />
                                 <span>评论</span>
                             </li>
 
                             <li
-                                className={`flex items-center w-full py-3 px-4 hover:bg-[#f9f9ff] hover:text-primary ${active === 1 ? activeSty : ''} rounded-md text-base cursor-pointer transition-colors`}
-                                onClick={() => setActive(1)}
+                                className={`flex items-center w-full py-3 px-4 hover:bg-[#f9f9ff] hover:text-primary ${active === "link" ? activeSty : ''} rounded-md text-base cursor-pointer transition-colors`}
+                                onClick={() => setActive("link")}
                             >
                                 <img src={link} alt="" className="w-8 mr-4" />
                                 <span>友联</span>
                             </li>
 
                             <li
-                                className={`flex items-center w-full py-3 px-4 hover:bg-[#f9f9ff] hover:text-primary ${active === 2 ? activeSty : ''} rounded-md text-base cursor-pointer transition-colors`}
-                                onClick={() => setActive(2)}
+                                className={`flex items-center w-full py-3 px-4 hover:bg-[#f9f9ff] hover:text-primary ${active === "wall" ? activeSty : ''} rounded-md text-base cursor-pointer transition-colors`}
+                                onClick={() => setActive("wall")}
                             >
                                 <img src={info} alt="" className="w-8 mr-4" />
                                 <span>留言</span>

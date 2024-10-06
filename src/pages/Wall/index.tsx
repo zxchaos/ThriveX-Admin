@@ -111,8 +111,8 @@ const WallPage = () => {
         const query: FilterWall = {
             key: values.content,
             cateId: values.cateId,
-            startDate: values.createTime ? values.createTime[0].valueOf() + '' : undefined,
-            endDate: values.createTime ? values.createTime[1].valueOf() + '' : undefined,
+            startDate: values?.createTime?.[0]?.valueOf()?.toString(),
+            endDate: values?.createTime?.[1]?.valueOf()?.toString(),
         }
 
         const { data } = await getWallListAPI({ query });

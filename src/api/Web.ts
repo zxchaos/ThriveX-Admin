@@ -15,7 +15,21 @@ export const editLinkDataAPI = (data: Web) => Request<Web>("PATCH", "/link", { d
 export const getLinkDataAPI = (id?: number) => Request<Web>("GET", `/link/${id}`)
 
 // 获取网站列表
-export const getLinkListAPI = (data?: QueryData) => getListAPI<Web>("/link", data)
+export const getLinkListAPI = (data?: QueryData) => Request<Web[]>("POST", `/link/list`, {
+    data: { ...data?.query },
+    params: {
+        sort: data?.sort,
+    }
+})
+
+// 分页获取评论列表
+export const getLinkPagingAPI = (data?: QueryData) => Request<Paginate<Web[]>>("POST", `/link/paging`, {
+    data: { ...data?.query },
+    params: {
+        sort: data?.sort,
+        ...data?.pagination
+    }
+})
 
 // 获取网站类型列表
 export const getLinkTypeListAPI = () => {
