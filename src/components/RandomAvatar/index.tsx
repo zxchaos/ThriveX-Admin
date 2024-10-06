@@ -4,7 +4,7 @@ import { createAvatar } from '@dicebear/core';
 // 使用指定风格头像
 import { croodles } from '@dicebear/collection';
 
-export default () => {
+export default ({ className }: { className?: string }) => {
     const avatar = useMemo(() => {
         // 生成一个随机种子
         const seed = Math.random().toString(36).substring(2, 15);
@@ -17,5 +17,5 @@ export default () => {
         }).toDataUri();
     }, []);
 
-    return <img src={avatar} alt="Avatar" />
+    return <img src={avatar} alt="Avatar" className={className} />
 }

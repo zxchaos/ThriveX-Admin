@@ -1,121 +1,167 @@
-import { useEffect, useState } from "react"
-import { Card, Dropdown, message } from "antd"
-import { getLinkListAPI, delLinkDataAPI, auditWebDataAPI } from '@/api/Web'
+import { useEffect, useState } from "react";
+import { Card, Dropdown, message } from "antd";
+import { getLinkListAPI, delLinkDataAPI, auditWebDataAPI } from '@/api/Web';
+import { getCommentListAPI, auditCommentDataAPI, delCommentDataAPI } from "@/api/Comment";
+import { getWallListAPI, auditWallDataAPI, delWallDataAPI } from "@/api/Wall";
 
-import Title from "@/components/Title"
+import Title from "@/components/Title";
 
-import comment from './image/comment.svg'
-import info from './image/message.svg'
-import link from './image/link.svg'
-import { Web } from "@/types/app/web"
+import comment from './image/comment.svg';
+import info from './image/message.svg';
+import link from './image/link.svg';
+
 import dayjs from 'dayjs';
+import RandomAvatar from "@/components/RandomAvatar";
 
-type Menu = "comment" | "link" | "wall"
+type Menu = "comment" | "link" | "wall";
 
-export default () => {
-    const activeSty = "bg-[#f9f9ff] text-primary"
-    const [active, setActive] = useState<Menu>("link")
-    const [linkList, setLinkList] = useState<Web[]>([])
+interface ListItemProps {
+    item: any;
+    type: Menu;
+    handleApproval: (id: number, type: Menu) => void;
+    handleRejection: (id: number, type: Menu) => void;
+}
 
-    const getLinkList = async () => {
-        const { data } = await getLinkListAPI({ query: { status: 0 } })
-        console.log(data, 444);
+const ListItem = ({ item, type, handleApproval, handleRejection }: ListItemProps) => (
+    <div key={item.id}>
+        <div className="text-center text-xs text-[#e0e0e0] mb-4">
+            {dayjs(+item.createTime!).format('YYYY-MM-DD HH:mm:ss')}
+        </div>
 
-        setLinkList(data as Web[])
-    }
-    useEffect(() => {
-        getLinkList()
-    }, [])
+        <div className="flex justify-between p-7 rounded-md transition-colors">
+            <div className="flex mr-10">
+                {type !== "wall" ? (
+                    <img src={item.avatar || item.image} alt="" className="w-13 h-13 border border-[#eee] rounded-full" />
+                ) : <RandomAvatar className="w-13 h-13 border border-[#eee] rounded-full" />}
 
-    // 操作
-    const getMenuItems = (item: Web) => [
-        {
-            key: 'ok',
-            label: "通过",
-            onClick: async () => {
-                await auditWebDataAPI(item.id)
-                message.success('🎉 审核成功');
-                getLinkList();
-            }
-        },
-        {
-            key: 'no',
-            label: "拒审",
-            onClick: async () => {
-                await delLinkDataAPI(item.id)
-                message.success('🎉 拒审成功');
-                getLinkList();
-            }
+                <div className="flex flex-col justify-center ml-4 px-4 py-2 bg-[#F9F9FD] rounded-md">
+                    {type === "link" ? (
+                        <>
+                            <div>名称：{item.title}</div>
+                            <div>介绍：{item.description}</div>
+                            <div>类型：{item.type.name}</div>
+                            <div>邮箱：{item.email || '暂无'}</div>
+                            <div>地址：{item.url || '暂无'}</div>
+                        </>
+                    ) : type === "comment" ? (
+                        <>
+                            <div>名称：{item.name}</div>
+                            <div>内容：{item.content}</div>
+                            <div>邮箱：{item.email || '暂无'}</div>
+                            <div>地址：{item.url || '暂无'}</div>
+                        </>
+                    ) : (
+                        <>
+                            <div>名称：{item.name}</div>
+                            <div>内容：{item.content}</div>
+                        </>
+                    )}
+                </div>
+            </div>
+
+            <div className="flex items-end">
+                <Dropdown menu={{
+                    items: [
+                        { key: 'ok', label: "通过", onClick: () => handleApproval(item.id, type) },
+                        { key: 'no', label: "拒审", onClick: () => handleRejection(item.id, type) }
+                    ]
+                }}>
+                    <div className="flex justify-evenly items-center bg-[#F9F9FD] w-11 h-5 rounded-md cursor-pointer">
+                        <span className="inline-block w-2 h-2 bg-[#b5c2d3] rounded-full"></span>
+                        <span className="inline-block w-2 h-2 bg-[#b5c2d3] rounded-full"></span>
+                    </div>
+                </Dropdown>
+            </div>
+        </div>
+    </div>
+);
+
+const WorkPage = () => {
+    const activeSty = "bg-[#f9f9ff] text-primary";
+    const [active, setActive] = useState<Menu>("link");
+    const [commentList, setCommentList] = useState<any[]>([]);
+    const [linkList, setLinkList] = useState<any[]>([]);
+    const [wallList, setWallList] = useState<any[]>([]);
+
+    const fetchData = async (type: Menu) => {
+        if (type === "comment") {
+            const { data } = await getCommentListAPI({ query: { status: 0 } });
+            setCommentList(data);
+        } else if (type === "link") {
+            const { data } = await getLinkListAPI({ query: { status: 0 } });
+            setLinkList(data);
+        } else if (type === "wall") {
+            const { data } = await getWallListAPI({ query: { status: 0 } });
+            setWallList(data);
         }
-    ];
+    };
+
+    useEffect(() => {
+        fetchData(active);
+    }, [active]);
+
+    const handleApproval = async (id: number, type: Menu) => {
+        if (type === "link") {
+            await auditWebDataAPI(id);
+            message.success('🎉 友链审核成功');
+        } else if (type === "comment") {
+            await auditCommentDataAPI(id);
+            message.success('🎉 评论审核成功');
+        } else if (type === "wall") {
+            await auditWallDataAPI(id);
+            message.success('🎉 留言审核成功');
+        }
+        fetchData(type);
+    };
+
+    const handleRejection = async (id: number, type: Menu) => {
+        if (type === "link") {
+            await delLinkDataAPI(id);
+            message.success('🎉 友链拒审成功');
+        } else if (type === "comment") {
+            await delCommentDataAPI(id);
+            message.success('🎉 评论拒审成功');
+        } else if (type === "wall") {
+            await delWallDataAPI(id);
+            message.success('🎉 留言拒审成功');
+        }
+        fetchData(type);
+    };
 
     return (
         <>
             <Title value="工作台" />
-
             <Card className="mt-2">
                 <div className="flex w-full">
                     <div className="w-2/12 min-h-96 pr-4 border-r border-[#eee]">
                         <ul className="space-y-1">
-                            <li
-                                className={`flex items-center w-full py-3 px-4 hover:bg-[#f9f9ff] hover:text-primary ${active === "comment" ? activeSty : ''} rounded-md text-base cursor-pointer transition-colors`}
-                                onClick={() => setActive("comment")}
-                            >
-                                <img src={comment} alt="" className="w-8 mr-4" />
-                                <span>评论</span>
-                            </li>
-
-                            <li
-                                className={`flex items-center w-full py-3 px-4 hover:bg-[#f9f9ff] hover:text-primary ${active === "link" ? activeSty : ''} rounded-md text-base cursor-pointer transition-colors`}
-                                onClick={() => setActive("link")}
-                            >
-                                <img src={link} alt="" className="w-8 mr-4" />
-                                <span>友联</span>
-                            </li>
-
-                            <li
-                                className={`flex items-center w-full py-3 px-4 hover:bg-[#f9f9ff] hover:text-primary ${active === "wall" ? activeSty : ''} rounded-md text-base cursor-pointer transition-colors`}
-                                onClick={() => setActive("wall")}
-                            >
-                                <img src={info} alt="" className="w-8 mr-4" />
-                                <span>留言</span>
-                            </li>
+                            {(["comment", "link", "wall"] as Menu[]).map((menu) => (
+                                <li
+                                    key={menu}
+                                    className={`flex items-center w-full py-3 px-4 hover:bg-[#f9f9ff] hover:text-primary ${active === menu ? activeSty : ''} rounded-md text-base cursor-pointer transition-colors`}
+                                    onClick={() => setActive(menu)}
+                                >
+                                    <img src={menu === "comment" ? comment : menu === "link" ? link : info} alt="" className="w-8 mr-4" />
+                                    <span>{menu === "comment" ? "评论" : menu === "link" ? "友联" : "留言"}</span>
+                                </li>
+                            ))}
                         </ul>
                     </div>
-
                     <div className="w-10/12 pl-6 py-4 space-y-10">
-                        {
-                            linkList.map(item => (
-                                <div key={item.id}>
-                                    <div className="text-center text-xs text-[#e0e0e0] mb-4">{dayjs(+item.createTime!).format('YYYY-MM-DD HH:mm:ss')}</div>
-
-                                    <div className="flex justify-between p-7 rounded-md hover:bg-[#F9F9FD] transition-colors">
-                                        <div className="flex">
-                                            <img src={item.image} alt="" className="w-13 h-13 border border-[#eee] rounded-full" />
-                                            <div className="flex flex-col justify-center ml-4 px-4 py-2 bg-[#F9F9FD] rounded-md">
-                                                <div>网站名称：{item.title}</div>
-                                                <div>网站介绍：{item.description}</div>
-                                                <div>网站地址：{item.url}</div>
-                                                <div>网站类型：{item.type.name}</div>
-                                                <div>作者邮箱：{item.email ? item.email : '暂无'}</div>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex items-end">
-                                            <Dropdown menu={{ items: getMenuItems(item) }}>
-                                                <div className="flex justify-evenly items-center bg-[#F9F9FD] w-11 h-5 rounded-md cursor-pointer">
-                                                    <span className="inline-block w-2 h-2 bg-[#b5c2d3] rounded-full"></span>
-                                                    <span className="inline-block w-2 h-2 bg-[#b5c2d3] rounded-full"></span>
-                                                </div>
-                                            </Dropdown>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        }
+                        {active === "link" && linkList.map(item => (
+                            <ListItem key={item.id} item={item} type="link" handleApproval={handleApproval} handleRejection={handleRejection} />
+                        ))}
+                        {active === "comment" && commentList.map(item => (
+                            <ListItem key={item.id} item={item} type="comment" handleApproval={handleApproval} handleRejection={handleRejection} />
+                        ))}
+                        {active === "wall" && wallList.map(item => (
+                            <ListItem key={item.id} item={item} type="wall" handleApproval={handleApproval} handleRejection={handleRejection} />
+                        ))}
                     </div>
                 </div>
-            </Card >
+            </Card>
         </>
-    )
+    );
 }
+
+export default WorkPage;
