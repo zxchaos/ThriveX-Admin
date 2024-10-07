@@ -12,6 +12,7 @@ import link from './image/link.svg';
 
 import dayjs from 'dayjs';
 import RandomAvatar from "@/components/RandomAvatar";
+import Empty from "@/components/Empty";
 
 type Menu = "comment" | "link" | "wall";
 
@@ -78,7 +79,7 @@ const ListItem = ({ item, type, handleApproval, handleRejection }: ListItemProps
 
 const WorkPage = () => {
     const activeSty = "bg-[#f9f9ff] text-primary";
-    const [active, setActive] = useState<Menu>("link");
+    const [active, setActive] = useState<Menu>("comment");
     const [commentList, setCommentList] = useState<any[]>([]);
     const [linkList, setLinkList] = useState<any[]>([]);
     const [wallList, setWallList] = useState<any[]>([]);
@@ -128,6 +129,15 @@ const WorkPage = () => {
         fetchData(type);
     };
 
+    const renderList = (list: any[], type: Menu) => {
+        if (list.length === 0) {
+            return <Empty />;
+        }
+        return list.map(item => (
+            <ListItem key={item.id} item={item} type={type} handleApproval={handleApproval} handleRejection={handleRejection} />
+        ));
+    };
+
     return (
         <>
             <Title value="工作台" />
@@ -147,16 +157,11 @@ const WorkPage = () => {
                             ))}
                         </ul>
                     </div>
+
                     <div className="w-10/12 pl-6 py-4 space-y-10">
-                        {active === "link" && linkList.map(item => (
-                            <ListItem key={item.id} item={item} type="link" handleApproval={handleApproval} handleRejection={handleRejection} />
-                        ))}
-                        {active === "comment" && commentList.map(item => (
-                            <ListItem key={item.id} item={item} type="comment" handleApproval={handleApproval} handleRejection={handleRejection} />
-                        ))}
-                        {active === "wall" && wallList.map(item => (
-                            <ListItem key={item.id} item={item} type="wall" handleApproval={handleApproval} handleRejection={handleRejection} />
-                        ))}
+                        {active === "link" && renderList(linkList, "link")}
+                        {active === "comment" && renderList(commentList, "comment")}
+                        {active === "wall" && renderList(wallList, "wall")}
                     </div>
                 </div>
             </Card>
