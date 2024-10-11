@@ -27,11 +27,11 @@ interface FilterData {
     endDate?: string
 }
 
-interface QueryData {
+interface QueryData<T = FilterData> {
     // 通用的
     sort?: "asc" | "desc",
     pattern?: "list" | "recursion",
-    query?: FilterData,
+    query?: T,
     pagination?: Page,
 
     // 文件相关

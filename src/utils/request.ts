@@ -3,8 +3,8 @@ import { Modal, notification } from "antd";
 import { useUserStore } from "@/stores";
 
 // 配置项目API域名
-export const baseURL = "http://localhost:9999/api";
-// export const baseURL = "http://82.157.186.125:5000/api";
+// export const baseURL = "http://localhost:9999/api";
+export const baseURL = "http://api.liuyuyang.net/api";
 
 // 创建 axios 实例
 export const instance = axios.create({
