@@ -149,8 +149,8 @@ const FootprintPage = () => {
   const onFilterSubmit = async (values: FilterForm) => {
     const query: FilterData = {
       key: values.address,
-      startDate: values?.createTime[0].valueOf() + '',
-      endDate: values?.createTime[1].valueOf() + '',
+      startDate: values.createTime && values.createTime[0].valueOf() + '',
+      endDate: values.createTime && values.createTime[1].valueOf() + ''
     }
 
     const { data } = await getFootprintListAPI({ query });

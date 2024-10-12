@@ -128,8 +128,8 @@ const ArticlePage = () => {
             key: values.title,
             cateIds: values.cateIds,
             tagId: values.tagId,
-            startDate: values?.createTime[0].valueOf() + '',
-            endDate: values?.createTime[1].valueOf() + '',
+            startDate: values.createTime && values.createTime[0].valueOf() + '',
+            endDate: values.createTime && values.createTime[1].valueOf() + ''
         }
 
         const { data } = await getArticleListAPI({ query });

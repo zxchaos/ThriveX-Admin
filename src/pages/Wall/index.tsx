@@ -4,8 +4,7 @@ import { ColumnsType } from 'antd/es/table';
 import { getWallListAPI, delWallDataAPI, getWallCateListAPI } from '@/api/Wall';
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
-import { Cate, Wall } from '@/types/app/wall';
-import { FilterForm, FilterWall } from './type';
+import type { Cate, Wall, FilterForm, FilterWall } from '@/types/app/wall';
 import dayjs from 'dayjs';
 
 const WallPage = () => {
@@ -111,8 +110,8 @@ const WallPage = () => {
         const query: FilterWall = {
             key: values.content,
             cateId: values.cateId,
-            startDate: values?.createTime?.[0]?.valueOf()?.toString(),
-            endDate: values?.createTime?.[1]?.valueOf()?.toString(),
+            startDate: values.createTime && values.createTime[0].valueOf() + '',
+            endDate: values.createTime && values.createTime[1].valueOf() + ''
         }
 
         const { data } = await getWallListAPI({ query });
