@@ -152,19 +152,24 @@ const CreatePage = () => {
       <Title value="创作" />
 
       <Card className='relative mt-2'>
-        <div className='absolute top-[4.5%] right-[5%] z-10 flex space-x-4'>
-          <Dropdown.Button menu={{ items }}>创作神器</Dropdown.Button>
+        {/* <div className='absolute top-[4.5%] right-[5%] z-10 flex space-x-4'> */}
+        <div className='flex justify-end w-full'>
+          <div className='flex w-[24%] space-x-4'>
+            <Dropdown.Button menu={{ items }}>创作神器</Dropdown.Button>
 
-          <Button className='w-full flex justify-between' onClick={saveBtn} >
-            <BiSave className='text-base' /> 保存
-          </Button>
+            <Button className='w-full flex justify-between' onClick={saveBtn} >
+              <BiSave className='text-base' /> 保存
+            </Button>
 
-          <Button type="primary" className='w-full flex justify-between' onClick={nextBtn} >
-            <GrFormNext className='text-2xl' /> 下一步
-          </Button>
+            <Button type="primary" className='w-full flex justify-between' onClick={nextBtn} >
+              <GrFormNext className='text-2xl' /> 下一步
+            </Button>
+          </div>
         </div>
 
-        <VditorEditor value={content} getValue={getVditorData} />
+        <div className='relative -top-[40px]'>
+          <VditorEditor value={content} getValue={getVditorData} />
+        </div>
 
         <Drawer
           title={data.id ? "编辑文章" : "发布文章"}
