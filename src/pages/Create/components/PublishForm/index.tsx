@@ -7,7 +7,7 @@ import { RuleObject } from "antd/es/form";
 
 import { addArticleDataAPI, editArticleDataAPI } from '@/api/Article'
 import { getCateListAPI } from '@/api/Cate'
-import { getTagListAPI } from '@/api/Tag'
+import { addTagDataAPI, getTagListAPI } from '@/api/Tag'
 
 import { Cate } from "@/types/app/cate";
 import { Tag } from "@/types/app/tag";
@@ -21,7 +21,7 @@ interface FieldType {
     title: string,
     createTime: number;
     cateIds: number[];
-    tagIds: number[] | string;
+    tagIds: (number | string)[];
     cover: string;
     description: string;
 }
@@ -79,16 +79,28 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
     };
 
     const onSubmit: FormProps<FieldType>['onFinish'] = async (values) => {
+        // 如果是文章标签，则先判断是否存在，如果不存在则添加
+        let tagIds: number[] = []
+        for (const item of values.tagIds) {
+            if (typeof item === "string") {
+                await addTagDataAPI({ name: item });
+                const { data: tagList } = await getTagListAPI();
+                // 添加成功后查找对应的标签id
+                const tag = tagList.find(t => t.name === item)?.id;
+                if (tag !== undefined) tagIds.push(tag);
+            } else {
+                tagIds.push(item);
+            }
+        }
+
         values.createTime = values.createTime.valueOf()
         values.cateIds = [...new Set(values.cateIds?.flat())]
 
-        values.tagIds = values.tagIds ? (values.tagIds as number[]).join(',') : ""
-
         if (id) {
-            await editArticleDataAPI({ id, ...values, content: data.content } as any)
+            await editArticleDataAPI({ id, ...values, content: data.content, tagIds: tagIds.join(',') } as any)
             message.success("🎉 编辑成功")
         } else {
-            await addArticleDataAPI({ id, ...values, content: data.content } as any)
+            await addArticleDataAPI({ id, ...values, content: data.content, tagIds: tagIds.join(',') } as any)
             message.success("🎉 发布成功")
         }
 
@@ -144,6 +156,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                         fieldNames={{ label: 'name', value: 'id' }}
                         filterOption={(input, option) => !!option?.name.includes(input)}
                         placeholder="请选择文章标签"
+                        // onChange={(value, a) => console.log(value, a)}
                         className="w-full"
                     />
                 </Form.Item>
