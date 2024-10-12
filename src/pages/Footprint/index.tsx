@@ -3,7 +3,7 @@ import { Table, Button, Tag, notification, Card, Popconfirm, Form, Input, DatePi
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
 import { delFootprintDataAPI, getFootprintListAPI, addFootprintDataAPI, editFootprintDataAPI, getFootprintDataAPI } from '@/api/Footprint';
-import type { Footprint, FilterFootprint, FilterForm } from '@/types/app/footprint';
+import type { Footprint, FilterForm } from '@/types/app/footprint';
 import dayjs from 'dayjs';
 
 const FootprintPage = () => {
@@ -129,7 +129,7 @@ const FootprintPage = () => {
   const onSubmit = async () => {
     form.validateFields().then(async (values: Footprint) => {
       values.createTime = values.createTime.valueOf()
-      values.images = values.images?(values.images as string).split("\n"):[]
+      values.images = values.images ? (values.images as string).split("\n") : []
 
       if (isMethod === "edit") {
         await editFootprintDataAPI({ ...footprint, ...values });
@@ -147,10 +147,10 @@ const FootprintPage = () => {
   const closeModel = () => reset();
 
   const onFilterSubmit = async (values: FilterForm) => {
-    const query: FilterFootprint = {
-      key: values.address ? values.address : null,
-      startDate: values.createTime ? values.createTime[0].valueOf() + '' : null,
-      endDate: values.createTime ? values.createTime[1].valueOf() + '' : null,
+    const query: FilterData = {
+      key: values.address,
+      startDate: values?.createTime[0].valueOf() + '',
+      endDate: values?.createTime[1].valueOf() + '',
     }
 
     const { data } = await getFootprintListAPI({ query });

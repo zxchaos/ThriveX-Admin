@@ -79,9 +79,6 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
     };
 
     const onSubmit: FormProps<FieldType>['onFinish'] = async (values) => {
-        console.log(values, 777);
-
-
         values.createTime = values.createTime.valueOf()
         values.cateIds = [...new Set(values.cateIds?.flat())]
 
@@ -135,7 +132,6 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                         multiple
                         fieldNames={{ label: "name", value: "id" }}
                         placeholder="请选择文章分类"
-                        onChange={(value) => { console.log(value) }}
                         className="w-full"
                     />
                 </Form.Item>

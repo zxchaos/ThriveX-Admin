@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Card, message, Table, Popconfirm, Button, Tag, Modal, Form, Input, DatePicker } from 'antd';
+import { Card, message, Table, Popconfirm, Button, Modal, Form, Input, DatePicker } from 'antd';
 import { getCommentListAPI } from '@/api/Comment';
 import { delCommentDataAPI } from '@/api/Comment';
 import { ColumnsType } from 'antd/es/table';
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
-import { Comment } from '@/types/app/comment'
+import { Comment, FilterForm } from '@/types/app/comment'
 import dayjs from 'dayjs';
 
 const CommentPage = () => {
@@ -18,8 +18,6 @@ const CommentPage = () => {
     const getCommentList = async () => {
         const { data } = await getCommentListAPI();
 
-        // 根据时间排序：最新时间在前
-        // const sortedData = (data as Comment[]).sort((a, b) => +b.createTime - +a.createTime);
         setList(data)
         setLoading(false)
     }
@@ -43,15 +41,6 @@ const CommentPage = () => {
             key: 'id',
             align: "center"
         },
-        // {
-        //     title: '状态',
-        //     dataIndex: 'auditStatus',
-        //     key: 'auditStatus',
-        //     fixed: 'left',
-        //     render: (status: number) => status ?
-        //         <Tag bordered={false} color="processing">通过</Tag>
-        //         : <Tag bordered={false} color="error">待审核</Tag>
-        // },
         {
             title: '名称',
             dataIndex: 'name',
@@ -116,14 +105,13 @@ const CommentPage = () => {
 
     const onSubmit = async (values: FilterForm) => {
         const query: FilterData = {
-            key: values.title ? values.title : undefined,
-            content: values.content ? values.content : undefined,
-            startDate: values.createTime ? values.createTime[0].valueOf() + '' : undefined,
-            endDate: values.createTime ? values.createTime[1].valueOf() + '' : undefined,
+            key: values?.title,
+            content: values?.content,
+            startDate: values?.createTime[0].valueOf() + '',
+            endDate: values?.createTime[1].valueOf() + '',
         }
 
         const { data } = await getCommentListAPI({ query });
-        console.log(data);
         setList(data)
     }
 

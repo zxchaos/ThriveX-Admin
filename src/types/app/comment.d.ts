@@ -18,3 +18,9 @@ export interface Info {
     list: Comment[],
     paginate: Page
 }
+
+export interface FilterForm {
+    title?: string,
+    content?: string,
+    createTime: Date[]
+}

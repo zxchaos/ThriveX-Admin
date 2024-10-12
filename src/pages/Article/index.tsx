@@ -9,8 +9,7 @@ import { getTagListAPI } from '@/api/Tag'
 import { delArticleDataAPI, getArticleListAPI } from '@/api/Article';
 import type { Tag as ArticleTag } from '@/types/app/tag';
 import type { Cate } from '@/types/app/cate';
-import type { Article } from '@/types/app/article';
-import { FilterArticle, FilterForm } from './type'
+import type { Article, FilterArticle, FilterForm } from '@/types/app/article';
 
 import dayjs from 'dayjs';
 
@@ -127,10 +126,10 @@ const ArticlePage = () => {
     const onSubmit = async (values: FilterForm) => {
         const query: FilterArticle = {
             key: values.title,
-            startDate: values.createTime ? values.createTime[0].valueOf() + '' : undefined,
-            endDate: values.createTime ? values.createTime[1].valueOf() + '' : undefined,
             cateIds: values.cateIds,
             tagId: values.tagId,
+            startDate: values?.createTime[0].valueOf() + '',
+            endDate: values?.createTime[1].valueOf() + '',
         }
 
         const { data } = await getArticleListAPI({ query });
@@ -142,7 +141,7 @@ const ArticlePage = () => {
 
     const getCateList = async () => {
         const { data } = await getCateListAPI()
-        setCateList(data as Cate[])
+        setCateList(data.filter(item => item.type === "cate") as Cate[])
     }
 
     const getTagList = async () => {
