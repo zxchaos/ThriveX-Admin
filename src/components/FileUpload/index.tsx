@@ -63,8 +63,16 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
         const { code, message: msg, data } = await res.json();
         if (code !== 200) return message.error("文件上传失败：" + msg);
 
-        // 把数据写入到剪贴板
-        await navigator.clipboard.writeText(data.join("\n"));
+        try {
+            // 把数据写入到剪贴板
+            await navigator.clipboard.writeText(data.join("\n"));
+        } catch (error) {
+            message.error("复制到剪贴板失败，请手动复制");
+            onSuccess(data);
+            setIsLoading(false);
+            return
+        }
+
         message.success(`🎉 文件上传成功，URL链接已复制到剪贴板`);
         onSuccess(data);
         setIsLoading(false);
