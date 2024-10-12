@@ -50,6 +50,8 @@ const CreatePage = () => {
 
   // 回显数据
   useEffect(() => {
+    setPublishOpen(false)
+    
     // 有Id就回显指定的数据
     if (id) {
       getArticleData()
@@ -152,8 +154,7 @@ const CreatePage = () => {
       <Title value="创作" />
 
       <Card className='relative mt-2'>
-        {/* <div className='absolute top-[4.5%] right-[5%] z-10 flex space-x-4'> */}
-        <div className='flex justify-end w-full'>
+        <div className='relative z-50 flex justify-end w-full'>
           <div className='flex w-[24%] space-x-4'>
             <Dropdown.Button menu={{ items }}>创作神器</Dropdown.Button>
 
@@ -172,7 +173,7 @@ const CreatePage = () => {
         </div>
 
         <Drawer
-          title={data.id ? "编辑文章" : "发布文章"}
+          title={id ? "编辑文章" : "发布文章"}
           placement="right"
           size='large'
           closable={false}

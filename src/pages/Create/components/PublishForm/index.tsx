@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { Form, Input, Button, Select, DatePicker, Cascader, FormProps, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
@@ -27,6 +27,9 @@ interface FieldType {
 }
 
 const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => void }) => {
+    const [params] = useSearchParams()
+    const id = +params.get('id')!
+
     const [form] = Form.useForm()
     const navigate = useNavigate()
 
@@ -34,7 +37,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
     const [tagList, setTagList] = useState<Tag[]>([])
 
     useEffect(() => {
-        if (!data.id) return
+        if (!id) return form.resetFields()
 
         // 把数据处理成[[1], [4, 5], [4, 6]]格式
         const cateIds = data?.cateList?.flatMap(item => {
@@ -53,11 +56,11 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
             tagIds,
             createTime: dayjs(+data.createTime!)
         })
-    }, [data])
+    }, [data, id])
 
     const getCateList = async () => {
         const { data } = await getCateListAPI()
-        setCateList(data.filter(item=>item.type === "cate") as Cate[])
+        setCateList(data.filter(item => item.type === "cate") as Cate[])
     }
 
     const getTagList = async () => {
@@ -76,16 +79,19 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
     };
 
     const onSubmit: FormProps<FieldType>['onFinish'] = async (values) => {
+        console.log(values, 777);
+
+
         values.createTime = values.createTime.valueOf()
         values.cateIds = [...new Set(values.cateIds?.flat())]
 
         values.tagIds = values.tagIds ? (values.tagIds as number[]).join(',') : ""
 
-        if (data.id) {
-            await editArticleDataAPI({ id: data.id, ...values, content: data.content } as any)
+        if (id) {
+            await editArticleDataAPI({ id, ...values, content: data.content } as any)
             message.success("🎉 编辑成功")
         } else {
-            await addArticleDataAPI({ id: data.id, ...values, content: data.content } as any)
+            await addArticleDataAPI({ id, ...values, content: data.content } as any)
             message.success("🎉 发布成功")
         }
 
@@ -137,9 +143,10 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                 <Form.Item label="选择标签" name="tagIds">
                     <Select
                         allowClear
-                        mode="multiple"
+                        mode="tags"
                         options={tagList}
                         fieldNames={{ label: 'name', value: 'id' }}
+                        filterOption={(input, option) => !!option?.name.includes(input)}
                         placeholder="请选择文章标签"
                         className="w-full"
                     />
@@ -150,7 +157,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" className="w-full">{data.id ? "编辑文章" : "发布文章"}</Button>
+                    <Button type="primary" htmlType="submit" className="w-full">{id ? "编辑文章" : "发布文章"}</Button>
                 </Form.Item>
             </Form>
         </>
