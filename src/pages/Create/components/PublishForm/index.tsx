@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { Form, Input, Button, Select, DatePicker, Cascader, FormProps, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { RuleObject } from "antd/es/form";
-import { useNavigate } from "react-router-dom";
-import "./index.scss"
 
 import { addArticleDataAPI, editArticleDataAPI } from '@/api/Article'
 import { getCateListAPI } from '@/api/Cate'
 import { getTagListAPI } from '@/api/Tag'
+
 import { Cate } from "@/types/app/cate";
 import { Tag } from "@/types/app/tag";
 import { Article } from "@/types/app/article";
 
 import dayjs from 'dayjs';
+
+import "./index.scss"
 
 interface FieldType {
     title: string,
@@ -153,13 +156,3 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
 };
 
 export default PublishForm;
-
-function transCateArray(arr: Cate[]): any {
-    return arr.map((item: Cate) => {
-        if (item.children && item.children.length > 0) {
-            return [item.id, ...transCateArray(item.children)].flat();
-        } else {
-            return item.id;
-        }
-    });
-}
