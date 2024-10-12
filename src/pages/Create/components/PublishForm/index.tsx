@@ -54,7 +54,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
 
     const getCateList = async () => {
         const { data } = await getCateListAPI()
-        setCateList(data as Cate[])
+        setCateList(data.filter(item=>item.type === "cate") as Cate[])
     }
 
     const getTagList = async () => {

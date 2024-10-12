@@ -1,14 +1,16 @@
-import { Button, Card, Drawer, Dropdown, MenuProps, message } from 'antd';
-import { BiSave } from "react-icons/bi";
-
-import VditorEditor from './components/VditorMD';
-import PublishForm from './components/PublishForm';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Button, Card, Drawer, Dropdown, MenuProps, message } from 'antd';
 
 import Title from '@/components/Title';
+import VditorEditor from './components/VditorMD';
+import PublishForm from './components/PublishForm';
+
 import { Article } from '@/types/app/article';
 import { getArticleDataAPI } from '@/api/Article'
-import { useSearchParams } from 'react-router-dom';
+
+import { BiSave } from "react-icons/bi";
+import { GrFormNext } from "react-icons/gr";
 
 const CreatePage = () => {
   const [params] = useSearchParams()
@@ -138,7 +140,7 @@ const CreatePage = () => {
           </Button>
 
           <Button type="primary" className='w-full flex justify-between' onClick={nextBtn} >
-            <BiSave className='text-base' /> 下一步
+            <GrFormNext className='text-2xl' /> 下一步
           </Button>
         </div>
 
