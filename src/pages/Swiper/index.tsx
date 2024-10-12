@@ -160,7 +160,7 @@ const SwiperPage = () => {
             <FileUpload
                 dir="swiper"
                 open={isModalOpen}
-                onSuccess={(url: string) => form.setFieldValue("image", url)}
+                onSuccess={(url: string[]) => form.setFieldValue("image", url.join("\n"))}
                 onCancel={() => setIsModalOpen(false)}
             />
         </>

@@ -115,7 +115,7 @@ const LayoutPage = () => {
             <FileUpload
                 dir="swiper"
                 open={isModalOpen}
-                onSuccess={(url: string) => setLayout({ ...layout, swiperImage: url })}
+                onSuccess={(url: string[]) => setLayout({ ...layout, swiperImage: url.join("\n") })}
                 onCancel={() => setIsModalOpen(false)}
             />
         </>

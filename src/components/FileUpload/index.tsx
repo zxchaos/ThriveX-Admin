@@ -9,7 +9,7 @@ import Compressor from 'compressorjs';
 interface UploadFileProps {
     dir: FileDir,
     open: boolean,
-    onSuccess: (urls: string) => void,
+    onSuccess: (urls: string[]) => void,
     onCancel: () => void
 }
 
@@ -66,7 +66,7 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
         // 把数据写入到剪贴板
         await navigator.clipboard.writeText(data.join("\n"));
         message.success(`🎉 文件上传成功，URL链接已复制到剪贴板`);
-        onSuccess(data.join("\n"));
+        onSuccess(data);
         setIsLoading(false);
         onCloseModel();
     };

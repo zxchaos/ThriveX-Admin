@@ -24,7 +24,12 @@ const CreatePage = () => {
   }
 
   // 保存文章
-  const baseBtn = () => {
+  const saveBtn = () => {
+    content.trim().length >= 1 ? setPublishOpen(true) : message.error('请输入文章内容')
+  }
+
+  // 下一步
+  const nextBtn = () => {
     content.trim().length >= 1 ? setPublishOpen(true) : message.error('请输入文章内容')
   }
 
@@ -128,8 +133,12 @@ const CreatePage = () => {
         <div className='absolute top-[4.5%] right-[5%] z-10 flex space-x-4'>
           <Dropdown.Button menu={{ items }}>创作神器</Dropdown.Button>
 
-          <Button type="primary" className='w-full flex justify-between' onClick={baseBtn} >
+          <Button className='w-full flex justify-between' onClick={saveBtn} >
             <BiSave className='text-base' /> 保存
+          </Button>
+
+          <Button type="primary" className='w-full flex justify-between' onClick={nextBtn} >
+            <BiSave className='text-base' /> 下一步
           </Button>
         </div>
 

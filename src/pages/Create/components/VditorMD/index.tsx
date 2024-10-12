@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Vditor from "vditor";
 import "vditor/dist/index.css";
 import "./index.scss"
+import FileUpload from "@/components/FileUpload";
 
 const toolbar = [
     {
@@ -177,6 +178,7 @@ interface VditorProps {
 }
 
 const VditorEditor = ({ value, getValue }: VditorProps) => {
+    const [openUploadModalOpen, setOpenUploadModalOpen] = useState(false);
     const [vd, setVd] = useState<Vditor>();
 
     useEffect(() => {
@@ -191,11 +193,52 @@ const VditorEditor = ({ value, getValue }: VditorProps) => {
                 delay: 500
             },
             toolbar,
+            // upload: {
+            //     handler: async (files) => {
+            //         console.log(files, 333);
+
+            //         const formData = new FormData();
+            //         files.forEach(file => {
+            //             formData.append('files', file);
+            //         });
+
+            //         // 添加额外参数
+            //         formData.append('dir', 'article');
+
+            //         const res = await fetch(`${baseURL}/file`, {
+            //             method: "POST",
+            //             body: formData,
+            //             headers: {
+            //                 "Authorization": `Bearer ${store.token}`
+            //             }
+            //         });
+
+            //         const { code, message, data } = await res.json();
+            //         if (code !== 200) return message.error("文件上传失败：" + message);
+
+            //         // 插入到编辑器中
+            //         data.forEach((path: string) => {
+            //             vditor.insertValue(`![${path}](${path})`);
+            //         });
+            //     },
+            // },
             input: (value) => {
                 // 把数据传给父组件
                 getValue(value)
             },
             after: () => {
+                // 获取文件上传按钮
+                const uploadButton = document.querySelector('.vditor-toolbar [data-type="upload"]')!;
+
+                // 添加点击事件监听器
+                uploadButton.addEventListener('click', (e) => {
+                    e.preventDefault()
+                    console.log('文件上传图标被点击');
+                    // 在这里添加你的自定义逻辑
+
+                    setOpenUploadModalOpen(true)
+                });
+
                 setVd(vditor);
             }
         })
@@ -213,7 +256,23 @@ const VditorEditor = ({ value, getValue }: VditorProps) => {
         }
     }, [value, vd]);
 
-    return <div id="vditor" className="vditor" />;
+    return (
+        <>
+            <div id="vditor" className="vditor" />
+
+            {/* 文件上传 */}
+            <FileUpload
+                dir="article"
+                open={openUploadModalOpen}
+                onSuccess={(urls: string[]) => {
+                    urls.forEach((path: string) => {
+                        vd?.insertValue(`![${path}](${path})`);
+                    });
+                }}
+                onCancel={() => setOpenUploadModalOpen(false)}
+            />
+        </>
+    );
 };
 
 export default VditorEditor;
