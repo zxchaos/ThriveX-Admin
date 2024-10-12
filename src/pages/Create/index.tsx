@@ -27,7 +27,13 @@ const CreatePage = () => {
 
   // 保存文章
   const saveBtn = () => {
-    content.trim().length >= 1 ? setPublishOpen(true) : message.error('请输入文章内容')
+    if (content.trim().length >= 1) {
+      // 将文章内容持久化存储到本地
+      localStorage.setItem('article_content', content)
+      message.success('内容已保存')
+    } else {
+      message.error('请输入文章内容')
+    }
   }
 
   // 下一步
@@ -42,13 +48,27 @@ const CreatePage = () => {
     setContent(data.content)
   }
 
+  // 回显数据
   useEffect(() => {
-    if (id) getArticleData()
+    // 有Id就回显指定的数据
+    if (id) {
+      getArticleData()
+      return
+    }
+
+    // 没有就回显本地保存的数据
+    const content = localStorage.getItem('article_content')
+
+    if (content) {
+      setData({ ...data, content })
+      setContent(content)
+    }
   }, [id])
 
   useEffect(() => {
     setData({ ...data, content })
   }, [content])
+
 
 
   // 解析接口数据

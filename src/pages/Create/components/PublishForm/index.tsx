@@ -91,6 +91,8 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
 
         // 关闭弹框
         closeModel()
+        // 清除本地持久化的数据
+        localStorage.removeItem('article_content')
         // 跳转到文章页
         navigate("/article")
         // 初始化表单
