@@ -47,7 +47,7 @@ const SystemPage = () => {
         } catch (error) {
             notification.error({
                 message: '错误',
-                description: '修改密码失败，请重试'
+                description: '修改密码失败，请重试：' + error
             });
         }
     };

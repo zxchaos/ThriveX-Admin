@@ -11,4 +11,4 @@ export const getUserDataAPI = (id?: number) => Request<User>("GET", `/user/${id}
 export const editUserDataAPI = (data: UserInfo) => Request<UserInfo>("PATCH", "/user", { data })
 
 // 修改管理员密码
-export const editAdminPassAPI = (data: EditUser) => Request<UserInfo>("PATCH", "/user/admin", { data })
+export const editAdminPassAPI = (data: EditUser) => Request<UserInfo>("PATCH", "/user/pass", { data })

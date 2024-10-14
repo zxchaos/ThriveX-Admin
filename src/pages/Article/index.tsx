@@ -34,7 +34,7 @@ const ArticlePage = () => {
 
     const delArticleData = async (id: number) => {
         setLoading(true);
-
+        
         await delArticleDataAPI(id);
         notification.success({ message: '🎉 删除文章成功' })
         getArticleList();
