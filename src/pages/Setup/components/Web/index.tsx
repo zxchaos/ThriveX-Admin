@@ -2,31 +2,23 @@ import { useEffect, useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { getWebDataAPI, editWebDataAPI } from '@/api/Project';
 import { Web } from '@/types/app/project'
+import { useWebStore } from '@/stores';
 
 const WebPage = () => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
-    const [web, setWeb] = useState<Web>({} as Web);
-    const [tempCovers, setTempCovers] = useState<string>("");
 
-    const getWebData = async () => {
-        const { data } = await getWebDataAPI();
-        setTempCovers(data.covers);
-        setWeb(data);
-        form.setFieldsValue(data);
-        setLoading(false);
-    };
-
-    useEffect(() => {
-        setLoading(true);
-        getWebData();
-    }, []);
+    const web = useWebStore(state => state.web)
+    const setWeb = useWebStore(state => state.setWeb)
 
     const onSubmit = async (values: Web) => {
         setLoading(true);
         await editWebDataAPI(values);
         message.success("🎉 编辑网站成功");
-        getWebData();
+
+        setWeb(values)
+        form.setFieldsValue(values);
+        setLoading(false);
     };
 
     return (

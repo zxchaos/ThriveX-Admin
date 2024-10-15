@@ -6,6 +6,9 @@ import { ConfigProvider } from 'antd';
 import RouteList from './components/RouteList';
 import "@/styles/customAntd.scss"
 
+import { getWebDataAPI } from '@/api/Project';
+import { useWebStore } from './stores';
+
 function App() {
   useAuthRedirect()
 
@@ -16,7 +19,14 @@ function App() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  // 获取网站数据并把数据共享给全局方便使用
+  const setWeb = useWebStore(state => state.setWeb)
+  const getWebData = async () => {
+    const { data } = await getWebDataAPI();
+    setWeb(data)
+  };
   useEffect(() => {
+    getWebData()
     setTimeout(() => setLoading(false), 1000);
   }, []);
 
