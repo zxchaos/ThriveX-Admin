@@ -18,7 +18,7 @@ export const getCommentDataAPI = (id?: number) => Request<Paginate<Comment>>("GE
 
 // 获取评论列表
 export const getCommentListAPI = (data?: QueryData) => Request<Comment[]>("POST", `/comment/list`, {
-    data: { ...data?.query },
+    data: { ...data, ...data?.query },
     params: {
         sort: data?.sort,
     }

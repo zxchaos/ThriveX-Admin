@@ -86,7 +86,9 @@ const WorkPage = () => {
 
     const fetchData = async (type: Menu) => {
         if (type === "comment") {
-            const { data } = await getCommentListAPI({ query: { status: 0 } });
+            const { data } = await getCommentListAPI({ query: { status: 0 }, pattern: "list" });
+            console.log(data, 444);
+
             setCommentList(data);
         } else if (type === "link") {
             const { data } = await getLinkListAPI({ query: { status: 0 } });
