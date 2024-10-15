@@ -50,6 +50,7 @@ const ListItem = ({ item, type, handleApproval, handleRejection }: ListItemProps
                             <div>内容：{item.content}</div>
                             <div>邮箱：{item.email || '暂无'}</div>
                             <div>地址：{item.url || '暂无'}</div>
+                            <div>所属文章：<a href={`/article/${item.articleId}`} className="hover:text-primary">{item.articleTitle || '暂无'}</a></div>
                         </>
                     ) : (
                         <>
@@ -87,8 +88,6 @@ const WorkPage = () => {
     const fetchData = async (type: Menu) => {
         if (type === "comment") {
             const { data } = await getCommentListAPI({ query: { status: 0 }, pattern: "list" });
-            console.log(data, 444);
-
             setCommentList(data);
         } else if (type === "link") {
             const { data } = await getLinkListAPI({ query: { status: 0 } });
