@@ -14,6 +14,8 @@ import dayjs from 'dayjs';
 import RandomAvatar from "@/components/RandomAvatar";
 import Empty from "@/components/Empty";
 
+import { useWebStore } from '@/stores';
+
 type Menu = "comment" | "link" | "wall";
 
 interface ListItemProps {
@@ -23,60 +25,64 @@ interface ListItemProps {
     handleRejection: (id: number, type: Menu) => void;
 }
 
-const ListItem = ({ item, type, handleApproval, handleRejection }: ListItemProps) => (
-    <div key={item.id}>
-        <div className="text-center text-xs text-[#e0e0e0] mb-4">
-            {dayjs(+item.createTime!).format('YYYY-MM-DD HH:mm:ss')}
-        </div>
+const ListItem = ({ item, type, handleApproval, handleRejection }: ListItemProps) => {
+    const web = useWebStore(state => state.web)
 
-        <div className="flex justify-between p-7 rounded-md transition-colors">
-            <div className="flex mr-10">
-                {type !== "wall" ? (
-                    <img src={item.avatar || item.image} alt="" className="w-13 h-13 border border-[#eee] rounded-full" />
-                ) : <RandomAvatar className="w-13 h-13 border border-[#eee] rounded-full" />}
+    return (
+        <div key={item.id}>
+            <div className="text-center text-xs text-[#e0e0e0] mb-4">
+                {dayjs(+item.createTime!).format('YYYY-MM-DD HH:mm:ss')}
+            </div>
 
-                <div className="flex flex-col justify-center ml-4 px-4 py-2 bg-[#F9F9FD] rounded-md">
-                    {type === "link" ? (
-                        <>
-                            <div>名称：{item.title}</div>
-                            <div>介绍：{item.description}</div>
-                            <div>类型：{item.type.name}</div>
-                            <div>邮箱：{item.email || '暂无'}</div>
-                            <div>地址：{item.url || '暂无'}</div>
-                        </>
-                    ) : type === "comment" ? (
-                        <>
-                            <div>名称：{item.name}</div>
-                            <div>内容：{item.content}</div>
-                            <div>邮箱：{item.email || '暂无'}</div>
-                            <div>地址：{item.url || '暂无'}</div>
-                            <div>所属文章：<a href={`/article/${item.articleId}`} className="hover:text-primary">{item.articleTitle || '暂无'}</a></div>
-                        </>
-                    ) : (
-                        <>
-                            <div>名称：{item.name}</div>
-                            <div>内容：{item.content}</div>
-                        </>
-                    )}
+            <div className="flex justify-between p-7 rounded-md transition-colors">
+                <div className="flex mr-10">
+                    {type !== "wall" ? (
+                        <img src={item.avatar || item.image} alt="" className="w-13 h-13 border border-[#eee] rounded-full" />
+                    ) : <RandomAvatar className="w-13 h-13 border border-[#eee] rounded-full" />}
+
+                    <div className="flex flex-col justify-center ml-4 px-4 py-2 bg-[#F9F9FD] rounded-md">
+                        {type === "link" ? (
+                            <>
+                                <div>名称：{item.title}</div>
+                                <div>介绍：{item.description}</div>
+                                <div>类型：{item.type.name}</div>
+                                <div>邮箱：{item.email || '暂无'}</div>
+                                <div>地址：{item.url || '暂无'}</div>
+                            </>
+                        ) : type === "comment" ? (
+                            <>
+                                <div>名称：{item.name}</div>
+                                <div>内容：{item.content}</div>
+                                <div>邮箱：{item.email || '暂无'}</div>
+                                <div>地址：{item.url || '暂无'}</div>
+                                <div>所属文章：<a href={`${web.url}/article/${item.articleId}`} target='_blank' className="hover:text-primary">{item.articleTitle || '暂无'}</a></div>
+                            </>
+                        ) : (
+                            <>
+                                <div>名称：{item.name}</div>
+                                <div>内容：{item.content}</div>
+                            </>
+                        )}
+                    </div>
+                </div>
+
+                <div className="flex items-end">
+                    <Dropdown menu={{
+                        items: [
+                            { key: 'ok', label: "通过", onClick: () => handleApproval(item.id, type) },
+                            { key: 'no', label: "拒审", onClick: () => handleRejection(item.id, type) }
+                        ]
+                    }}>
+                        <div className="flex justify-evenly items-center bg-[#F9F9FD] w-11 h-5 rounded-md cursor-pointer">
+                            <span className="inline-block w-2 h-2 bg-[#b5c2d3] rounded-full"></span>
+                            <span className="inline-block w-2 h-2 bg-[#b5c2d3] rounded-full"></span>
+                        </div>
+                    </Dropdown>
                 </div>
             </div>
-
-            <div className="flex items-end">
-                <Dropdown menu={{
-                    items: [
-                        { key: 'ok', label: "通过", onClick: () => handleApproval(item.id, type) },
-                        { key: 'no', label: "拒审", onClick: () => handleRejection(item.id, type) }
-                    ]
-                }}>
-                    <div className="flex justify-evenly items-center bg-[#F9F9FD] w-11 h-5 rounded-md cursor-pointer">
-                        <span className="inline-block w-2 h-2 bg-[#b5c2d3] rounded-full"></span>
-                        <span className="inline-block w-2 h-2 bg-[#b5c2d3] rounded-full"></span>
-                    </div>
-                </Dropdown>
-            </div>
         </div>
-    </div>
-);
+    )
+}
 
 const WorkPage = () => {
     const activeSty = "bg-[#f9f9ff] text-primary";

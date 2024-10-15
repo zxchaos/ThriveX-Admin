@@ -11,9 +11,13 @@ import type { Tag as ArticleTag } from '@/types/app/tag';
 import type { Cate } from '@/types/app/cate';
 import type { Article, FilterArticle, FilterForm } from '@/types/app/article';
 
+import { useWebStore } from '@/stores';
+
 import dayjs from 'dayjs';
 
 const ArticlePage = () => {
+    const web = useWebStore(state => state.web)
+
     const [loading, setLoading] = useState<boolean>(false);
     const [articleList, setArticleList] = useState<Article[]>([]);
 
@@ -34,7 +38,7 @@ const ArticlePage = () => {
 
     const delArticleData = async (id: number) => {
         setLoading(true);
-        
+
         await delArticleDataAPI(id);
         notification.success({ message: '🎉 删除文章成功' })
         getArticleList();
@@ -59,7 +63,7 @@ const ArticlePage = () => {
             key: 'title',
             align: 'center',
             width: 300,
-            render: (text: string) => <div className='line-clamp-1'>{text}</div>,
+            render: (text: string, record: Article) => <a href={`${web.url}/article/${record.id}`} target='_blank' className='hover:text-primary line-clamp-1'>{text}</a>,
         },
         {
             title: '摘要',
