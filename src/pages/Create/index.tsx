@@ -154,8 +154,8 @@ const CreatePage = () => {
       <Title value="创作" />
 
       <Card className='relative mt-2'>
-        <div className='relative z-50 flex justify-end w-full'>
-          <div className='flex w-[24%] space-x-4'>
+        <div className='flex justify-end w-full'>
+          <div className='relative z-50 flex w-[24%] space-x-4'>
             <Dropdown.Button menu={{ items }}>创作神器</Dropdown.Button>
 
             <Button className='w-full flex justify-between' onClick={saveBtn} >
