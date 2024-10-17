@@ -17,8 +17,6 @@ const WallPage = () => {
     const getWallList = async () => {
         const { data } = await getWallListAPI();
 
-        // 根据时间排序：最新时间在前
-        // const sortedData = (data as Wall[]).sort((a, b) => +b.createTime - +a.createTime);
         setList(data)
         setLoading(false)
     }
@@ -71,12 +69,6 @@ const WallPage = () => {
                 setWall(record)
                 setIsModalOpen(true)
             }}>{text}</span>
-        },
-        {
-            title: '邮箱',
-            dataIndex: 'email',
-            key: 'email',
-            render: (text: string) => text ? text : '暂无邮箱',
         },
         {
             title: '留言时间',
