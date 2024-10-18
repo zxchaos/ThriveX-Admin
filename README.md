@@ -42,7 +42,7 @@
 
 只演示部分，具体查看：https://liuyuyang.net
 
-![首页](https://bu.dusays.com/2024/10/17/6710eae3b6453.png)
+![首页](https://bu.dusays.com/2024/04/09/66148fc49640a.png)
 
 ![足迹](https://bu.dusays.com/2024/09/17/66e97036dddcb.png)
 
