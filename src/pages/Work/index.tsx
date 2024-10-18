@@ -16,6 +16,7 @@ import Empty from "@/components/Empty";
 
 import { useWebStore } from '@/stores';
 import TextArea from "antd/es/input/TextArea";
+import { sendDismissEmailAPI } from "@/api/Email";
 
 type Menu = "comment" | "link" | "wall";
 
@@ -58,11 +59,57 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
             message.success('🎉 留言驳回成功');
         }
 
-        console.log(dismissInfo);
-
         setIsModalOpen(false)
         fetchData(type);
+        setDismissInfo("")
+
+        // 发送驳回通知邮件
+        sendDismissEmail()
     };
+
+    // 发送驳回通知邮件
+    const sendDismissEmail = () => {
+        // 类型名称
+        let email_info = {
+            name: "",
+            type: "",
+            url: ""
+        }
+        switch (type) {
+            case "link":
+                email_info = {
+                    name: item.title,
+                    type: "友链",
+                    url: `${web.url}/friend`,
+                }
+                break;
+            case "comment":
+                email_info = {
+                    name: item.name,
+                    type: "评论",
+                    url: `${web.url}/article/${item.articleId}`,
+                }
+                break;
+            case "wall":
+                email_info = {
+                    name: item.name,
+                    type: "留言",
+                    url: `${web.url}/wall/all`,
+                }
+                break;
+        }
+
+        sendDismissEmailAPI({
+            to: item.email,
+            content: dismissInfo,
+            recipient: email_info.name,
+            subject: `${email_info.type}驳回通知`,
+            time: dayjs(Date.now()).format('YYYY年MM月DD日 HH:mm'),
+            type: email_info.type,
+            url: email_info.url
+        })
+    }
+
 
     return (
         <div key={item.id}>
