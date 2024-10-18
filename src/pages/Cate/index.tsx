@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Cate } from '@/types/app/cate';
 import { addCateDataAPI, delCateDataAPI, editCateDataAPI, getCateDataAPI, getCateListAPI } from '@/api/Cate';
 import { DownOutlined } from '@ant-design/icons';
-import { Form, Input, Button, Tree, Modal, Spin, Dropdown, Card, MenuProps, Popconfirm, message } from 'antd';
+import { Form, Input, Button, Tree, Modal, Spin, Dropdown, Card, MenuProps, Popconfirm, message, Radio } from 'antd';
 import Title from '@/components/Title';
 import "./index.scss"
 
@@ -12,6 +12,7 @@ const CatePage = () => {
     const [cate, setCate] = useState<Cate>({} as Cate);
     const [list, setList] = useState<Cate[]>([]);
     const [isMethod, setIsMethod] = useState<'create' | 'edit'>('create');
+    const [isCateShow, setIsCateShow] = useState(false)
     const [form] = Form.useForm();
 
     const getCateList = async () => {
@@ -23,18 +24,22 @@ const CatePage = () => {
     const addCateData = (id: number) => {
         setIsMethod("create")
         setIsModelOpen(true);
+        setIsCateShow(false)
 
         form.resetFields();
 
-        setCate({ ...cate, level: id });
+        setCate({ ...cate, level: id, type: "cate" });
     };
 
     const editCateData = async (id: number) => {
         setIsMethod("edit")
         setLoading(true);
         setIsModelOpen(true);
+
         const { data } = await getCateDataAPI(id);
+        setIsCateShow(data.type === "cate" ? false : true)
         setCate(data);
+
         form.setFieldsValue(data);
         setLoading(false);
     };
@@ -48,6 +53,8 @@ const CatePage = () => {
 
     const submit = async () => {
         form.validateFields().then(async (values: Cate) => {
+            if (values.type === "cate") values.url = '/'
+            
             if (isMethod === "edit") {
                 await editCateDataAPI({ ...cate, ...values });
                 message.success('🎉 修改分类成功');
@@ -67,6 +74,7 @@ const CatePage = () => {
     };
 
     const closeModel = () => {
+        setIsCateShow(false)
         setIsMethod("create")
         setIsModelOpen(false);
         form.resetFields();
@@ -143,15 +151,25 @@ const CatePage = () => {
                             <Input placeholder="请输入分类图标" />
                         </Form.Item>
 
-                        <Form.Item label="链接" name="url">
-                            <Input placeholder="请输入分类链接" />
-                        </Form.Item>
+                        {
+                            isCateShow && <Form.Item label="链接" name="url">
+                                <Input placeholder="请输入分类链接" />
+                            </Form.Item>
+                        }
 
                         <Form.Item label="顺序" name="order">
                             <Input placeholder="请输入分类顺序（值越小越靠前）" />
                         </Form.Item>
 
-                        {/* TODO：有时间做个分类的类型，导航或者分类选项 */}
+                        <Form.Item label="模式" name="type">
+                            <Radio.Group onChange={(e) => {
+                                const type = e.target.value
+                                type === "nav" ? setIsCateShow(true) : setIsCateShow(false)
+                            }}>
+                                <Radio value="cate">分类</Radio>
+                                <Radio value="nav">导航</Radio>
+                            </Radio.Group>
+                        </Form.Item>
 
                         <Form.Item className='!mb-0 flex justify-end'>
                             <Button onClick={closeModel}>取消</Button>
