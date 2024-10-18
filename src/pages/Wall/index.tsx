@@ -71,6 +71,12 @@ const WallPage = () => {
             }}>{text}</span>
         },
         {
+            title: '邮箱',
+            dataIndex: 'email',
+            key: 'email',
+            render: (text: string) => text ? text : '暂无邮箱',
+        },
+        {
             title: '留言时间',
             dataIndex: 'createTime',
             key: 'createTime',

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Dropdown, message } from "antd";
+import { Button, Card, Dropdown, message, Modal } from "antd";
 import { getLinkListAPI, delLinkDataAPI, auditWebDataAPI } from '@/api/Web';
 import { getCommentListAPI, auditCommentDataAPI, delCommentDataAPI } from "@/api/Comment";
 import { getWallListAPI, auditWallDataAPI, delWallDataAPI } from "@/api/Wall";
@@ -15,18 +15,54 @@ import RandomAvatar from "@/components/RandomAvatar";
 import Empty from "@/components/Empty";
 
 import { useWebStore } from '@/stores';
+import TextArea from "antd/es/input/TextArea";
 
 type Menu = "comment" | "link" | "wall";
 
 interface ListItemProps {
     item: any;
     type: Menu;
-    handleApproval: (id: number, type: Menu) => void;
-    handleRejection: (id: number, type: Menu) => void;
+    fetchData: (type: Menu) => void;
 }
 
-const ListItem = ({ item, type, handleApproval, handleRejection }: ListItemProps) => {
+const ListItem = ({ item, type, fetchData }: ListItemProps) => {
     const web = useWebStore(state => state.web)
+
+    // 审核数据
+    const handleApproval = async () => {
+        if (type === "link") {
+            await auditWebDataAPI(item.id);
+            message.success('🎉 友链审核成功');
+        } else if (type === "comment") {
+            await auditCommentDataAPI(item.id);
+            message.success('🎉 评论审核成功');
+        } else if (type === "wall") {
+            await auditWallDataAPI(item.id);
+            message.success('🎉 留言审核成功');
+        }
+        fetchData(type);
+    };
+
+    // 驳回原因
+    const [dismissInfo, setDismissInfo] = useState("")
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleDismiss = async () => {
+        if (type === "link") {
+            await delLinkDataAPI(item.id);
+            message.success('🎉 友链驳回成功');
+        } else if (type === "comment") {
+            await delCommentDataAPI(item.id);
+            message.success('🎉 评论驳回成功');
+        } else if (type === "wall") {
+            await delWallDataAPI(item.id);
+            message.success('🎉 留言驳回成功');
+        }
+
+        console.log(dismissInfo);
+
+        setIsModalOpen(false)
+        fetchData(type);
+    };
 
     return (
         <div key={item.id}>
@@ -46,15 +82,13 @@ const ListItem = ({ item, type, handleApproval, handleRejection }: ListItemProps
                                 <div>名称：{item.title}</div>
                                 <div>介绍：{item.description}</div>
                                 <div>类型：{item.type.name}</div>
-                                <div>邮箱：{item.email || '暂无'}</div>
-                                <div>地址：{item.url || '暂无'}</div>
+                                <div>网站：{item.url || '暂无'}</div>
                             </>
                         ) : type === "comment" ? (
                             <>
                                 <div>名称：{item.name}</div>
                                 <div>内容：{item.content}</div>
-                                <div>邮箱：{item.email || '暂无'}</div>
-                                <div>地址：{item.url || '暂无'}</div>
+                                <div>网站：{item.url || '暂无'}</div>
                                 <div>所属文章：<a href={`${web.url}/article/${item.articleId}`} target='_blank' className="hover:text-primary">{item.articleTitle || '暂无'}</a></div>
                             </>
                         ) : (
@@ -63,14 +97,16 @@ const ListItem = ({ item, type, handleApproval, handleRejection }: ListItemProps
                                 <div>内容：{item.content}</div>
                             </>
                         )}
+
+                        <div>邮箱：{item.email || '暂无'}</div>
                     </div>
                 </div>
 
                 <div className="flex items-end">
                     <Dropdown menu={{
                         items: [
-                            { key: 'ok', label: "通过", onClick: () => handleApproval(item.id, type) },
-                            { key: 'no', label: "拒审", onClick: () => handleRejection(item.id, type) }
+                            { key: 'ok', label: "通过", onClick: handleApproval },
+                            { key: 'no', label: "驳回", onClick: () => setIsModalOpen(true) }
                         ]
                     }}>
                         <div className="flex justify-evenly items-center bg-[#F9F9FD] w-11 h-5 rounded-md cursor-pointer">
@@ -80,6 +116,20 @@ const ListItem = ({ item, type, handleApproval, handleRejection }: ListItemProps
                     </Dropdown>
                 </div>
             </div>
+
+            <Modal title="驳回原因" open={isModalOpen} footer={null} onClose={() => setIsModalOpen(false)}>
+                <TextArea
+                    value={dismissInfo}
+                    onChange={(e) => setDismissInfo(e.target.value)}
+                    placeholder="请输入驳回原因"
+                    autoSize={{ minRows: 3, maxRows: 5 }}
+                />
+
+                <div className="flex space-x-4">
+                    <Button size="large" className="w-full mt-2" onClick={() => setIsModalOpen(false)}>取消</Button>
+                    <Button type="primary" size="large" className="w-full mt-2" onClick={handleDismiss}>确定</Button>
+                </div>
+            </Modal>
         </div>
     )
 }
@@ -91,6 +141,7 @@ const WorkPage = () => {
     const [linkList, setLinkList] = useState<any[]>([]);
     const [wallList, setWallList] = useState<any[]>([]);
 
+    // 重新获取最新数据
     const fetchData = async (type: Menu) => {
         if (type === "comment") {
             const { data } = await getCommentListAPI({ query: { status: 0 }, pattern: "list" });
@@ -108,40 +159,12 @@ const WorkPage = () => {
         fetchData(active);
     }, [active]);
 
-    const handleApproval = async (id: number, type: Menu) => {
-        if (type === "link") {
-            await auditWebDataAPI(id);
-            message.success('🎉 友链审核成功');
-        } else if (type === "comment") {
-            await auditCommentDataAPI(id);
-            message.success('🎉 评论审核成功');
-        } else if (type === "wall") {
-            await auditWallDataAPI(id);
-            message.success('🎉 留言审核成功');
-        }
-        fetchData(type);
-    };
-
-    const handleRejection = async (id: number, type: Menu) => {
-        if (type === "link") {
-            await delLinkDataAPI(id);
-            message.success('🎉 友链拒审成功');
-        } else if (type === "comment") {
-            await delCommentDataAPI(id);
-            message.success('🎉 评论拒审成功');
-        } else if (type === "wall") {
-            await delWallDataAPI(id);
-            message.success('🎉 留言拒审成功');
-        }
-        fetchData(type);
-    };
-
     const renderList = (list: any[], type: Menu) => {
         if (list.length === 0) {
             return <Empty />;
         }
         return list.map(item => (
-            <ListItem key={item.id} item={item} type={type} handleApproval={handleApproval} handleRejection={handleRejection} />
+            <ListItem key={item.id} item={item} type={type} fetchData={(type) => fetchData(type)} />
         ));
     };
 
