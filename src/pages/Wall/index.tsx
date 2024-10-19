@@ -162,7 +162,7 @@ const WallPage = () => {
 
             <Modal title='留言详情' open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
                 <div className='pt-2 space-y-2'>
-                    <div><b>留言时间：</b> {dayjs(wall?.createTime).format("YYYY-MM-DD HH:mm:ss")}</div>
+                    <div><b>留言时间：</b> {dayjs(+wall?.createTime!).format("YYYY-MM-DD HH:mm:ss")}</div>
                     <div><b>留言用户：</b> {wall?.name}</div>
                     <div><b>内容：</b> {wall?.content}</div>
                 </div>
