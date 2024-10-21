@@ -11,13 +11,14 @@ import { useWebStore, useUserStore } from '@/stores'
 
 import dayjs from 'dayjs';
 import TextArea from 'antd/es/input/TextArea';
+import { sendCommentEmailAPI } from '@/api/Email';
 
 const CommentPage = () => {
     const web = useWebStore(state => state.web)
     const user = useUserStore(state => state.user)
 
     const [loading, setLoading] = useState(false);
-    const [comment, setComment] = useState<Comment>();
+    const [comment, setComment] = useState<Comment>({} as Comment);
     const [list, setList] = useState<Comment[]>([]);
 
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
@@ -143,6 +144,17 @@ const CommentPage = () => {
         setIsReplyModalOpen(false)
         setReplyInfo("")
         getCommentList()
+
+        // 发送邮件通知
+        await sendCommentEmailAPI({
+            content: comment.content,
+            reviewers: comment.name,
+            subject: comment.articleTitle!,
+            title: comment.articleTitle!,
+            url: location.href,
+            time: dayjs(Date.now()).format('YYYY年MM月DD日 HH:mm'),
+            to: comment.id !== comment.articleId ? comment.email : undefined
+        })
     }
 
     return (
