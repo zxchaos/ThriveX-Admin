@@ -1,19 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Card, message, Table, Popconfirm, Button, Modal, Form, Input, DatePicker } from 'antd';
-import { getCommentListAPI } from '@/api/Comment';
+import { addCommentDataAPI, getCommentListAPI } from '@/api/Comment';
 import { delCommentDataAPI } from '@/api/Comment';
 import { ColumnsType } from 'antd/es/table';
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
 import { Comment, FilterForm } from '@/types/app/comment'
 
-import { useWebStore } from '@/stores'
+import { useWebStore, useUserStore } from '@/stores'
 
 import dayjs from 'dayjs';
 import TextArea from 'antd/es/input/TextArea';
 
 const CommentPage = () => {
-    const store = useWebStore()
+    const web = useWebStore(state => state.web)
+    const user = useUserStore(state => state.user)
 
     const [loading, setLoading] = useState(false);
     const [comment, setComment] = useState<Comment>();
@@ -79,7 +80,7 @@ const CommentPage = () => {
             title: '所属文章',
             dataIndex: 'articleTitle',
             key: 'articleTitle',
-            render: (text: string, record: Comment) => (text ? <a href={`${store.web.url}/article/${record.articleId}`} target='_blank' className="hover:text-primary">{text}</a> : '该评论暂未绑定文章'),
+            render: (text: string, record: Comment) => (text ? <a href={`${web.url}/article/${record.articleId}`} target='_blank' className="hover:text-primary">{text}</a> : '该评论暂未绑定文章'),
         },
         {
             title: '评论时间',
@@ -99,7 +100,7 @@ const CommentPage = () => {
                         setIsReplyModalOpen(true)
                     }}>回复</Button>
 
-                    <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delCommentData(record.id)}>
+                    <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delCommentData(record.id!)}>
                         <Button type="primary" danger>删除</Button>
                     </Popconfirm>
                 </div>
@@ -124,8 +125,23 @@ const CommentPage = () => {
     // 回复内容
     const [replyInfo, setReplyInfo] = useState("")
     const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
-    const handleReply = () => {
+    const handleReply = async () => {
+        await addCommentDataAPI({
+            avatar: user.avatar,
+            url: web.url,
+            content: replyInfo,
+            commentId: comment?.id!,
+            auditStatus: 1,
+            email: user.email,
+            name: user.name,
+            articleId: comment?.articleId!,
+            createTime: new Date().getTime().toString(),
+        })
 
+        message.success('🎉 回复评论成功');
+
+        setIsReplyModalOpen(false)
+        setReplyInfo("")
     }
 
     return (

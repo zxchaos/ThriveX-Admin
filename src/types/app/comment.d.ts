@@ -1,12 +1,12 @@
 export interface Comment {
-    id: number,
+    id?: number,
     name: string,
     avatar: string,
     email: string,
     url: string,
     content: string,
     articleId: number,
-    articleTitle: number,
+    articleTitle?: number,
     commentId: number,
     auditStatus: number
     createTime: string,
