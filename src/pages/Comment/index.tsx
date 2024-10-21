@@ -10,6 +10,7 @@ import { Comment, FilterForm } from '@/types/app/comment'
 import { useWebStore } from '@/stores'
 
 import dayjs from 'dayjs';
+import TextArea from 'antd/es/input/TextArea';
 
 const CommentPage = () => {
     const store = useWebStore()
@@ -18,7 +19,7 @@ const CommentPage = () => {
     const [comment, setComment] = useState<Comment>();
     const [list, setList] = useState<Comment[]>([]);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
 
     const getCommentList = async () => {
         const { data } = await getCommentListAPI();
@@ -59,7 +60,7 @@ const CommentPage = () => {
             width: 400,
             render: (text: string, record) => <span className="hover:text-primary cursor-pointer line-clamp-2" onClick={() => {
                 setComment(record)
-                setIsModalOpen(true)
+                setIsCommentModalOpen(true)
             }}>{text}</span>
         },
         {
@@ -95,8 +96,8 @@ const CommentPage = () => {
                 <div className='flex justify-center space-x-2'>
                     <Button onClick={() => {
                         setComment(record)
-                        setIsModalOpen(true)
-                    }}>查看</Button>
+                        setIsReplyModalOpen(true)
+                    }}>回复</Button>
 
                     <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delCommentData(record.id)}>
                         <Button type="primary" danger>删除</Button>
@@ -118,6 +119,13 @@ const CommentPage = () => {
 
         const { data } = await getCommentListAPI({ query });
         setList(data)
+    }
+
+    // 回复内容
+    const [replyInfo, setReplyInfo] = useState("")
+    const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
+    const handleReply = () => {
+
     }
 
     return (
@@ -159,7 +167,7 @@ const CommentPage = () => {
                 />
             </Card>
 
-            <Modal title='评论详情' open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
+            <Modal title='评论详情' open={isCommentModalOpen} onCancel={() => setIsCommentModalOpen(false)} footer={null}>
                 <div className='pt-2 space-y-2'>
                     <div><b>所属文章：</b> {comment?.articleTitle}</div>
                     <div><b>评论时间：</b> {dayjs(comment?.createTime).format("YYYY-MM-DD HH:mm:ss")}</div>
@@ -167,6 +175,20 @@ const CommentPage = () => {
                     <div><b>邮箱：</b> {comment?.email ? comment?.email : "暂无邮箱"}</div>
                     <div><b>网站：</b> {comment?.url ? <a href={comment?.url} className="hover:text-primary">{comment?.url}</a> : '无网站'}</div>
                     <div><b>内容：</b> {comment?.content}</div>
+                </div>
+            </Modal>
+
+            <Modal title="回复评论" open={isReplyModalOpen} footer={null} onCancel={() => setIsReplyModalOpen(false)}>
+                <TextArea
+                    value={replyInfo}
+                    onChange={(e) => setReplyInfo(e.target.value)}
+                    placeholder="请输入回复内容"
+                    autoSize={{ minRows: 3, maxRows: 5 }}
+                />
+
+                <div className="flex space-x-4">
+                    <Button className="w-full mt-2" onClick={() => setIsReplyModalOpen(false)}>取消</Button>
+                    <Button type="primary" className="w-full mt-2" onClick={handleReply}>确定</Button>
                 </div>
             </Modal>
         </>
