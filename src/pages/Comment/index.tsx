@@ -6,9 +6,14 @@ import { ColumnsType } from 'antd/es/table';
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
 import { Comment, FilterForm } from '@/types/app/comment'
+
+import { useWebStore } from '@/stores'
+
 import dayjs from 'dayjs';
 
 const CommentPage = () => {
+    const store = useWebStore()
+
     const [loading, setLoading] = useState(false);
     const [comment, setComment] = useState<Comment>();
     const [list, setList] = useState<Comment[]>([]);
@@ -67,13 +72,13 @@ const CommentPage = () => {
             title: '网站',
             dataIndex: 'url',
             key: 'url',
-            render: (url: string) => url ? <a href={url} className="hover:text-primary">{url}</a> : '无网站',
+            render: (url: string) => url ? <a href={url} target='_blank' className="hover:text-primary">{url}</a> : '无网站',
         },
         {
             title: '所属文章',
             dataIndex: 'articleTitle',
             key: 'articleTitle',
-            render: (text: string) => (text ? text : '该评论暂未绑定文章'),
+            render: (text: string, record: Comment) => (text ? <a href={`${store.web.url}/article/${record.articleId}`} target='_blank' className="hover:text-primary">{text}</a> : '该评论暂未绑定文章'),
         },
         {
             title: '评论时间',
