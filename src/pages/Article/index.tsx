@@ -135,7 +135,7 @@ const ArticlePage = () => {
             startDate: values.createTime && values.createTime[0].valueOf() + '',
             endDate: values.createTime && values.createTime[1].valueOf() + ''
         }
-
+        
         const { data } = await getArticleListAPI({ query });
         setArticleList(data as Article[]);
     }
@@ -177,7 +177,7 @@ const ArticlePage = () => {
                         />
                     </Form.Item>
 
-                    <Form.Item label="标签" name="tagIds" className='w-2/12'>
+                    <Form.Item label="标签" name="tagId" className='w-2/12'>
                         <Select
                             allowClear
                             options={tagList}
