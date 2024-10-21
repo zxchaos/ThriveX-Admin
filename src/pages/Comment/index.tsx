@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Card, message, Table, Popconfirm, Button, Modal, Form, Input, DatePicker } from 'antd';
-import { addCommentDataAPI, getCommentListAPI } from '@/api/Comment';
+import { addCommentDataAPI, getCommentDataAPI, getCommentListAPI } from '@/api/Comment';
 import { delCommentDataAPI } from '@/api/Comment';
 import { ColumnsType } from 'antd/es/table';
 import { titleSty } from '@/styles/sty';
@@ -144,17 +144,6 @@ const CommentPage = () => {
         setIsReplyModalOpen(false)
         setReplyInfo("")
         getCommentList()
-
-        // 发送邮件通知
-        await sendCommentEmailAPI({
-            content: comment.content,
-            reviewers: comment.name,
-            subject: comment.articleTitle!,
-            title: comment.articleTitle!,
-            url: location.href,
-            time: dayjs(Date.now()).format('YYYY年MM月DD日 HH:mm'),
-            to: comment.id !== comment.articleId ? comment.email : undefined
-        })
     }
 
     return (
@@ -225,3 +214,4 @@ const CommentPage = () => {
 };
 
 export default CommentPage;
+
