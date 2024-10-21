@@ -164,7 +164,7 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
                 </div>
             </div>
 
-            <Modal title="驳回原因" open={isModalOpen} footer={null} onClose={() => setIsModalOpen(false)}>
+            <Modal title="驳回原因" open={isModalOpen} footer={null} onCancel={() => setIsModalOpen(false)} onClose={() => setIsModalOpen(false)}>
                 <TextArea
                     value={dismissInfo}
                     onChange={(e) => setDismissInfo(e.target.value)}
@@ -173,8 +173,8 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
                 />
 
                 <div className="flex space-x-4">
-                    <Button size="large" className="w-full mt-2" onClick={() => setIsModalOpen(false)}>取消</Button>
-                    <Button type="primary" size="large" className="w-full mt-2" onClick={handleDismiss}>确定</Button>
+                    <Button className="w-full mt-2" onClick={() => setIsModalOpen(false)}>取消</Button>
+                    <Button type="primary" className="w-full mt-2" onClick={handleDismiss}>确定</Button>
                 </div>
             </Modal>
         </div>
