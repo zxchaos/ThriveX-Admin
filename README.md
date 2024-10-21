@@ -82,11 +82,11 @@ Java8
 
 ### 最新版（Nextjs + Spring Boot）
 
-前端：[LiuYuYang01/ThriveX_Blog (github.com)](https://github.com/LiuYuYang01/ThriveX_Blog)
+前端：[LiuYuYang01/ThriveX-Blog (github.com)](https://github.com/LiuYuYang01/ThriveX-Blog)
 
-控制端：[LiuYuYang01/ThriveX_Admin (github.com)](https://github.com/LiuYuYang01/ThriveX_Admin)
+控制端：[LiuYuYang01/ThriveX-Admin (github.com)](https://github.com/LiuYuYang01/ThriveX-Admin)
 
-后端：[LiuYuYang01/ThriveX_Server (github.com)](https://github.com/LiuYuYang01/ThriveX_Server)
+后端：[LiuYuYang01/ThriveX-Server (github.com)](https://github.com/LiuYuYang01/ThriveX-Server)
 
 
 
