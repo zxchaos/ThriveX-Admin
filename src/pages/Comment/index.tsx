@@ -142,6 +142,7 @@ const CommentPage = () => {
 
         setIsReplyModalOpen(false)
         setReplyInfo("")
+        getCommentList()
     }
 
     return (
