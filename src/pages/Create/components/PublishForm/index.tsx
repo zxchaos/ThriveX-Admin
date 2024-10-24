@@ -15,8 +15,6 @@ import { Article } from "@/types/app/article";
 
 import dayjs from 'dayjs';
 
-import "./index.scss"
-
 interface FieldType {
     title: string,
     createTime: number;
@@ -83,15 +81,26 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
         let tagIds: number[] = []
         for (const item of values.tagIds) {
             if (typeof item === "string") {
+                // 如果已经有这个标签了，就没必要再创建一个了
+                const tag1 = tagList.find(t => t.name === item)?.id;
+
+                if (tag1) {
+                    tagIds.push(tag1)
+                    continue
+                }
+
                 await addTagDataAPI({ name: item });
-                const { data: tagList } = await getTagListAPI();
+                const { data: list } = await getTagListAPI();
                 // 添加成功后查找对应的标签id
-                const tag = tagList.find(t => t.name === item)?.id;
-                if (tag !== undefined) tagIds.push(tag);
+                const tag2 = list.find(t => t.name === item)?.id;
+                if (tag2) tagIds.push(tag2);
             } else {
                 tagIds.push(item);
             }
         }
+
+        console.log(222);
+
 
         values.createTime = values.createTime.valueOf()
         values.cateIds = [...new Set(values.cateIds?.flat())]
