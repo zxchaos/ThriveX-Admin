@@ -1,6 +1,15 @@
 import { Cate } from "./cate"
 import { Tag } from "./tag"
 
+export type Status = "show" | "no_home" | "hide" | "private"
+
+export interface Config {
+    id?: number,
+    articleId?: number,
+    top: number,
+    status: Status
+}
+
 export interface Article {
     id?: number,
     title: string,
@@ -13,6 +22,7 @@ export interface Article {
     tagList: Tag[]
     view?: number
     count?: number,
+    config: Config,
     createTime?: string,
 }
 

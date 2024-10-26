@@ -31,13 +31,13 @@ const Home = () => {
         ))
 
         sessionStorage.setItem('blog_project_iterative', JSON.stringify(result))
-        project === "Thrive_Blog" && setBlog_IterativeRecording(result)
+        project === "ThriveX-Blog" && setBlog_IterativeRecording(result)
 
         sessionStorage.setItem('admin_project_iterative', JSON.stringify(result))
-        project === "Thrive_Admin" && setAdmin_IterativeRecording(result)
+        project === "ThriveX-Admin" && setAdmin_IterativeRecording(result)
 
         sessionStorage.setItem('server_project_iterative', JSON.stringify(result))
-        project === "Thrive_Api_Py" && setServer_IterativeRecording(result)
+        project === "ThriveX-Service" && setServer_IterativeRecording(result)
     }
 
     useEffect(() => {
@@ -49,13 +49,13 @@ const Home = () => {
 
         // 如果缓存中有值就无需重新调接口
         const blog_project_iterative = JSON.parse(sessionStorage.getItem('blog_project_iterative') || '[]')
-        blog_project_iterative.length ? setBlog_IterativeRecording(blog_project_iterative) : getCommitData("Thrive_Blog")
+        blog_project_iterative.length ? setBlog_IterativeRecording(blog_project_iterative) : getCommitData("ThriveX-Blog")
 
         const admin_project_iterative = JSON.parse(sessionStorage.getItem('admin_project_iterative') || '[]')
-        admin_project_iterative.length ? setAdmin_IterativeRecording(admin_project_iterative) : getCommitData("Thrive_Admin")
+        admin_project_iterative.length ? setAdmin_IterativeRecording(admin_project_iterative) : getCommitData("ThriveX-Admin")
 
         const server_project_iterative = JSON.parse(sessionStorage.getItem('server_project_iterative') || '[]')
-        server_project_iterative.length ? setServer_IterativeRecording(server_project_iterative) : getCommitData("Thrive_Api_Py")
+        server_project_iterative.length ? setServer_IterativeRecording(server_project_iterative) : getCommitData("ThriveX-Service")
     }, [])
 
     return (
@@ -81,17 +81,17 @@ const Home = () => {
 
                 <div className='flex justify-between'>
                     <div className='flex-1'>
-                        <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>Thrive_Blog</h3>
+                        <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>ThriveX-Blog</h3>
                         <Timeline mode="left" items={blog_iterativeRecording} />
                     </div>
 
                     <div className='flex-1'>
-                        <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>Thrive_Admin</h3>
+                        <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>ThriveX-Admin</h3>
                         <Timeline mode="left" items={admin_iterativeRecording} />
                     </div>
 
                     <div className='flex-1'>
-                        <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>Thrive_Server</h3>
+                        <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>ThriveX-Service</h3>
                         <Timeline mode="left" items={server_iterativeRecording} />
                     </div>
                 </div>

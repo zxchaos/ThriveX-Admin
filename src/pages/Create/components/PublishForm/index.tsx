@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { Form, Input, Button, Select, DatePicker, Cascader, FormProps, message } from "antd";
+import { Form, Input, Button, Select, DatePicker, Cascader, FormProps, message, Switch, Radio } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { RuleObject } from "antd/es/form";
 
@@ -11,7 +11,7 @@ import { addTagDataAPI, getTagListAPI } from '@/api/Tag'
 
 import { Cate } from "@/types/app/cate";
 import { Tag } from "@/types/app/tag";
-import { Article } from "@/types/app/article";
+import { Article, Status } from "@/types/app/article";
 
 import dayjs from 'dayjs';
 
@@ -22,6 +22,8 @@ interface FieldType {
     tagIds: (number | string)[];
     cover: string;
     description: string;
+    top: boolean;
+    status: Status
 }
 
 const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => void }) => {
@@ -50,6 +52,8 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
 
         form.setFieldsValue({
             ...data,
+            top: data.config.top === 1,
+            status: data.config.status,
             cateIds,
             tagIds,
             createTime: dayjs(+data.createTime!)
@@ -77,6 +81,8 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
     };
 
     const onSubmit: FormProps<FieldType>['onFinish'] = async (values) => {
+        console.log(values);
+
         // 如果是文章标签，则先判断是否存在，如果不存在则添加
         let tagIds: number[] = []
         for (const item of values.tagIds) {
@@ -99,17 +105,32 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
             }
         }
 
-        console.log(222);
-
-
         values.createTime = values.createTime.valueOf()
         values.cateIds = [...new Set(values.cateIds?.flat())]
 
         if (id) {
-            await editArticleDataAPI({ id, ...values, content: data.content, tagIds: tagIds.join(',') } as any)
+            await editArticleDataAPI({
+                id,
+                ...values,
+                content: data.content,
+                tagIds: tagIds.join(','),
+                config: {
+                    status: values.status,
+                    top: values.top ? 1 : 0
+                }
+            } as any)
             message.success("🎉 编辑成功")
         } else {
-            await addArticleDataAPI({ id, ...values, content: data.content, tagIds: tagIds.join(',') } as any)
+            await addArticleDataAPI({
+                id,
+                ...values,
+                content: data.content,
+                tagIds: tagIds.join(','),
+                config: {
+                    status: values.status,
+                    top: values.top ? 1 : 0
+                }
+            } as any)
             message.success("🎉 发布成功")
         }
 
@@ -123,6 +144,13 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
         form.resetFields()
     }
 
+    // 初始表单数据
+    const initialValues = {
+        top: false,
+        status: "show",
+        createTime: dayjs(new Date())
+    }
+
     return (
         <>
             <Form
@@ -132,7 +160,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                 layout="vertical"
                 onFinish={onSubmit}
                 autoComplete="off"
-                initialValues={{ createTime: dayjs(new Date()) }}
+                initialValues={initialValues}
             >
                 <Form.Item label="文章标题" name="title" rules={[{ required: true, message: "请输入文章标题" }]}>
                     <Input placeholder="请输入文章标题" />
@@ -165,13 +193,25 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                         fieldNames={{ label: 'name', value: 'id' }}
                         filterOption={(input, option) => !!option?.name.includes(input)}
                         placeholder="请选择文章标签"
-                        // onChange={(value, a) => console.log(value, a)}
                         className="w-full"
                     />
                 </Form.Item>
 
                 <Form.Item label="选择发布时间" name="createTime">
                     <DatePicker showTime placeholder="选择文章发布时间" className="w-full" />
+                </Form.Item>
+
+                <Form.Item label="是否置顶" name="top">
+                    <Switch />
+                </Form.Item>
+
+                <Form.Item label="状态" name="status">
+                    <Radio.Group>
+                        <Radio value="show">正常显示</Radio>
+                        <Radio value="no_home">不在首页显示</Radio>
+                        <Radio value="hide">隐藏</Radio>
+                        <Radio value="private">私密</Radio>
+                    </Radio.Group>
                 </Form.Item>
 
                 <Form.Item>
