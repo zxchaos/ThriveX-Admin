@@ -1,13 +1,14 @@
 import { Cate } from "./cate"
 import { Tag } from "./tag"
 
-export type Status = "show" | "no_home" | "hide" | "private"
+export type Status = "show" | "no_home" | "hide"
 
 export interface Config {
     id?: number,
     articleId?: number,
     top: number,
-    status: Status
+    status: Status,
+    password:string
 }
 
 export interface Article {

@@ -23,7 +23,8 @@ interface FieldType {
     cover: string;
     description: string;
     top: boolean;
-    status: Status
+    status: Status,
+    password: string
 }
 
 const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => void }) => {
@@ -54,6 +55,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
             ...data,
             top: data.config.top === 1,
             status: data.config.status,
+            password: data.config.password,
             cateIds,
             tagIds,
             createTime: dayjs(+data.createTime!)
@@ -116,7 +118,8 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                 tagIds: tagIds.join(','),
                 config: {
                     status: values.status,
-                    top: values.top ? 1 : 0
+                    top: values.top ? 1 : 0,
+                    password: values.password
                 }
             } as any)
             message.success("🎉 编辑成功")
@@ -128,7 +131,8 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                 tagIds: tagIds.join(','),
                 config: {
                     status: values.status,
-                    top: values.top ? 1 : 0
+                    top: values.top ? 1 : 0,
+                    password: values.password
                 }
             } as any)
             message.success("🎉 发布成功")
@@ -148,6 +152,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
     const initialValues = {
         top: false,
         status: "show",
+        password: "",
         createTime: dayjs(new Date())
     }
 
@@ -210,8 +215,11 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                         <Radio value="show">正常显示</Radio>
                         <Radio value="no_home">不在首页显示</Radio>
                         <Radio value="hide">隐藏</Radio>
-                        <Radio value="private">私密</Radio>
                     </Radio.Group>
+                </Form.Item>
+
+                <Form.Item label="访问密码" name="password">
+                    <Input.Password placeholder="请输入访问密码" />
                 </Form.Item>
 
                 <Form.Item>
