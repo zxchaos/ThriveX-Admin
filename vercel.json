@@ -1,21 +1,20 @@
 {
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "https://openapi.baidu.com/$1"
-      },
-      {
-        "src": "/qiniu/(.*)",
-        "dest": "https://rsf.qiniuapi.com/$1"
-      },
-      {
-        "src": "/ai/(.*)",
-        "dest": "https://spark-api-open.xf-yun.com/$1"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/index.html"
-      }
+    "rewrites": [
+        {
+            "source": "/api/:path*",
+            "destination": "https://openapi.baidu.com/:path*"
+        },
+        {
+            "source": "/qiniu/:path*",
+            "destination": "https://rsf.qiniuapi.com/:path*"
+        },
+        {
+            "source": "/ai/:path*",
+            "destination": "https://spark-api-open.xf-yun.com/:path*"
+        },
+        {
+            "source": "/:path*",
+            "destination": "/index.html"
+        }
     ]
-  }
-  
+}
