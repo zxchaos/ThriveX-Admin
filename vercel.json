@@ -12,11 +12,5 @@
             "src": "/ai/(.*)",
             "dest": "https://spark-api-open.xf-yun.com/$1"
         }
-    ],
-    "rewrites": [
-        {
-            "source": "/:path*",
-            "destination": "/index.html"
-        }
     ]
 }
