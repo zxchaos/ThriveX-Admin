@@ -6,19 +6,17 @@ import CardDataStats from "@/components/CardDataStats"
 import { AiOutlineEye, AiOutlineMeh, AiOutlineStock, AiOutlineFieldTime } from "react-icons/ai";
 import { useEffect, useState } from "react"
 import dayjs from 'dayjs';
-import { Result } from "./type"
-
 
 export default () => {
-    const [result, setResult] = useState<Result | null>(null);
-    const [date, setDate] = useState(dayjs(new Date()).format("YYYY/MM/DD"));
     const [stats, setStats] = useState({
         pv: 0,
         ip: 0,
         bounce: 0,
         avgTime: "",
     });
-
+    
+    const date = dayjs(new Date()).format("YYYY/MM/DD");
+    
     const formatTime = (seconds: number) => {
         // 四舍五入到最接近的整数
         const roundedSeconds = Math.round(seconds);
@@ -37,8 +35,6 @@ export default () => {
         const response = await fetch(`/api/rest/2.0/tongji/report/getData?access_token=${token}&site_id=${siteId}&start_date=${date}&end_date=${date}&metrics=pv_count%2Cip_count%2Cbounce_ratio%2Cavg_visit_time&method=overview%2FgetTimeTrendRpt`);
         const data = await response.json();
         const { result } = data;
-
-        setResult(result);
 
         let pv = 0;
         let ip = 0;
