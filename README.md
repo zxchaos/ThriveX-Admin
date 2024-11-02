@@ -42,8 +42,7 @@
 
 只演示部分，具体查看：https://liuyuyang.net
 
-![首页](https://bu.dusays.com/2024/04/09/66148fc49640a.png)
-
+![首页](https://bu.dusays.com/2024/10/28/671f7a44631d7.png)
 ![足迹](https://bu.dusays.com/2024/09/17/66e97036dddcb.png)
 
 
@@ -105,19 +104,6 @@ Java8
 ## 项目部署
 
 等有时间单独教大家如何部署
-
-
-
-## 技术支持
-
-如果大家在部署过程中有任何疑问，可以选择付费（不提倡）或者选择给本项目拉人点 `10` 个 `star`
-
-**联系方式：**
-
-微信：liuyuyang2023
-
-邮箱：liuyuyang1024@yeah.net
-
 
 
 ## 最后
