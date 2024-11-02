@@ -1,13 +1,25 @@
 "use client"
 
 import { Card } from "antd"
-import Breadcrumb from "../Breadcrumbs"
 import { titleSty } from '@/styles/sty'
+import { ReactNode } from "react"
 
-export default ({ value, className }: { value: string, className?: string }) => {
+interface Props {
+    value: string,
+    children?: ReactNode,
+    className?: string
+}
+
+export default ({ value, children, className }: Props) => {
     return (
         <>
-            <Card title={<Breadcrumb pageName={value} />} className={`${titleSty} ${className}`} />
+            <Card className={`${titleSty} p-4 mb-2 ${className}`}>
+                <div className="flex justify-between items-center">
+                    <h2 className="font-semibold text-black dark:text-white text-xl">{value}</h2>
+
+                    {children}
+                </div>
+            </Card>
         </>
     )
 }

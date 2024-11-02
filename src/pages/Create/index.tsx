@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Button, Card, Drawer, Dropdown, MenuProps, message } from 'antd';
 
 import Title from '@/components/Title';
-import VditorEditor from './components/VditorMD';
+import Editor from './components/Editor';
 import PublishForm from './components/PublishForm';
 
 import { Article } from '@/types/app/article';
@@ -51,7 +51,7 @@ const CreatePage = () => {
   // 回显数据
   useEffect(() => {
     setPublishOpen(false)
-    
+
     // 有Id就回显指定的数据
     if (id) {
       getArticleData()
@@ -151,26 +151,22 @@ const CreatePage = () => {
 
   return (
     <>
-      <Title value="创作" />
+      <Title value="创作">
+        <div className='flex space-x-4'>
+          <Dropdown.Button menu={{ items }}>创作神器</Dropdown.Button>
 
-      <Card className='relative mt-2'>
-        <div className='flex justify-end w-full'>
-          <div className='relative z-50 flex w-[24%] space-x-4'>
-            <Dropdown.Button menu={{ items }}>创作神器</Dropdown.Button>
+          <Button className='w-full flex justify-between' onClick={saveBtn} >
+            <BiSave className='text-base' /> 保存
+          </Button>
 
-            <Button className='w-full flex justify-between' onClick={saveBtn} >
-              <BiSave className='text-base' /> 保存
-            </Button>
-
-            <Button type="primary" className='w-full flex justify-between' onClick={nextBtn} >
-              <GrFormNext className='text-2xl' /> 下一步
-            </Button>
-          </div>
+          <Button type="primary" className='w-full flex justify-between' onClick={nextBtn} >
+            <GrFormNext className='text-2xl' /> 下一步
+          </Button>
         </div>
+      </Title>
 
-        <div className='relative -top-[40px]'>
-          <VditorEditor value={content} getValue={getVditorData} />
-        </div>
+      <Card className='[&>.ant-card-body]:!p-0 overflow-hidden rounded-xl'>
+        <Editor value={content} getValue={getVditorData} />
 
         <Drawer
           title={id ? "编辑文章" : "发布文章"}
