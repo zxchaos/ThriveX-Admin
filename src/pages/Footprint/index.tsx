@@ -216,7 +216,7 @@ const FootprintPage = () => {
             />
           </Form.Item>
 
-          <Form.Item label="内容" name="content" rules={[{ required: true, message: '内容不能为空' }]}>
+          <Form.Item label="内容" name="content">
             <Input.TextArea
               autoSize={{ minRows: 5, maxRows: 10 }}
               placeholder="请输入内容"

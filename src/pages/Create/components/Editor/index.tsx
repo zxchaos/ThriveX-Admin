@@ -12,21 +12,17 @@ const plugins = [
 // import FileUpload from "@/components/FileUpload";
 
 interface Props {
-    value?: string,
-    getValue: (value: string) => void
+    value: string,
+    setValue: (value: string) => void
 }
 
-const EditorMD = ({ value, getValue }: Props) => {
-    const [content, setContent] = useState('')
-
+const EditorMD = ({ value, setValue }: Props) => {
     return (
         <>
             <Editor
-                value={content}
+                value={value}
                 plugins={plugins}
-                onChange={(v) => {
-                    setContent(v)
-                }}
+                onChange={setValue}
             />
 
             {/* 文件上传 */}
