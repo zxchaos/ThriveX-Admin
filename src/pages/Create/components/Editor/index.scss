@@ -1,7 +1,8 @@
 @import url(./editor.scss);
 
 .bytemd {
-    height: 80vh;
+    // height: 80vh;
+    height: calc(100vh - 200px);
     border: none;
 
     .bytemd-toolbar {

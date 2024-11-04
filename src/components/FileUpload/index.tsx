@@ -44,7 +44,7 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
             });
         }));
 
-        // 处理文件上传需要的格式
+        // 处理成后端需要的格式
         const formData = new FormData();
         formData.append("dir", dir);
         for (let i = 0; i < compressedFiles.length; i++) {
@@ -112,6 +112,7 @@ export default ({ dir, open, onCancel, onSuccess }: UploadFileProps) => {
                                     { value: 0.2, label: '0.2' },
                                     { value: 0.1, label: '0.1' },
                                 ]}
+                                defaultValue={1}
                                 placeholder="请选择图片压缩质量"
                                 className='min-w-44'
                             />

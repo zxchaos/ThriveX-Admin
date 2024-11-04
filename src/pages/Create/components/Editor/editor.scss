@@ -71,13 +71,12 @@
         @apply leading-9 mb-2;
 
         img {
-            // 图片模糊
             @apply rounded-xl cursor-pointer transition-all;
         }
     }
 
     strong {
-        @apply text-[15px];
+        @apply text-base;
     }
 
     tr,

@@ -72,7 +72,6 @@ const CreatePage = () => {
   }, [content])
 
 
-
   // 解析接口数据
   const parsingData = async (command: string) => {
     const res = await fetch(`/ai/v1/chat/completions`, {
@@ -166,7 +165,7 @@ const CreatePage = () => {
       </Title>
 
       <Card className='[&>.ant-card-body]:!p-0 overflow-hidden rounded-xl'>
-        <Editor value={content} setValue={(value) => setContent(value)} />
+        <Editor value={content} setValue={(value) => setContent(value)} onChange={(value) => setContent(value)} />
 
         <Drawer
           title={id ? "编辑文章" : "发布文章"}
