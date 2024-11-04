@@ -54,7 +54,7 @@ const CatePage = () => {
     const submit = async () => {
         form.validateFields().then(async (values: Cate) => {
             if (values.type === "cate") values.url = '/'
-            
+
             if (isMethod === "edit") {
                 await editCateDataAPI({ ...cate, ...values });
                 message.success('🎉 修改分类成功');
@@ -126,13 +126,11 @@ const CatePage = () => {
 
     return (
         <>
-            <Title value="分类管理" />
+            <Title value="分类管理">
+                <Button type="primary" onClick={() => addCateData(0)}>新增一级分类</Button>
+            </Title>
 
             <Card className={`CatePage [&>.ant-card-body]:!p-2 [&>.ant-card-body]:!pb-6 mt-2`}>
-                <div className='my-2 text-center'>
-                    <Button type="primary" onClick={() => addCateData(0)}>新增一级分类</Button>
-                </div>
-
                 <Spin spinning={loading}>
                     <Tree defaultExpandAll={true} treeData={treeData(list)} />
                 </Spin>

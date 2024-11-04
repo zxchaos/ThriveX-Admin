@@ -159,7 +159,9 @@ const FootprintPage = () => {
 
   return (
     <>
-      <Title value="足迹管理" />
+      <Title value="足迹管理">
+        <Button type="primary" onClick={addFootprintData}>新增足迹</Button>
+      </Title>
 
       <Card className='my-2 overflow-scroll'>
         <div className='flex'>
@@ -176,8 +178,6 @@ const FootprintPage = () => {
               <Button type="primary" htmlType="submit">查询</Button>
             </Form.Item>
           </Form>
-
-          <Button type="primary" onClick={addFootprintData}>新增足迹</Button>
         </div>
       </Card>
 
