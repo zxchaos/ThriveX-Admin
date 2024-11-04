@@ -13,8 +13,8 @@ interface Props {
 export default ({ value, children, className }: Props) => {
     return (
         <>
-            <Card className={`${titleSty} p-4 mb-2 ${className}`}>
-                <div className="flex justify-between items-center">
+            <Card className={`${titleSty} px-4 mb-2 ${className}`}>
+                <div className="flex justify-between items-center h-14">
                     <h2 className="font-semibold text-black dark:text-white text-xl">{value}</h2>
 
                     {children}

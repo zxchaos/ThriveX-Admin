@@ -153,13 +153,13 @@ const CreatePage = () => {
     <>
       <Title value="创作">
         <div className='flex space-x-4'>
-          <Dropdown.Button menu={{ items }}>创作神器</Dropdown.Button>
+          <Dropdown.Button size='large' menu={{ items }}>创作神器</Dropdown.Button>
 
-          <Button className='w-full flex justify-between' onClick={saveBtn} >
+          <Button size='large' className='w-full flex justify-between' onClick={saveBtn} >
             <BiSave className='text-base' /> 保存
           </Button>
 
-          <Button type="primary" className='w-full flex justify-between' onClick={nextBtn} >
+          <Button size='large' type="primary" className='w-full flex justify-between' onClick={nextBtn} >
             <GrFormNext className='text-2xl' /> 下一步
           </Button>
         </div>
