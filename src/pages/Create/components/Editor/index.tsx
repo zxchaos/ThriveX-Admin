@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react'
-import { Editor, Viewer } from '@bytemd/react'
+import { Editor } from '@bytemd/react'
 import 'bytemd/dist/index.css'
 import highlight from '@bytemd/plugin-highlight'
 import 'highlight.js/styles/vs2015.css';
