@@ -165,7 +165,7 @@ const CreatePage = () => {
       </Title>
 
       <Card className='[&>.ant-card-body]:!p-0 overflow-hidden rounded-xl'>
-        <Editor value={content} setValue={(value) => setContent(value)} onChange={(value) => setContent(value)} />
+        <Editor value={content} onChange={(value) => setContent(value)} />
 
         <Drawer
           title={id ? "编辑文章" : "发布文章"}

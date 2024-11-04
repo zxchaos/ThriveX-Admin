@@ -2,9 +2,11 @@ import { baseURL } from '@/utils/request';
 import { useUserStore } from '@/stores';
 
 import { Editor } from '@bytemd/react';
-import 'bytemd/dist/index.css';
+import gfm from '@bytemd/plugin-gfm'
+import gemoji from '@bytemd/plugin-gemoji'
 import highlight from '@bytemd/plugin-highlight';
 import 'highlight.js/styles/vs2015.css';
+import 'bytemd/dist/index.css';
 
 import './index.scss';
 import axios from 'axios';
@@ -13,17 +15,18 @@ import { useState } from 'react';
 
 interface Props {
     value: string;
-    setValue: (value: string) => void;
     onChange: (value: string) => void;
 }
 
-const EditorMD = ({ value, setValue, onChange }: Props) => {
+const plugins = [
+    gfm(),
+    gemoji(),
+    highlight()
+];
+
+const EditorMD = ({ value, onChange }: Props) => {
     const store = useUserStore();
     const [loading, setLoading] = useState(false)
-
-    const plugins = [
-        highlight()
-    ];
 
     const uploadImages = async (files: File[]) => {
         setLoading(true);
