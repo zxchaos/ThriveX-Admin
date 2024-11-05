@@ -10,7 +10,7 @@ import { Article } from '@/types/app/article';
 import { getArticleDataAPI } from '@/api/Article'
 
 import { BiSave } from "react-icons/bi";
-import { GrFormNext } from "react-icons/gr";
+import { AiOutlineEdit, AiOutlineSend } from 'react-icons/ai';
 
 const CreatePage = () => {
   const [params] = useSearchParams()
@@ -19,11 +19,6 @@ const CreatePage = () => {
   const [data, setData] = useState<Article>({} as Article)
   const [content, setContent] = useState('');
   const [publishOpen, setPublishOpen] = useState(false)
-
-  // 获取编辑器的内容
-  const getVditorData = (value: string) => {
-    setContent(value)
-  }
 
   // 保存文章
   const saveBtn = () => {
@@ -152,14 +147,16 @@ const CreatePage = () => {
     <>
       <Title value="创作">
         <div className='flex items-center space-x-4'>
-          <Dropdown.Button menu={{ items }}>创作神器</Dropdown.Button>
+          <Dropdown.Button menu={{ items }}>
+            <AiOutlineEdit className='text-base' /> 创作神器
+          </Dropdown.Button>
 
           <Button className='w-full flex justify-between' onClick={saveBtn} >
             <BiSave className='text-base' /> 保存
           </Button>
 
           <Button size='large' type="primary" className='w-full flex justify-between' onClick={nextBtn} >
-            <GrFormNext className='text-2xl' /> 下一步
+            <AiOutlineSend className='text-2xl' /> 发布
           </Button>
         </div>
       </Title>
