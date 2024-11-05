@@ -54,9 +54,6 @@ const RoutePage = () => {
     const onSubmit = async () => {
         setLoading(true);
         form.validateFields().then(async (values: Route) => {
-            console.log(111,route.id);
-            console.log(222,values);
-            
             
             if (route.id) {
                 await editRouteDataAPI({ ...route, ...values });

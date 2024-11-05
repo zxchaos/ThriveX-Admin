@@ -83,8 +83,6 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
     };
 
     const onSubmit: FormProps<FieldType>['onFinish'] = async (values) => {
-        console.log(values);
-
         // 如果是文章标签，则先判断是否存在，如果不存在则添加
         let tagIds: number[] = []
         if (values.tagIds) {
