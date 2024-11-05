@@ -149,7 +149,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
     // 初始表单数据
     const initialValues = {
         top: false,
-        status: "show",
+        status: "default",
         password: "",
         createTime: dayjs(new Date())
     }
@@ -210,9 +210,9 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
 
                 <Form.Item label="状态" name="status">
                     <Radio.Group>
-                        <Radio value="show">正常显示</Radio>
+                        <Radio value="default">正常</Radio>
                         <Radio value="no_home">不在首页显示</Radio>
-                        <Radio value="hide">隐藏</Radio>
+                        <Radio value="hide">全站隐藏</Radio>
                     </Radio.Group>
                 </Form.Item>
 
