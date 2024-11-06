@@ -85,23 +85,25 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
     const onSubmit: FormProps<FieldType>['onFinish'] = async (values) => {
         // 如果是文章标签，则先判断是否存在，如果不存在则添加
         let tagIds: number[] = []
-        for (const item of (values.tagIds ? values.tagIds : [])) {
-            if (typeof item === "string") {
-                // 如果已经有这个标签了，就没必要再创建一个了
-                const tag1 = tagList.find(t => t.name === item)?.id;
+        if (values.tagIds) {
+            for (const item of values.tagIds) {
+                if (typeof item === "string") {
+                    // 如果已经有这个标签了，就没必要再创建一个了
+                    const tag1 = tagList.find(t => t.name === item)?.id;
 
-                if (tag1) {
-                    tagIds.push(tag1)
-                    continue
+                    if (tag1) {
+                        tagIds.push(tag1)
+                        continue
+                    }
+
+                    await addTagDataAPI({ name: item });
+                    const { data: list } = await getTagListAPI();
+                    // 添加成功后查找对应的标签id
+                    const tag2 = list.find(t => t.name === item)?.id;
+                    if (tag2) tagIds.push(tag2);
+                } else {
+                    tagIds.push(item);
                 }
-
-                await addTagDataAPI({ name: item });
-                const { data: list } = await getTagListAPI();
-                // 添加成功后查找对应的标签id
-                const tag2 = list.find(t => t.name === item)?.id;
-                if (tag2) tagIds.push(tag2);
-            } else {
-                tagIds.push(item);
             }
         }
 
