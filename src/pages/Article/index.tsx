@@ -18,9 +18,11 @@ import dayjs from 'dayjs';
 const ArticlePage = () => {
     const web = useWebStore(state => state.web)
 
+    const [current, setCurrent] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
     const [articleList, setArticleList] = useState<Article[]>([]);
 
+    const [form] = Form.useForm();
     const { RangePicker } = DatePicker;
 
     const getArticleList = async () => {
@@ -40,8 +42,10 @@ const ArticlePage = () => {
         setLoading(true);
 
         await delArticleDataAPI(id);
+        await getArticleList();
+        form.resetFields()
+        setCurrent(1)
         notification.success({ message: '🎉 删除文章成功' })
-        getArticleList();
 
         setLoading(false);
     };
@@ -135,7 +139,7 @@ const ArticlePage = () => {
             startDate: values.createTime && values.createTime[0].valueOf() + '',
             endDate: values.createTime && values.createTime[1].valueOf() + ''
         }
-        
+
         const { data } = await getArticleListAPI({ query });
         setArticleList(data as Article[]);
     }
@@ -163,7 +167,7 @@ const ArticlePage = () => {
             <Title value="文章管理" />
 
             <Card className='my-2 overflow-scroll'>
-                <Form layout="inline" onFinish={onSubmit} autoComplete="off" className='flex-nowrap'>
+                <Form form={form} layout="inline" onFinish={onSubmit} autoComplete="off" className='flex-nowrap'>
                     <Form.Item label="标题" name="title" className='w-2/12'>
                         <Input placeholder='请输入关键词' />
                     </Form.Item>
@@ -205,7 +209,11 @@ const ArticlePage = () => {
                     scroll={{ x: 'max-content' }}
                     pagination={{
                         position: ['bottomCenter'],
+                        current,
                         defaultPageSize: 8,
+                        onChange(current) {
+                            setCurrent(current)
+                        }
                     }}
                 />
             </Card>
