@@ -257,8 +257,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       className={`absolute left-0 top-0 z-9999 flex h-screen w-64 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
     >
       <div className="flex justify-center items-center gap-2 px-6 py-5.5 pb-2 lg:pt-6">
-        <NavLink to="/">
-          <img src={logo} alt="logo" className='w-30' />
+        <NavLink to="/" className="flex items-center text-white">
+          <img src={logo} alt="logo" className='w-8 mr-2.5' />
+          <div>博客管理系统 🎉</div>
         </NavLink>
 
         <button
