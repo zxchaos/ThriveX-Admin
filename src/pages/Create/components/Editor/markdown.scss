@@ -18,7 +18,7 @@
     }
 
     h1 {
-        @apply text-2xl my-4 pb-3 border-b border-[#eee];
+        @apply text-2xl my-6 pb-3 border-b border-[#eee];
 
         &::before {
             content: "✨️";
@@ -27,7 +27,7 @@
     }
 
     h2 {
-        @apply relative text-lg my-4 pl-5;
+        @apply relative text-lg my-8 pl-5;
 
         &::before {
             content: "";
@@ -36,7 +36,7 @@
     }
 
     h3 {
-        @apply relative text-lg my-3 pl-5;
+        @apply relative text-lg my-5 pl-5;
 
         &::before {
             content: "#";
@@ -56,11 +56,11 @@
 
     p code,
     ul code {
-        @apply bg-primary text-white rounded-md py-1 px-2 text-sm transition-colors;
+        @apply bg-[rgba(13,110,253,0.1)] dark:bg-[#334052] text-[#0d6efd] rounded-md py-1 px-2 text-sm transition-colors;
     }
 
     li {
-        @apply my-2.5;
+        @apply my-2.5 list-decimal ml-14;
     }
 
     a {
@@ -79,10 +79,18 @@
         @apply text-base;
     }
 
-    tr,
-    th,
-    td {
-        @apply border p-[10px_20px];
+    table {
+        @apply w-full;
+
+        th {
+            @apply bg-[#f1f7fd];
+        }
+
+        tr,
+        th,
+        td {
+            @apply border p-[10px_20px];
+        }
     }
 
     input[type="checkbox"] {
