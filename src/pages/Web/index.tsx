@@ -170,15 +170,15 @@ const LinkPage = () => {
                             </Form.Item>
 
                             <Form.Item label="网站图标" name="image" rules={[{ required: true, message: '网站图标不能为空' }]}>
-                                <Input placeholder="https://blog.liuyuyang.net/logo.png" />
+                                <Input placeholder="https://liuyuyang.net/logo.png" />
                             </Form.Item>
 
                             <Form.Item label="网站链接" name="url" rules={[{ required: true, message: '网站链接不能为空' }, { validator: validateURL }]}>
-                                <Input placeholder="https://blog.liuyuyang.net/" />
+                                <Input placeholder="https://liuyuyang.net/" />
                             </Form.Item>
 
                             <Form.Item label="订阅地址" name="rss" rules={[{ validator: validateURL }]}>
-                                <Input placeholder="https://blog.liuyuyang.net/index.php/feed/" />
+                                <Input placeholder="https://liuyuyang.net/api/rss" />
                             </Form.Item>
 
                             <Form.Item name="typeId" label="网站类型" rules={[{ required: true, message: '网站类型不能为空' }]}>
