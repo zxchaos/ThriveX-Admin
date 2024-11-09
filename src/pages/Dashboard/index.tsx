@@ -1,5 +1,6 @@
 import { Card } from 'antd';
 import HeaderInfo from './components/HeaderInfo';
+import Stats from './components/Stats';
 
 const Home = () => {
   return (
@@ -8,9 +9,7 @@ const Home = () => {
         <HeaderInfo />
       </Card>
 
-      <Card className='mt-2'>
-        暂时没有灵感，先空着
-      </Card>
+      <Stats />
     </>
   );
 };
