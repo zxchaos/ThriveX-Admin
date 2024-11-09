@@ -20,17 +20,6 @@ const CreatePage = () => {
   const [content, setContent] = useState('');
   const [publishOpen, setPublishOpen] = useState(false)
 
-  // 保存文章
-  const saveBtn = () => {
-    if (content.trim().length >= 1) {
-      // 将文章内容持久化存储到本地
-      localStorage.setItem('article_content', content)
-      message.success('内容已保存')
-    } else {
-      message.error('请输入文章内容')
-    }
-  }
-
   // 下一步
   const nextBtn = () => {
     content.trim().length >= 1 ? setPublishOpen(true) : message.error('请输入文章内容')
@@ -62,10 +51,36 @@ const CreatePage = () => {
     }
   }, [id])
 
+  // 保存文章
+  const saveBtn = () => {
+    console.log(content, 333);
+
+    if (content.trim().length >= 1) {
+      // 将文章内容持久化存储到本地
+      localStorage.setItem('article_content', content)
+      message.success('内容已保存')
+    } else {
+      message.error('请输入文章内容')
+    }
+  }
+
   useEffect(() => {
     setData({ ...data, content })
-  }, [content])
 
+    // 点击快捷键保存文章
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+        event.preventDefault(); // 阻止默认的保存行为        
+        saveBtn()
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [content])
 
   // 解析接口数据
   const parsingData = async (command: string) => {
