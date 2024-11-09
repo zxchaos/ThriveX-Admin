@@ -5,7 +5,7 @@ import Stats from './components/Stats';
 const Home = () => {
   return (
     <>
-      <Card>
+      <Card className='[&>.ant-card-body]:!p-3'>
         <HeaderInfo />
       </Card>
 
