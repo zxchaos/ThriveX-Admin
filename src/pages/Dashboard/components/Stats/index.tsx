@@ -80,8 +80,6 @@ export default () => {
 
     return (
         <>
-            <Title value="数据可视化" />
-
             {/* 基本数据 */}
             <div className="mt-2 grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-4">
                 <CardDataStats title="今日访客" total={stats.pv + ''} rate="0.43%" levelUp>
