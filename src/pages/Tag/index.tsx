@@ -72,8 +72,8 @@ const TagPage = () => {
         <>
             <Title value="标签管理" />
 
-            <div className='flex justify-between mx-auto mt-2'>
-                <Card className="w-[40%] h-48">
+            <div className='flex md:justify-between flex-col md:flex-row mx-auto mt-2'>
+                <Card className="w-full md:w-[40%] h-48">
                     <Form
                         form={form}
                         layout="vertical"
@@ -92,7 +92,7 @@ const TagPage = () => {
                     </Form>
                 </Card>
 
-                <Card className="w-[59%] [&>.ant-card-body]:!p-0">
+                <Card className="w-full md:w-[59%] [&>.ant-card-body]:!p-0 mt-2 md:mt-0">
                     <Table
                         rowKey="id"
                         dataSource={list}
