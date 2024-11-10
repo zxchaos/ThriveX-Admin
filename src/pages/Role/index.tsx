@@ -128,8 +128,8 @@ const RolePage = () => {
         <>
             <Title value="角色管理" />
 
-            <div className='flex justify-between mx-auto mt-2'>
-                <Card className="w-[40%] h-96">
+            <div className='flex md:justify-between flex-col md:flex-row mx-auto mt-2'>
+                <Card className="w-full md:w-[40%] h-96">
                     <Form
                         form={form}
                         layout="vertical"
@@ -156,7 +156,7 @@ const RolePage = () => {
                     </Form>
                 </Card>
 
-                <Card className="w-[59%] [&>.ant-card-body]:!p-0">
+                <Card className="w-full md:w-[59%] mt-2 md:mt-0 [&>.ant-card-body]:!p-0">
                     <Table
                         rowKey="id"
                         dataSource={roleList}
