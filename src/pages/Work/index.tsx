@@ -117,13 +117,13 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
                 {dayjs(+item.createTime!).format('YYYY-MM-DD HH:mm:ss')}
             </div>
 
-            <div className="flex justify-between p-7 rounded-md transition-colors">
+            <div className="flex justify-between md:p-7 rounded-md transition-colors">
                 <div className="flex mr-10">
                     {type !== "wall" ? (
                         <img src={item.avatar || item.image} alt="" className="w-13 h-13 border border-[#eee] rounded-full" />
                     ) : <RandomAvatar className="w-13 h-13 border border-[#eee] rounded-full" />}
 
-                    <div className="flex flex-col justify-center ml-4 px-4 py-2 bg-[#F9F9FD] rounded-md">
+                    <div className="flex flex-col justify-center ml-4 px-4 py-2 min-w-[210px] text-xs md:text-sm bg-[#F9F9FD] rounded-md">
                         {type === "link" ? (
                             <>
                                 <div>名称：{item.title}</div>
@@ -219,8 +219,8 @@ const WorkPage = () => {
         <>
             <Title value="工作台" />
             <Card className="mt-2">
-                <div className="flex w-full">
-                    <div className="w-2/12 min-h-96 pr-4 border-r border-[#eee]">
+                <div className="flex flex-col md:flex-row w-full">
+                    <div className="w-full min-w-[200px] md:w-2/12 md:min-h-96 mb-5 md:mb-0 pr-4 border-b md:border-r border-[#eee]">
                         <ul className="space-y-1">
                             {(["comment", "link", "wall"] as Menu[]).map((menu) => (
                                 <li
@@ -235,7 +235,7 @@ const WorkPage = () => {
                         </ul>
                     </div>
 
-                    <div className="w-10/12 pl-6 py-4 space-y-10">
+                    <div className="w-full md:w-10/12 md:pl-6 py-4 space-y-10">
                         {active === "link" && renderList(linkList, "link")}
                         {active === "comment" && renderList(commentList, "comment")}
                         {active === "wall" && renderList(wallList, "wall")}
