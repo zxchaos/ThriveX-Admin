@@ -90,6 +90,8 @@ const CommentPage = () => {
             dataIndex: 'createTime',
             key: 'createTime',
             render: (date: string) => dayjs(+date).format('YYYY-MM-DD HH:mm:ss'),
+            defaultSortOrder: 'descend',
+            sorter: (a: Comment, b: Comment) => +a.createTime! - +b.createTime!
         },
         {
             title: '操作',

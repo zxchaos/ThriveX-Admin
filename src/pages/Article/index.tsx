@@ -96,6 +96,7 @@ const ArticlePage = () => {
             dataIndex: 'view',
             key: 'view',
             align: 'center',
+            sorter: (a: Article, b: Article) => a.view! - b.view!
         },
         {
             title: '评论数量',
@@ -103,6 +104,7 @@ const ArticlePage = () => {
             key: 'comment',
             align: 'center',
             render: (data: string) => <span>{data}</span>,
+            sorter: (a: Article, b: Article) => a.comment! - b.comment!
         },
         {
             title: '发布时间',
@@ -111,6 +113,8 @@ const ArticlePage = () => {
             align: 'center',
             width: 200,
             render: (text: string) => dayjs(+text).format('YYYY-MM-DD HH:mm:ss'),
+            defaultSortOrder: 'descend',
+            sorter: (a: Article, b: Article) => +a.createTime! - +b.createTime!
         },
         {
             title: '操作',

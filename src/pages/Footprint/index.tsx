@@ -59,6 +59,8 @@ const FootprintPage = () => {
       align: 'center',
       width: 200,
       render: (time: string) => dayjs(+time).format('YYYY-MM-DD HH:mm:ss'),
+      defaultSortOrder: 'descend',
+      sorter: (a: Footprint, b: Footprint) => +a.createTime! - +b.createTime!
     },
     {
       title: '操作',

@@ -58,7 +58,7 @@ const WallPage = () => {
             title: '名称',
             dataIndex: 'name',
             key: 'name',
-            fixed: 'left',
+            fixed: 'left'
         },
         {
             title: '内容',
@@ -81,6 +81,8 @@ const WallPage = () => {
             dataIndex: 'createTime',
             key: 'createTime',
             render: (date: string) => dayjs(+date).format('YYYY-MM-DD HH:mm:ss'),
+            defaultSortOrder: 'descend',
+            sorter: (a: Wall, b: Wall) => +a.createTime! - +b.createTime!
         },
         {
             title: '操作',

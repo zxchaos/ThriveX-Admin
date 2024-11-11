@@ -22,7 +22,7 @@ export interface Article {
     tagIds: string,
     tagList: Tag[]
     view?: number
-    count?: number,
+    comment?: number,
     config: Config,
     createTime?: string,
 }
