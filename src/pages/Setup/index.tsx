@@ -6,7 +6,6 @@ import System from './components/System'
 import Web from './components/Web'
 import Layout from './components/Layout'
 import My from './components/My'
-import "./index.scss"
 
 interface Setup {
     title: string;
@@ -50,13 +49,13 @@ const SetupPage = () => {
         <>
             <Title value="项目配置" />
 
-            <Card className='SetupPage mt-2'>
+            <Card className='mt-2'>
                 <div className="flex">
-                    <ul className="w[20%] mr-5 border-r border-[#eee] divide-y divide-solid divide-[#F6F6F6]">
+                    <ul className="w-[20%] mr-5 border-r border-[#eee] divide-y divide-solid divide-[#F6F6F6]">
                         {list.map((item) => (
                             <li
                                 key={item.key}
-                                className={`item p-3 pl-5 cursor-pointer transition-colors ${active === item.key ? 'active' : ''}`}
+                                className={`relative p-3 pl-5 before:content-[''] before:absolute before:top-1/2 before:left-0 before:-translate-y-1/2 before:w-[3.5px] before:h-[0%] before:bg-[#727cf5] cursor-pointer transition-all ${active === item.key ? 'bg-[#f7f7f8] before:h-full' : ''}`}
                                 onClick={() => setActive(item.key)}
                             >
                                 <h3 className="flex items-center text-base">
