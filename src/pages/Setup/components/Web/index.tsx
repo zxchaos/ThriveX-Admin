@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
-import { getWebDataAPI, editWebDataAPI } from '@/api/Project';
+import { editWebDataAPI } from '@/api/Project';
 import { Web } from '@/types/app/project'
 import { useWebStore } from '@/stores';
 
@@ -23,7 +23,7 @@ const WebPage = () => {
 
     return (
         <div>
-            <h2 className="text-xl pb-4 text-center">网站配置</h2>
+            <h2 className="text-xl pb-4 pl-10">网站配置</h2>
 
             <Form
                 form={form}
@@ -31,7 +31,7 @@ const WebPage = () => {
                 layout="vertical"
                 onFinish={onSubmit}
                 initialValues={web}
-                className="w-6/12 mx-auto"
+                className="w-full lg:w-[500px] ml-10"
             >
                 <Form.Item
                     label="网站名称"

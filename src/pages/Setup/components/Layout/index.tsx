@@ -38,7 +38,7 @@ const LayoutPage = () => {
         await editLayoutDataAPI(updatedLayout);
         notification.success({
             message: '成功',
-            description: '🎉修改布局成功',
+            description: '🎉 修改布局成功',
         });
         setLoading(false);
     };
@@ -56,60 +56,66 @@ const LayoutPage = () => {
     return (
         <>
             <Spin spinning={loading} indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}>
-                <h2 className="text-xl pb-4 text-center">布局配置</h2>
+                <h2 className="text-xl pb-4 pl-10">主题配置</h2>
 
-                <Divider orientation="left">首页背景图</Divider>
-                <div className="mb-8">
-                    <Input
-                        value={layout.swiperImage}
-                        onChange={(e) => setLayout({ ...layout, swiperImage: e.target.value })}
-                        placeholder="请输入背景图地址"
-                        prefix={<PictureOutlined />}
-                        addonAfter={<UploadBtn />}
-                        size='large'
-                        className='customizeAntdInputAddonAfter'
-                    />
-                    <img src={layout.swiperImage} alt="" className="w-1/3 mt-4 rounded" />
-                </div>
+                <div className='w-full lg:w-[500px] ml-10'>
+                    <Divider orientation="left">首页背景图</Divider>
+                    <div className="mb-8">
+                        <Input
+                            value={layout.swiperImage}
+                            onChange={(e) => setLayout({ ...layout, swiperImage: e.target.value })}
+                            placeholder="请输入背景图地址"
+                            prefix={<PictureOutlined />}
+                            addonAfter={<UploadBtn />}
+                            size='large'
+                            className='customizeAntdInputAddonAfter'
+                        />
+                        <img src={layout.swiperImage} alt="" className="w-1/3 mt-4 rounded" />
+                    </div>
 
-                <Divider orientation="left">打字机文本</Divider>
-                <div className="mb-8">
-                    <Input.TextArea
-                        value={swiperText}
-                        onChange={(e) => setSwiperText(e.target.value)}
-                        autoSize={{ minRows: 2, maxRows: 4 }}
-                        size='large'
-                    />
-                    <Alert message="以换行分隔，每行表示一段文本" type="info" className="mt-2" />
-                </div>
+                    <Divider orientation="left">打字机文本</Divider>
+                    <div className="mb-8">
+                        <Input.TextArea
+                            value={swiperText}
+                            onChange={(e) => setSwiperText(e.target.value)}
+                            autoSize={{ minRows: 2, maxRows: 4 }}
+                            size='large'
+                        />
+                        <Alert message="以换行分隔，每行表示一段文本" type="info" className="mt-2" />
+                    </div>
 
-                <Divider orientation="left">侧边栏</Divider>
-                <div className="sidebar flex mb-8">
-                    {['author', 'hotArticle', 'randomArticle', 'newComments'].map((item) => (
-                        <div key={item} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${layout.rightSidebar && JSON.parse(layout.rightSidebar).includes(item) ? 'border-primary' : 'border-[#eee]'}`} onClick={() => onSidebar(item)}>
-                            <img src={`${getFile(item)}`} alt="" className="h-52 mb-4 rounded" />
+                    <Divider orientation="left">侧边栏</Divider>
+                    <div className='overflow-auto w-full'>
+                        <div className="sidebar w-[750px] flex mb-4">
+                            {['author', 'hotArticle', 'randomArticle', 'newComments'].map((item) => (
+                                <div key={item} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${layout.rightSidebar && JSON.parse(layout.rightSidebar).includes(item) ? 'border-primary' : 'border-[#eee]'}`} onClick={() => onSidebar(item)}>
+                                    <p className={`text-center ${layout.rightSidebar && JSON.parse(layout.rightSidebar).includes(item) ? 'text-primary' : ''}`}>
+                                        {item === 'author' ? '作者信息模块' : item === 'hotArticle' ? '文章推荐模块' : item === 'randomArticle' ? '随机文章模块' : '最新评论模块'}
+                                    </p>
 
-                            <p className={`text-center ${layout.rightSidebar && JSON.parse(layout.rightSidebar).includes(item) ? 'text-primary' : ''}`}>
-                                {item === 'author' ? '作者信息模块' : item === 'hotArticle' ? '文章推荐模块' : item === 'randomArticle' ? '随机文章模块' : '最新评论模块'}
-                            </p>
+                                    <img src={`${getFile(item)}`} alt="" className="mt-4 rounded" />
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </div>
 
-                <Divider orientation="left">文章布局</Divider>
-                <div className="article flex">
-                    {['classics', 'card', 'waterfall'].map((item) => (
-                        <div key={item} onClick={() => setLayout({ ...layout, isArticleLayout: item })} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${layout.isArticleLayout === item ? 'border-primary' : 'border-[#eee]'}`}>
-                            <img src={`${getFile(item)}`} alt="" className="h-52 mb-4 rounded" />
+                    <Divider orientation="left">文章布局</Divider>
+                    <div className='overflow-auto w-full'>
+                        <div className="article flex w-[650px]">
+                            {['classics', 'card', 'waterfall'].map((item) => (
+                                <div key={item} onClick={() => setLayout({ ...layout, isArticleLayout: item })} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${layout.isArticleLayout === item ? 'border-primary' : 'border-[#eee]'}`}>
+                                    <p className={`text-center ${layout.isArticleLayout === item ? 'text-primary' : ''}`}>
+                                        {item === 'classics' ? '经典布局' : item === 'card' ? '卡片布局' : '瀑布流布局'}
+                                    </p>
 
-                            <p className={`text-center ${layout.isArticleLayout === item ? 'text-primary' : ''}`}>
-                                {item === 'classics' ? '经典布局' : item === 'card' ? '卡片布局' : '瀑布流布局'}
-                            </p>
+                                    <img src={`${getFile(item)}`} alt="" className="w-[200px] mt-4 rounded" />
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </div>
 
-                <Button type="primary" size="large" className="w-full mt-4" onClick={editLayoutData}>修改布局</Button>
+                    <Button type="primary" size="large" className="w-full mt-4" onClick={editLayoutData}>修改布局</Button>
+                </div>
             </Spin>
 
             <FileUpload

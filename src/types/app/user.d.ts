@@ -9,7 +9,7 @@ export interface UserInfo {
     email: string,
     avatar: string,
     info: string,
-    roleId: number
+    roleId?: number
     role: Role
 }
 

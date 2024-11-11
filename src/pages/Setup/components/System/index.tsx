@@ -54,7 +54,7 @@ const SystemPage = () => {
 
     return (
         <div>
-            <h2 className="text-xl pb-4 text-center">系统配置</h2>
+            <h2 className="text-xl pb-4 pl-10">系统配置</h2>
 
             <Form
                 form={form}
@@ -62,7 +62,7 @@ const SystemPage = () => {
                 size='large'
                 layout="vertical"
                 onFinish={handleSubmit}
-                className="w-5/12 mx-auto"
+                className="w-full lg:w-[500px] ml-10"
             >
                 <Form.Item
                     label="管理员账号"

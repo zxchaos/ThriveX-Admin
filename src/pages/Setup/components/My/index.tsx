@@ -30,7 +30,10 @@ const UserPage = () => {
 
     const onSubmit = async (values: UserForm) => {
         setLoading(false)
-        await editUserDataAPI({ id: store.user.id, ...values });
+        await editUserDataAPI({
+            id: store.user.id, ...values,
+            role: undefined
+        });
         message.success("🎉 修改用户信息成功");
         store.setUser(values as User); 
         getUserData();
@@ -38,14 +41,14 @@ const UserPage = () => {
 
     return (
         <div>
-            <h2 className="text-xl pb-4 text-center">个人设置</h2>
+            <h2 className="text-xl pb-4 pl-10">个人设置</h2>
 
             <Form
                 form={form}
                 size="large"
                 layout="vertical"
                 onFinish={onSubmit}
-                className="w-5/12 mx-auto"
+                className="w-full lg:w-[500px] ml-10"
             >
                 <Form.Item
                     label="名称"

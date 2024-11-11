@@ -32,8 +32,8 @@ const SetupPage = () => {
             key: "web"
         },
         {
-            title: "布局配置",
-            description: "配置网站布局及代码高亮等",
+            title: "主题配置",
+            description: "配置网站主题风格",
             icon: <BiLayout className={iconSty} />,
             key: "layout"
         },
