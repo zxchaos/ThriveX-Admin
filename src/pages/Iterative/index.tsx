@@ -79,20 +79,22 @@ const Home = () => {
                     <GitHubCalendar username="liuyuyang01" year={year} />
                 </div>
 
-                <div className='flex justify-between'>
-                    <div className='flex-1'>
-                        <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>ThriveX-Blog</h3>
-                        <Timeline mode="left" items={blog_iterativeRecording} />
-                    </div>
+                <div className='overflow-auto w-full'>
+                    <div className='flex w-[1350px]'>
+                        <div className='w-[400px]'>
+                            <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>ThriveX-Blog</h3>
+                            <Timeline mode="left" items={blog_iterativeRecording} />
+                        </div>
 
-                    <div className='flex-1'>
-                        <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>ThriveX-Admin</h3>
-                        <Timeline mode="left" items={admin_iterativeRecording} />
-                    </div>
+                        <div className='w-[400px] mx-[50px]'>
+                            <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>ThriveX-Admin</h3>
+                            <Timeline mode="left" items={admin_iterativeRecording} />
+                        </div>
 
-                    <div className='flex-1'>
-                        <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>ThriveX-Service</h3>
-                        <Timeline mode="left" items={server_iterativeRecording} />
+                        <div className='w-[400px]'>
+                            <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>ThriveX-Service</h3>
+                            <Timeline mode="left" items={server_iterativeRecording} />
+                        </div>
                     </div>
                 </div>
             </Card>
