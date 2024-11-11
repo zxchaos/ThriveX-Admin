@@ -48,7 +48,7 @@ const UserPage = () => {
                 size="large"
                 layout="vertical"
                 onFinish={onSubmit}
-                className="w-full lg:w-[500px] ml-10"
+                className="w-full lg:w-[500px] md:ml-10"
             >
                 <Form.Item
                     label="名称"

@@ -1,4 +1,3 @@
-import { useState, useRef } from 'react';
 import { Form, Input, Button, notification, Modal } from 'antd';
 import { useUserStore } from '@/stores';
 import { editAdminPassAPI } from '@/api/User';
@@ -62,7 +61,7 @@ const SystemPage = () => {
                 size='large'
                 layout="vertical"
                 onFinish={handleSubmit}
-                className="w-full lg:w-[500px] ml-10"
+                className="w-full lg:w-[500px] md:ml-10"
             >
                 <Form.Item
                     label="管理员账号"

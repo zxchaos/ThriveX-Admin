@@ -58,7 +58,7 @@ const LayoutPage = () => {
             <Spin spinning={loading} indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}>
                 <h2 className="text-xl pb-4 pl-10">主题配置</h2>
 
-                <div className='w-full lg:w-[500px] ml-10'>
+                <div className='w-full lg:w-[500px] md:ml-10'>
                     <Divider orientation="left">首页背景图</Divider>
                     <div className="mb-8">
                         <Input

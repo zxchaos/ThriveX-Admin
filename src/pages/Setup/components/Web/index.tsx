@@ -31,7 +31,7 @@ const WebPage = () => {
                 layout="vertical"
                 onFinish={onSubmit}
                 initialValues={web}
-                className="w-full lg:w-[500px] ml-10"
+                className="w-full lg:w-[500px] md:ml-10"
             >
                 <Form.Item
                     label="网站名称"
