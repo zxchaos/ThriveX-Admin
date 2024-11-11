@@ -202,7 +202,7 @@ const LinkPage = () => {
             <Title value="网站管理" />
 
             <Card className="WebPage mt-2">
-                <Tabs activeKey={tab} tabPosition="left" onChange={handleTabChange} items={tabItems} />
+                <Tabs activeKey={tab} tabPosition="top" onChange={handleTabChange} items={tabItems} />
             </Card>
         </>
     );
