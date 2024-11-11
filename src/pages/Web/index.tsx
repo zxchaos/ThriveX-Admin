@@ -120,7 +120,7 @@ const LinkPage = () => {
                         <div className="list">
                             {listTemp.length > 0 ? (
                                 listTemp.map(item => (
-                                    <div key={item.id} className={`item`}>
+                                    <div key={item.id} className="item">
                                         <div className="avatar">
                                             <img src={item.image} alt="" className="avatar-img" />
                                         </div>
@@ -155,7 +155,7 @@ const LinkPage = () => {
                 <>
                     <h2 className="text-xl pb-4 text-center">{isMethod === "edit" ? '编辑网站' : '新增网站'}</h2>
 
-                    <div className='w-5/12 mx-auto'>
+                    <div className='w-full md:w-[500px] mx-auto'>
                         <Form form={form} layout="vertical" size='large' initialValues={link} onFinish={submit}>
                             <Form.Item label="网站标题" name="title" rules={[{ required: true, message: '网站标题不能为空' }]}>
                                 <Input placeholder="Thrive" />

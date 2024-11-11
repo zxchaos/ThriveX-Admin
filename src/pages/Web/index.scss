@@ -1,8 +1,9 @@
 .WebPage {
     .list {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        justify-items: center;
         min-height: 100px;
         margin-top: 40px;
 
@@ -15,8 +16,6 @@
             width: 200px;
             height: 250px;
             padding: 0px 20px;
-            margin-right: 50px;
-            margin-bottom: 20px;
             border: 1px solid #eee;
             border-radius: 5px;
             background-color: #fff;
