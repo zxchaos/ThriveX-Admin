@@ -154,15 +154,15 @@ const CommentPage = () => {
 
             <Card className='my-2 overflow-scroll'>
                 <Form layout="inline" onFinish={onSubmit} autoComplete="off" className='flex-nowrap'>
-                    <Form.Item label="标题" name="title" className='w-2/12'>
+                    <Form.Item label="标题" name="title" className='min-w-[200px]'>
                         <Input placeholder='请输入标题关键词' />
                     </Form.Item>
 
-                    <Form.Item label="内容" name="content" className='w-2/12'>
+                    <Form.Item label="内容" name="content" className='min-w-[200px]'>
                         <Input placeholder='请输入内容关键词' />
                     </Form.Item>
 
-                    <Form.Item label="时间范围" name="createTime" className='w-3/12'>
+                    <Form.Item label="时间范围" name="createTime" className='min-w-[250px]'>
                         <RangePicker placeholder={["选择起始时间", "选择结束时间"]} />
                     </Form.Item>
 
