@@ -117,33 +117,35 @@ const LinkPage = () => {
                     </div>
 
                     <Spin spinning={loading}>
-                        <div className="list">
-                            {listTemp.length > 0 ? (
-                                listTemp.map(item => (
-                                    <div key={item.id} className="item">
-                                        <div className="avatar">
-                                            <img src={item.image} alt="" className="avatar-img" />
+                        {listTemp.length > 0 ? (
+                            <div className="list">
+                                {
+                                    listTemp.map(item => (
+                                        <div key={item.id} className="item">
+                                            <div className="avatar">
+                                                <img src={item.image} alt="" className="avatar-img" />
+                                            </div>
+
+                                            <div className="name">{item.title}</div>
+                                            <div className="description">{item.description}</div>
+                                            <div className="type">{item.type.name}</div>
+
+                                            <div className="operate">
+                                                <div onClick={() => editLinkData(item)} className="edit">修改</div>
+
+                                                <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => deleteLinkData(item.id!)}>
+                                                    <div className="delete">删除</div>
+                                                </Popconfirm>
+                                            </div>
+
+                                            <div onClick={() => toHref(item.url)} className="headFor">前往该网站 &rarr;</div>
                                         </div>
-
-                                        <div className="name">{item.title}</div>
-                                        <div className="description">{item.description}</div>
-                                        <div className="type">{item.type.name}</div>
-
-                                        <div className="operate">
-                                            <div onClick={() => editLinkData(item)} className="edit">修改</div>
-
-                                            <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => deleteLinkData(item.id!)}>
-                                                <div className="delete">删除</div>
-                                            </Popconfirm>
-                                        </div>
-
-                                        <div onClick={() => toHref(item.url)} className="headFor">前往该网站 &rarr;</div>
-                                    </div>
-                                ))
-                            ) : (
-                                <Empty description="暂无数据" />
-                            )}
-                        </div>
+                                    ))
+                                }
+                            </div>
+                        ) : (
+                            <Empty description="暂无数据" className='my-7'/>
+                        )}
                     </Spin>
                 </>
             ),
