@@ -113,7 +113,6 @@ const ArticlePage = () => {
             align: 'center',
             width: 200,
             render: (text: string) => dayjs(+text).format('YYYY-MM-DD HH:mm:ss'),
-            defaultSortOrder: 'descend',
             sorter: (a: Article, b: Article) => +a.createTime! - +b.createTime!
         },
         {

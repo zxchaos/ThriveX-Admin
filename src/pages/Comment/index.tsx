@@ -54,8 +54,7 @@ const CommentPage = () => {
         {
             title: '名称',
             dataIndex: 'name',
-            key: 'name',
-            fixed: 'left',
+            key: 'name'
         },
         {
             title: '内容',
@@ -90,7 +89,6 @@ const CommentPage = () => {
             dataIndex: 'createTime',
             key: 'createTime',
             render: (date: string) => dayjs(+date).format('YYYY-MM-DD HH:mm:ss'),
-            defaultSortOrder: 'descend',
             sorter: (a: Comment, b: Comment) => +a.createTime! - +b.createTime!
         },
         {
