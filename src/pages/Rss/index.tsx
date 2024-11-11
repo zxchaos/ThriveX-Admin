@@ -46,15 +46,17 @@ const RssPage = () => {
                             <List.Item
                                 key={item.title}
                                 actions={[
-                                    <IconText icon={BiCategory} text={item.type} key="list-vertical-star-o" />,
-                                    <IconText icon={LuTimer} text={dayjs(+item.createTime!).format('YYYY-MM-DD HH:mm:ss')} key="list-vertical-like-o" />,
+                                    <div className='flex space-x-4'>
+                                        <IconText icon={BiCategory} text={item.type} key="list-vertical-star-o" />
+                                        <IconText icon={LuTimer} text={dayjs(+item.createTime!).format('YYYY-MM-DD HH:mm:ss')} key="list-vertical-like-o" />
+                                    </div>
                                 ]}
-                                // extra={<img alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" className='h-30' />}
+                            // extra={<img alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" className='h-30' />}
                             >
                                 <List.Item.Meta
                                     avatar={<Avatar src={item.image} className='w-15 h-15 mr-2' />}
                                     title={<a href={item.url} target='_blank'>{item.title}</a>}
-                                    description={item.description}
+                                    description={<div className='line-clamp-3 md:line-clamp-none'>{item.description}</div>}
                                 />
                             </List.Item>
                         )}
