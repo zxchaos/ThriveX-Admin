@@ -37,7 +37,7 @@ const Home = () => {
         project === "ThriveX-Admin" && setAdmin_IterativeRecording(result)
 
         sessionStorage.setItem('server_project_iterative', JSON.stringify(result))
-        project === "ThriveX-Service" && setServer_IterativeRecording(result)
+        project === "ThriveX-Server" && setServer_IterativeRecording(result)
     }
 
     useEffect(() => {
@@ -55,7 +55,7 @@ const Home = () => {
         admin_project_iterative.length ? setAdmin_IterativeRecording(admin_project_iterative) : getCommitData("ThriveX-Admin")
 
         const server_project_iterative = JSON.parse(sessionStorage.getItem('server_project_iterative') || '[]')
-        server_project_iterative.length ? setServer_IterativeRecording(server_project_iterative) : getCommitData("ThriveX-Service")
+        server_project_iterative.length ? setServer_IterativeRecording(server_project_iterative) : getCommitData("ThriveX-Server")
     }, [])
 
     return (
@@ -92,7 +92,7 @@ const Home = () => {
                         </div>
 
                         <div className='w-[400px]'>
-                            <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>ThriveX-Service</h3>
+                            <h3 className='text-xl text-center pb-6 font-bold text-gradient block'>ThriveX-Server</h3>
                             <Timeline mode="left" items={server_iterativeRecording} />
                         </div>
                     </div>

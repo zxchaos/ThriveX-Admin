@@ -6,6 +6,7 @@
 
 🎉 `ThriveX` 是一个 `Next14` + `Spring Boot` 的产物，该项目专注于分享技术文章和知识，为技术爱好者和从业者提供一个分享、交流和学习的平台。用户可以在平台上发表自己的技术文章，或浏览其他用户分享的文章，并与他们进行讨论和互动。
 
+
 🗂️ **项目预览：** [https://liuyuyang.net/](https://liuyuyang.net/)
 
 
@@ -13,6 +14,7 @@
 🛠️ **技术架构：**
 
 前端：React、**Nextjs**、TypeScript、Zustand、**TailwindCSS**、Antd、Scss、Echarts
+
 
 后端：**Spring Boot**、Mybatis Plus、MySQL、Qiniu、Socket.io、Swagger
 
@@ -142,17 +144,17 @@ lyy:
 
 控制端：[LiuYuYang01/ThriveX-Admin (github.com)](https://github.com/LiuYuYang01/ThriveX-Admin)
 
-后端：[LiuYuYang01/ThriveX-Service (github.com)](https://github.com/LiuYuYang01/ThriveX-Service)
+后端：[LiuYuYang01/ThriveX-Server (github.com)](https://github.com/LiuYuYang01/ThriveX-Server)
 
 
 
 ### 旧版（Vue3 + Python Flask）
 
-前端：[LiuYuYang01/Thrive_Blog (github.com)](https://github.com/LiuYuYang01/Thrive_Blog)
+前端：[LiuYuYang01/Thrive-Blog (github.com)](https://github.com/LiuYuYang01/Thrive-Blog)
 
-控制端：[LiuYuYang01/Thrive_Admin (github.com)](https://github.com/LiuYuYang01/Thrive_Admin)
+控制端：[LiuYuYang01/Thrive-Admin (github.com)](https://github.com/LiuYuYang01/Thrive-Admin)
 
-后端：[LiuYuYang01/Thrive_Server (github.com)](https://github.com/LiuYuYang01/Thrive_Server)
+后端：[LiuYuYang01/Thrive-Server (github.com)](https://github.com/LiuYuYang01/Thrive-Server)
 
 ![后台](https://bu.dusays.com/2024/09/17/66e96ca781d49.png)
 
