@@ -103,7 +103,7 @@ export default () => {
 
                 {/* 文件列表 */}
                 <Spin spinning={loading}>
-                    <div className='flex flex-wrap'>
+                    <div className='flex flex-wrap justify-center md:justify-normal'>
                         {
                             fileList.length
                                 ? (
@@ -119,7 +119,7 @@ export default () => {
                                 : dirList.map((dir, index) => (
                                     <div
                                         key={index}
-                                        className='group w-25 flex flex-col items-center cursor-pointer mx-4'
+                                        className='group w-25 flex flex-col items-center cursor-pointer mx-4 my-2'
                                         onClick={() => openDir(dir)}>
                                         <img src={fileSvg} alt="" />
                                         <p className='group-hover:text-primary transition-colors'>{dir}</p>

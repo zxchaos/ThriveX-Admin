@@ -45,6 +45,7 @@ const RssPage = () => {
                         renderItem={(item: Rss) => (
                             <List.Item
                                 key={item.title}
+                                className='!p-[16px_0] md:!p-[16px_24px]'
                                 actions={[
                                     <div className='flex space-x-4'>
                                         <IconText icon={BiCategory} text={item.type} key="list-vertical-star-o" />
