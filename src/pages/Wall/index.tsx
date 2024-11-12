@@ -145,7 +145,7 @@ const WallPage = () => {
                 </Form>
             </Card>
 
-            <Card className={`${titleSty} mt-2`}>
+            <Card className={`${titleSty} mt-2 min-h-[calc(100vh-180px)]`}>
                 <Table
                     rowKey="id"
                     dataSource={list}

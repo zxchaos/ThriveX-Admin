@@ -49,7 +49,7 @@ const SetupPage = () => {
         <>
             <Title value="项目配置" />
 
-            <Card className='mt-2'>
+            <Card className='mt-2 min-h-[calc(100vh-180px)]'>
                 <div className="flex flex-col md:flex-row">
                     <ul className="w-full md:w-[20%] md:mr-5 mb-10 md:mb-0 border-b md:border-r border-[#eee] divide-y divide-solid divide-[#F6F6F6]">
                         {list.map((item) => (

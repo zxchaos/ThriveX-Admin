@@ -62,7 +62,7 @@ const Home = () => {
         <>
             <Title value='项目迭代记录'></Title>
 
-            <Card className='mt-2'>
+            <Card className='mt-2 min-h-[calc(100vh-180px)]'>
                 <div className='flex flex-col items-center mt-2 mb-22'>
                     <div className='ml-5 mb-6'>
                         <span>年份切换：</span>

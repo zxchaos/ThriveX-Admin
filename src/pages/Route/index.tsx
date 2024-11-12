@@ -74,7 +74,7 @@ const RoutePage = () => {
         <>
             <Title value="路由管理" />
 
-            <div className='flex md:justify-between flex-col md:flex-row mx-auto mt-2'>
+            <div className='flex md:justify-between flex-col md:flex-row mx-auto mt-2 min-h-[calc(100vh-180px)]'>
                 <Card className="w-full md:w-[40%] h-73">
                     <Form
                         form={form}

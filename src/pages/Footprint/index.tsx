@@ -183,7 +183,7 @@ const FootprintPage = () => {
         </div>
       </Card>
 
-      <Card className={`${titleSty}`}>
+      <Card className={`${titleSty} min-h-[calc(100vh-250px)]`}>
         <Table
           rowKey="id"
           dataSource={footprintList}

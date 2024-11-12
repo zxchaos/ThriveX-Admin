@@ -218,7 +218,7 @@ const WorkPage = () => {
     return (
         <>
             <Title value="工作台" />
-            <Card className="mt-2">
+            <Card className="mt-2 min-h-[calc(100vh-180px)]">
                 <div className="flex flex-col md:flex-row w-full">
                     <div className="w-full min-w-[200px] md:w-2/12 md:min-h-96 mb-5 md:mb-0 pr-4 border-b md:border-b-transparent md:border-r border-[#eee]">
                         <ul className="space-y-1">

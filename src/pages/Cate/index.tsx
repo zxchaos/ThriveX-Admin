@@ -130,7 +130,7 @@ const CatePage = () => {
                 <Button type="primary" onClick={() => addCateData(0)}>新增一级分类</Button>
             </Title>
 
-            <Card className={`CatePage [&>.ant-card-body]:!p-[30px_20px] [&>.ant-card-body]:!pb-6 mt-2`}>
+            <Card className={`CatePage [&>.ant-card-body]:!p-[30px_20px] [&>.ant-card-body]:!pb-6 mt-2 min-h-[calc(100vh-180px)]`}>
                 <Spin spinning={loading}>
                     <Tree defaultExpandAll={true} treeData={treeData(list)} />
                 </Spin>

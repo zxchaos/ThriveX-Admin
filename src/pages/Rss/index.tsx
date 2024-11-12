@@ -32,7 +32,7 @@ const RssPage = () => {
         <>
             <Title value='订阅中心' />
 
-            <Card className='mt-2'>
+            <Card className='mt-2 min-h-[calc(100vh-180px)]'>
                 <Spin spinning={loading}>
                     <List
                         dataSource={list}

@@ -90,7 +90,7 @@ export default () => {
         <>
             <Title value='文件管理' />
 
-            <Card className='FilePage mt-2'>
+            <Card className='FilePage mt-2 min-h-[calc(100vh-180px)]'>
                 <div className='flex justify-between mb-4 px-4'>
                     {
                         !fileList.length

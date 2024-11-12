@@ -172,7 +172,7 @@ const CommentPage = () => {
                 </Form>
             </Card>
 
-            <Card className={`${titleSty} mt-2`}>
+            <Card className={`${titleSty} mt-2 min-h-[calc(100vh-250px)]`}>
                 <Table
                     rowKey="id"
                     dataSource={list}
