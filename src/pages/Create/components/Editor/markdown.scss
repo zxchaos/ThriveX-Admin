@@ -20,10 +20,10 @@
     h1 {
         @apply text-2xl my-6 pb-3 border-b border-[#eee];
 
-        &::before {
-            content: "✨️";
-            @apply pr-3;
-        }
+        // &::before {
+        //     content: "✨️";
+        //     @apply pr-3;
+        // }
     }
 
     h2 {
