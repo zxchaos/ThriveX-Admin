@@ -1,27 +1,27 @@
 import { useState, useEffect } from 'react';
 import { notification, Divider, Input, Alert, Button, Spin } from 'antd';
 import { PictureOutlined, LoadingOutlined, CloudUploadOutlined } from '@ant-design/icons';
-import { editLayoutDataAPI, getLayoutDataAPI } from '@/api/Project';
-import { Layout } from '@/types/app/project';
+import { editThemeDataAPI, getThemeDataAPI } from '@/api/Project';
+import { Theme } from '@/types/app/project';
 import FileUpload from '@/components/FileUpload';
 
-const LayoutPage = () => {
+const ThemePage = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [swiperText, setSwiperText] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [layout, setLayout] = useState<Layout>({} as Layout);
+    const [theme, setTheme] = useState<Theme>({} as Theme);
 
     const onSidebar = (value: string) => {
-        const rightSidebar = JSON.parse(layout.rightSidebar || '[]');
+        const rightSidebar = JSON.parse(theme.rightSidebar || '[]');
         const index = rightSidebar.indexOf(value);
         index > -1 ? rightSidebar.splice(index, 1) : rightSidebar.push(value)
-        setLayout({ ...layout, rightSidebar: JSON.stringify(rightSidebar) });
+        setTheme({ ...theme, rightSidebar: JSON.stringify(rightSidebar) });
     };
 
     const getLayoutData = async () => {
         setLoading(true);
-        const { data } = await getLayoutDataAPI();
-        setLayout(data);
+        const { data } = await getThemeDataAPI();
+        setTheme(data);
 
         const swiperText = JSON.parse(data.swiperText)
         setSwiperText(swiperText.join('\n'));
@@ -34,11 +34,11 @@ const LayoutPage = () => {
 
     const editLayoutData = async () => {
         setLoading(true);
-        const updatedLayout = { ...layout, swiperText: JSON.stringify(swiperText.split('\n')) };
-        await editLayoutDataAPI(updatedLayout);
+        const updatedLayout = { ...theme, swiperText: JSON.stringify(swiperText.split('\n')) };
+        await editThemeDataAPI(updatedLayout);
         notification.success({
             message: '成功',
-            description: '🎉 修改布局成功',
+            description: '🎉 修改主题成功',
         });
         setLoading(false);
     };
@@ -62,15 +62,15 @@ const LayoutPage = () => {
                     <Divider orientation="left">首页背景图</Divider>
                     <div className="mb-8">
                         <Input
-                            value={layout.swiperImage}
-                            onChange={(e) => setLayout({ ...layout, swiperImage: e.target.value })}
+                            value={theme.swiperImage}
+                            onChange={(e) => setTheme({ ...theme, swiperImage: e.target.value })}
                             placeholder="请输入背景图地址"
                             prefix={<PictureOutlined />}
                             addonAfter={<UploadBtn />}
                             size='large'
                             className='customizeAntdInputAddonAfter'
                         />
-                        <img src={layout.swiperImage} alt="" className="w-1/3 mt-4 rounded" />
+                        <img src={theme.swiperImage} alt="" className="w-1/3 mt-4 rounded" />
                     </div>
 
                     <Divider orientation="left">打字机文本</Divider>
@@ -88,8 +88,8 @@ const LayoutPage = () => {
                     <div className='overflow-auto w-full'>
                         <div className="sidebar w-[750px] flex mb-4">
                             {['author', 'hotArticle', 'randomArticle', 'newComments'].map((item) => (
-                                <div key={item} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${layout.rightSidebar && JSON.parse(layout.rightSidebar).includes(item) ? 'border-primary' : 'border-[#eee]'}`} onClick={() => onSidebar(item)}>
-                                    <p className={`text-center ${layout.rightSidebar && JSON.parse(layout.rightSidebar).includes(item) ? 'text-primary' : ''}`}>
+                                <div key={item} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${theme.rightSidebar && JSON.parse(theme.rightSidebar).includes(item) ? 'border-primary' : 'border-[#eee]'}`} onClick={() => onSidebar(item)}>
+                                    <p className={`text-center ${theme.rightSidebar && JSON.parse(theme.rightSidebar).includes(item) ? 'text-primary' : ''}`}>
                                         {item === 'author' ? '作者信息模块' : item === 'hotArticle' ? '文章推荐模块' : item === 'randomArticle' ? '随机文章模块' : '最新评论模块'}
                                     </p>
 
@@ -103,8 +103,8 @@ const LayoutPage = () => {
                     <div className='overflow-auto w-full'>
                         <div className="article flex w-[650px]">
                             {['classics', 'card', 'waterfall'].map((item) => (
-                                <div key={item} onClick={() => setLayout({ ...layout, isArticleLayout: item })} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${layout.isArticleLayout === item ? 'border-primary' : 'border-[#eee]'}`}>
-                                    <p className={`text-center ${layout.isArticleLayout === item ? 'text-primary' : ''}`}>
+                                <div key={item} onClick={() => setTheme({ ...theme, isArticleLayout: item })} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${theme.isArticleLayout === item ? 'border-primary' : 'border-[#eee]'}`}>
+                                    <p className={`text-center ${theme.isArticleLayout === item ? 'text-primary' : ''}`}>
                                         {item === 'classics' ? '经典布局' : item === 'card' ? '卡片布局' : '瀑布流布局'}
                                     </p>
 
@@ -121,11 +121,11 @@ const LayoutPage = () => {
             <FileUpload
                 dir="swiper"
                 open={isModalOpen}
-                onSuccess={(url: string[]) => setLayout({ ...layout, swiperImage: url.join("\n") })}
+                onSuccess={(url: string[]) => setTheme({ ...theme, swiperImage: url.join("\n") })}
                 onCancel={() => setIsModalOpen(false)}
             />
         </>
     );
 };
 
-export default LayoutPage;
+export default ThemePage;

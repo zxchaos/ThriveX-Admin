@@ -4,7 +4,7 @@ import Title from '@/components/Title';
 import { BiGlobe, BiLayout, BiShieldQuarter, BiUser } from 'react-icons/bi';
 import System from './components/System'
 import Web from './components/Web'
-import Layout from './components/Layout'
+import Layout from './components/Theme'
 import My from './components/My'
 
 interface Setup {

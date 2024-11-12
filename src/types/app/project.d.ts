@@ -26,8 +26,8 @@ export interface Web {
 export type ArticleLayout = "classics" | "card" | "waterfall" | ""
 export type RightSidebar = "author" | "hotArticle" | "randomArticle" | "newComments"
 
-// 布局配置
-export interface Layout {
+// 主题配置
+export interface Theme {
     isArticleLayout: string,
     rightSidebar: string,
     swiperImage: string,

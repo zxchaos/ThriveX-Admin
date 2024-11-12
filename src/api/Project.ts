@@ -1,5 +1,5 @@
 import Request from '@/utils/request'
-import { System, Web, Layout } from '@/types/app/project'
+import { System, Web, Theme } from '@/types/app/project'
 
 // 获取系统配置信息
 export const getSystemDataAPI = () => Request<System>("GET", "/project/system")
@@ -10,8 +10,8 @@ export const getWebDataAPI = () => Request<Web>("GET", "/project/web")
 // 修改网站配置信息
 export const editWebDataAPI = (data: Web) => Request<Web>("PATCH", "/project/web", { data })
 
-// 获取布局配置信息
-export const getLayoutDataAPI = () => Request<Layout>("GET", "/project/layout")
+// 获取主题配置信息
+export const getThemeDataAPI = () => Request<Theme>("GET", "/project/theme")
 
-// 修改布局配置信息
-export const editLayoutDataAPI = (data: Layout) => Request<Layout>("PATCH", "/project/layout", { data })
+// 修改主题配置信息
+export const editThemeDataAPI = (data: Theme) => Request<Theme>("PATCH", "/project/theme", { data })
