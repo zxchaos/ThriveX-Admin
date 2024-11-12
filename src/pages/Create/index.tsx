@@ -161,7 +161,7 @@ const CreatePage = () => {
   return (
     <>
       <Title value="创作">
-        <div className='flex items-center space-x-4'>
+        <div className='flex items-center space-x-4 w-[360px]'>
           <Dropdown.Button menu={{ items }}>
             <AiOutlineEdit className='text-base' /> 创作神器
           </Dropdown.Button>
@@ -183,7 +183,6 @@ const CreatePage = () => {
           title={id ? "编辑文章" : "发布文章"}
           placement="right"
           size='large'
-          closable={false}
           onClose={() => setPublishOpen(false)}
           open={publishOpen}
         >

@@ -144,7 +144,6 @@ export default () => {
                 width={600}
                 title="图片信息"
                 placement="right"
-                closable={false}
                 open={openFileInfoDrawer}
                 onClose={() => { setOpenFileInfoDrawer(false); setFile({} as File) }}
             >
