@@ -7,6 +7,7 @@ import gemoji from '@bytemd/plugin-gemoji'
 import highlight from '@bytemd/plugin-highlight';
 import 'highlight.js/styles/vs2015.css';
 import 'bytemd/dist/index.css';
+import zh from 'bytemd/lib/locales/zh_Hans.json';
 
 import './index.scss';
 import axios from 'axios';
@@ -56,6 +57,7 @@ const EditorMD = ({ value, onChange }: Props) => {
                     value={value}
                     plugins={plugins}
                     onChange={onChange}
+                    locale={zh}
                     uploadImages={uploadImages}
                 />
             </Spin>
