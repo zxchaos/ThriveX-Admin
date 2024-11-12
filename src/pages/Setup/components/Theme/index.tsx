@@ -87,10 +87,10 @@ const ThemePage = () => {
                     <Divider orientation="left">侧边栏</Divider>
                     <div className='overflow-auto w-full'>
                         <div className="sidebar w-[750px] flex mb-4">
-                            {['author', 'hotArticle', 'randomArticle', 'newComments'].map((item) => (
+                            {['author', 'randomArticle', 'hotArticle', 'newComments'].map((item) => (
                                 <div key={item} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${theme.rightSidebar && JSON.parse(theme.rightSidebar).includes(item) ? 'border-primary' : 'border-[#eee]'}`} onClick={() => onSidebar(item)}>
                                     <p className={`text-center ${theme.rightSidebar && JSON.parse(theme.rightSidebar).includes(item) ? 'text-primary' : ''}`}>
-                                        {item === 'author' ? '作者信息模块' : item === 'hotArticle' ? '文章推荐模块' : item === 'randomArticle' ? '随机文章模块' : '最新评论模块'}
+                                        {item === 'author' ? '作者信息模块' : item === 'hotArticle' ? '热门文章模块' : item === 'randomArticle' ? '随机推荐模块' : '最新评论模块'}
                                     </p>
 
                                     <img src={`${getFile(item)}`} alt="" className="mt-4 rounded" />
