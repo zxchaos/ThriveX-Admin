@@ -97,7 +97,7 @@ const WebPage = () => {
                     <Input placeholder="Java,前端,Python" />
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                     label="随机文章封面"
                     name="covers"
                     rules={[{ required: true, message: '网站随机封面不能为空' }]}
@@ -117,7 +117,7 @@ const WebPage = () => {
                         autoSize={{ minRows: 2, maxRows: 10 }}
                         placeholder="社交账号"
                     />
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item
                     label="底部信息"

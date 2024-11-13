@@ -7,8 +7,10 @@ import FileUpload from '@/components/FileUpload';
 
 const ThemePage = () => {
     const [loading, setLoading] = useState<boolean>(false);
-    const [swiperText, setSwiperText] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [swiperText, setSwiperText] = useState<string>('');
+    const [social, setSocial] = useState<string>('');
+    const [cover, setCover] = useState<string>('');
     const [theme, setTheme] = useState<Theme>({} as Theme);
 
     const onSidebar = (value: string) => {
@@ -25,6 +27,9 @@ const ThemePage = () => {
 
         const swiperText = JSON.parse(data.swiperText)
         setSwiperText(swiperText.join('\n'));
+
+        setSocial(JSON.parse(data.social).join("\n"));
+        setCover(JSON.parse(data.covers).join("\n"));
         setLoading(false);
     };
 
@@ -34,7 +39,14 @@ const ThemePage = () => {
 
     const editLayoutData = async () => {
         setLoading(true);
-        const updatedLayout = { ...theme, swiperText: JSON.stringify(swiperText.split('\n')) };
+
+        const updatedLayout = {
+            ...theme,
+            swiperText: JSON.stringify(swiperText.split('\n')),
+            social: JSON.stringify(social.split('\n')),
+            covers: JSON.stringify(cover.split('\n'))
+        };
+
         await editThemeDataAPI(updatedLayout);
         notification.success({
             message: '成功',
@@ -78,6 +90,28 @@ const ThemePage = () => {
                         <Input.TextArea
                             value={swiperText}
                             onChange={(e) => setSwiperText(e.target.value)}
+                            autoSize={{ minRows: 2, maxRows: 4 }}
+                            size='large'
+                        />
+                        <Alert message="以换行分隔，每行表示一段文本" type="info" className="mt-2" />
+                    </div>
+
+                    <Divider orientation="left">社交网站</Divider>
+                    <div className="mb-8">
+                        <Input.TextArea
+                            value={social}
+                            onChange={(e) => setSocial(e.target.value)}
+                            autoSize={{ minRows: 2, maxRows: 4 }}
+                            size='large'
+                        />
+                        <Alert message="以换行分隔，每行表示一段文本" type="info" className="mt-2" />
+                    </div>
+
+                    <Divider orientation="left">文章随机封面</Divider>
+                    <div className="mb-8">
+                        <Input.TextArea
+                            value={cover}
+                            onChange={(e) => setCover(e.target.value)}
                             autoSize={{ minRows: 2, maxRows: 4 }}
                             size='large'
                         />

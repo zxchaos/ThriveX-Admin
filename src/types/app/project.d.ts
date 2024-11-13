@@ -19,8 +19,8 @@ export interface Web {
     keyword: string,
     footer: string,
     // font: string,
-    social: string,
-    covers: string
+    // social: string,
+    // covers: string
 }
 
 export type ArticleLayout = "classics" | "card" | "waterfall" | ""
@@ -31,5 +31,7 @@ export interface Theme {
     isArticleLayout: string,
     rightSidebar: string,
     swiperImage: string,
-    swiperText: string
+    swiperText: string,
+    social: string,
+    covers: string
 }
