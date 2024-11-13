@@ -65,7 +65,7 @@ const WebPage = () => {
                     <Input placeholder="https://liuyuyang.net/favicon.ico" />
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                     label="光亮主题LOGO"
                     name="lightLogo"
                     rules={[{ required: true, message: '网站LOGO不能为空' }]}
@@ -79,7 +79,7 @@ const WebPage = () => {
                     rules={[{ required: true, message: '网站LOGO不能为空' }]}
                 >
                     <Input placeholder="https://liuyuyang.net/logo.png" />
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item
                     label="网站描述"

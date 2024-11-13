@@ -71,6 +71,34 @@ const ThemePage = () => {
                 <h2 className="text-xl pb-4 pl-10">主题配置</h2>
 
                 <div className='w-full lg:w-[500px] md:ml-10'>
+                    <Divider orientation="left">亮色主题 Logo</Divider>
+                    <div className="mb-8">
+                        <Input
+                            value={theme.lightLogo}
+                            onChange={(e) => setTheme({ ...theme, lightLogo: e.target.value })}
+                            placeholder="请输入亮色Logo地址"
+                            prefix={<PictureOutlined />}
+                            addonAfter={<UploadBtn />}
+                            size='large'
+                            className='customizeAntdInputAddonAfter'
+                        />
+                        <img src={theme.lightLogo} alt="" className="w-1/3 mt-4 rounded" />
+                    </div>
+
+                    <Divider orientation="left">暗色主题 Logo</Divider>
+                    <div className="mb-8">
+                        <Input
+                            value={theme.darkLogo}
+                            onChange={(e) => setTheme({ ...theme, darkLogo: e.target.value })}
+                            placeholder="请输入暗色Logo地址"
+                            prefix={<PictureOutlined />}
+                            addonAfter={<UploadBtn />}
+                            size='large'
+                            className='customizeAntdInputAddonAfter'
+                        />
+                        <img src={theme.darkLogo} alt="" className="w-1/3 mt-4 rounded" />
+                    </div>
+
                     <Divider orientation="left">首页背景图</Divider>
                     <div className="mb-8">
                         <Input
@@ -121,7 +149,7 @@ const ThemePage = () => {
                     <Divider orientation="left">侧边栏</Divider>
                     <div className='overflow-auto w-full'>
                         <div className="sidebar w-[750px] flex mb-4">
-                            {['author', 'randomArticle', 'hotArticle', 'newComments'].map((item) => (
+                            {['author', 'randomArticle', 'newComments', 'hotArticle'].map((item) => (
                                 <div key={item} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${theme.rightSidebar && JSON.parse(theme.rightSidebar).includes(item) ? 'border-primary' : 'border-[#eee]'}`} onClick={() => onSidebar(item)}>
                                     <p className={`text-center ${theme.rightSidebar && JSON.parse(theme.rightSidebar).includes(item) ? 'text-primary' : ''}`}>
                                         {item === 'author' ? '作者信息模块' : item === 'hotArticle' ? '热门文章模块' : item === 'randomArticle' ? '随机推荐模块' : '最新评论模块'}

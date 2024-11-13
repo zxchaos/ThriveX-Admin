@@ -1,3 +1,8 @@
+export interface Social {
+    name: string;
+    url: string;
+}
+
 // 系统信息
 export interface System {
     osName: string,
@@ -13,8 +18,8 @@ export interface Web {
     title: string,
     subhead: string,
     favicon: string,
-    lightLogo: string,
-    darkLogo: string,
+    // lightLogo: string,
+    // darkLogo: string,
     description: string,
     keyword: string,
     footer: string,
@@ -30,6 +35,8 @@ export type RightSidebar = "author" | "hotArticle" | "randomArticle" | "newComme
 export interface Theme {
     isArticleLayout: string,
     rightSidebar: string,
+    lightLogo: string,
+    darkLogo: string,
     swiperImage: string,
     swiperText: string,
     social: string,
