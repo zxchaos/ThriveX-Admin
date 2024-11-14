@@ -9,13 +9,9 @@ import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
 import logo from '@/images/logo/logo.png'
 
-import { useWebStore } from '@/stores';
-
 import dayjs from 'dayjs'
 
 const UserPage = () => {
-    const web = useWebStore(state => state.web);
-
     const [current, setCurrent] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
     const [userList, setUserList] = useState<User[]>([]);
@@ -26,8 +22,6 @@ const UserPage = () => {
         setLoading(true);
 
         const { data } = await getUserListAPI();
-        console.log(data, 333);
-
         setUserList(data as User[]);
 
         setLoading(false);
@@ -62,15 +56,8 @@ const UserPage = () => {
             dataIndex: 'avatar',
             key: 'avatar',
             align: 'center',
-            width: 200,
+            width: 150,
             render: (url: string) => url ? <Avatar size={64} src={url} /> : <Avatar size={64} src={logo} />,
-        },
-        {
-            title: '用户名',
-            dataIndex: 'username',
-            key: 'username',
-            align: 'center',
-            width: 200,
         },
         {
             title: '名称',
@@ -78,6 +65,8 @@ const UserPage = () => {
             key: 'name',
             align: 'center',
             width: 200,
+            sorter: (a: User, b: User) => a.name.length - b.name.length,
+            showSorterTooltip: false
         },
         {
             title: '介绍',
@@ -85,6 +74,13 @@ const UserPage = () => {
             key: 'info',
             align: 'center',
             render: (text: string) => text ? text : '暂无介绍',
+        },
+        {
+            title: '用户名',
+            dataIndex: 'username',
+            key: 'username',
+            align: 'center',
+            width: 200
         },
         {
             title: '邮箱',
@@ -107,7 +103,8 @@ const UserPage = () => {
             align: 'center',
             width: 200,
             render: (text: string) => dayjs(+text).format('YYYY-MM-DD HH:mm:ss'),
-            sorter: (a: User, b: User) => +a.createTime! - +b.createTime!
+            sorter: (a: User, b: User) => +a.createTime! - +b.createTime!,
+            showSorterTooltip: false
         },
         {
             title: '操作',

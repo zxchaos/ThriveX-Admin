@@ -113,7 +113,8 @@ const ArticlePage = () => {
             align: 'center',
             width: 200,
             render: (text: string) => dayjs(+text).format('YYYY-MM-DD HH:mm:ss'),
-            sorter: (a: Article, b: Article) => +a.createTime! - +b.createTime!
+            sorter: (a: Article, b: Article) => +a.createTime! - +b.createTime!,
+            showSorterTooltip: false
         },
         {
             title: '操作',
