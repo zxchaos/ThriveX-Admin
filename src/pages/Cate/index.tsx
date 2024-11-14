@@ -127,7 +127,7 @@ const CatePage = () => {
     return (
         <>
             <Title value="分类管理">
-                <Button type="primary" onClick={() => addCateData(0)}>新增一级分类</Button>
+                <Button type="primary" size='large' onClick={() => addCateData(0)}>新增分类</Button>
             </Title>
 
             <Card className={`CatePage [&>.ant-card-body]:!p-[30px_20px] [&>.ant-card-body]:!pb-6 mt-2 min-h-[calc(100vh-180px)]`}>

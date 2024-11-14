@@ -27,14 +27,14 @@ const FootprintPage = () => {
       dataIndex: 'title',
       key: 'title',
       align: 'center',
-      width: 150,
+      width: 200,
     },
     {
       title: '地址',
       dataIndex: 'address',
       key: 'address',
       align: 'center',
-      width: 200,
+      width: 250,
     },
     {
       title: '内容',
@@ -49,7 +49,7 @@ const FootprintPage = () => {
       dataIndex: 'position',
       key: 'position',
       align: 'center',
-      width: 200,
+      width: 250,
       render: (value: string) => <Tag>{value}</Tag>
     },
     {
@@ -57,9 +57,8 @@ const FootprintPage = () => {
       dataIndex: 'createTime',
       key: 'createTime',
       align: 'center',
-      width: 200,
+      width: 230,
       render: (time: string) => dayjs(+time).format('YYYY-MM-DD HH:mm:ss'),
-      defaultSortOrder: 'descend',
       sorter: (a: Footprint, b: Footprint) => +a.createTime! - +b.createTime!,
       showSorterTooltip: false
     },
@@ -163,7 +162,7 @@ const FootprintPage = () => {
   return (
     <>
       <Title value="足迹管理">
-        <Button type="primary" onClick={addFootprintData}>新增足迹</Button>
+        <Button type="primary" size='large' onClick={addFootprintData}>新增足迹</Button>
       </Title>
 
       <Card className='my-2 overflow-scroll'>

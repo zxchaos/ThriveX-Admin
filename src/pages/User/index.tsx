@@ -123,7 +123,7 @@ const UserPage = () => {
         },
     ];
 
-    const onSubmit = async (values: any) => {
+    const onFilterSubmit = async (values: any) => {
         const query = {
             key: values.name,
             role: values.role,
@@ -138,7 +138,7 @@ const UserPage = () => {
             <Title value="用户管理" />
 
             <Card className='my-2 overflow-scroll'>
-                <Form form={form} layout="inline" onFinish={onSubmit} autoComplete="off" className='flex-nowrap'>
+                <Form form={form} layout="inline" onFinish={onFilterSubmit} autoComplete="off" className='flex-nowrap'>
                     <Form.Item label="用户名" name="name" className='min-w-[200px]'>
                         <Input placeholder='请输入用户名' />
                     </Form.Item>
