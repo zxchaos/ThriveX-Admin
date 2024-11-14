@@ -9,11 +9,10 @@ export interface UserInfo {
     email: string,
     avatar: string,
     info: string,
-    roleId?: number
     role: Role
 }
 
-export type User = Login & UserInfo
+export type User = Login & UserInfo & { createTime?: string }
 
 export interface LoginReturn {
     token: string,

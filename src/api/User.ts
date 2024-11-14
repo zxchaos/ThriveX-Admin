@@ -1,14 +1,39 @@
 import Request from '@/utils/request'
 import { LoginReturn, EditUser, Login, User, UserInfo } from '@/types/app/user'
 
-// 登录
-export const loginDataAPI = (data: Login) => Request<LoginReturn>("POST", "/user/login", { data })
+// 新增用户
+export const addUserDataAPI = (data: User) =>
+    Request<User>("POST", "/user", { data });
 
-// 获取用户信息
+// 删除用户
+export const delUserDataAPI = (id: number) =>
+    Request<User>("DELETE", `/user/${id}`);
+
+// 编辑用户
+export const editUserDataAPI = (data: UserInfo) => Request<UserInfo>("PATCH", "/user", { data })
+
+// 获取用户
 export const getUserDataAPI = (id?: number) => Request<User>("GET", `/user/${id}`)
 
-// 修改用户信息
-export const editUserDataAPI = (data: UserInfo) => Request<UserInfo>("PATCH", "/user", { data })
+// 获取用户列表
+export const getUserListAPI = (data?: QueryData) => Request<User[]>("POST", `/user/list`, {
+    data: { ...data?.query },
+    params: {
+        sort: data?.sort,
+    }
+})
+
+// 分页获取用户列表
+export const getUserPagingAPI = (data?: QueryData) => Request<Paginate<User[]>>("POST", `/user/paging`, {
+    data: { ...data?.query },
+    params: {
+        sort: data?.sort,
+        ...data?.pagination
+    }
+})
+
+// 登录
+export const loginDataAPI = (data: Login) => Request<LoginReturn>("POST", "/user/login", { data })
 
 // 修改管理员密码
 export const editAdminPassAPI = (data: EditUser) => Request<UserInfo>("PATCH", "/user/pass", { data })
