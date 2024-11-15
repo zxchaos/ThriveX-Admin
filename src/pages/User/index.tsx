@@ -1,47 +1,29 @@
 import { useState, useEffect } from 'react';
-import { Table, Button, Tag, notification, Card, Popconfirm, Form, Input, Select, Avatar } from 'antd';
+import { Table, Button, Tag, notification, Card, Popconfirm, Form, Input, Select, Avatar, Drawer } from 'antd';
 
-import { getUserListAPI, delUserDataAPI } from '@/api/User';
+import { getUserDataAPI, getUserListAPI, delUserDataAPI, addUserDataAPI, editUserDataAPI } from '@/api/User';
+import { getRoleListAPI } from '@/api/Role'
+
 import type { User } from '@/types/app/user';
 import { Role } from '@/types/app/role';
 
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
-import logo from '@/images/logo/logo.png'
-
-import dayjs from 'dayjs'
+import logo from '@/images/logo/logo.png';
+import dayjs from 'dayjs';
 
 const UserPage = () => {
-    const [current, setCurrent] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
+
     const [userList, setUserList] = useState<User[]>([]);
+    const [roleList, setRoleList] = useState<Role[]>([]);
 
-    const [form] = Form.useForm();
+    const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
 
-    const getUserList = async () => {
-        setLoading(true);
+    const [user, setUser] = useState<User>({} as User)
 
-        const { data } = await getUserListAPI();
-        setUserList(data as User[]);
-
-        setLoading(false);
-    };
-
-    useEffect(() => {
-        getUserList();
-    }, []);
-
-    const delUserData = async (id: number) => {
-        setLoading(true);
-
-        await delUserDataAPI(id);
-        await getUserList();
-        form.resetFields();
-        setCurrent(1);
-        notification.success({ message: '🎉 删除用户成功' });
-
-        setLoading(false);
-    };
+    const [filterForm] = Form.useForm();
+    const [userForm] = Form.useForm();
 
     const columns = [
         {
@@ -113,7 +95,7 @@ const UserPage = () => {
             align: 'center',
             render: (text: string, record: User) => (
                 <div className='flex space-x-2'>
-                    <Button>修改</Button>
+                    <Button onClick={() => editUserData(record.id!)}>修改</Button>
 
                     <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delUserData(record.id!)}>
                         <Button type="primary" danger>删除</Button>
@@ -123,26 +105,69 @@ const UserPage = () => {
         },
     ];
 
-    const onFilterSubmit = async (values: any) => {
-        const query = {
-            key: values.name,
-            role: values.role,
-        };
-
-        const { data } = await getUserListAPI({ query });
+    const getUserList = async () => {
+        setLoading(true);
+        const { data } = await getUserListAPI();
         setUserList(data as User[]);
+        setLoading(false);
     };
+
+    const getRoleList = async () => {
+        const { data } = await getRoleListAPI();
+        setRoleList(data as Role[]);
+    };
+
+    useEffect(() => {
+        getUserList();
+        getRoleList()
+    }, []);
+
+    const onSubmit = async () => {
+        userForm.validateFields().then(async (values: User) => {
+            if (user.id) {
+                await editUserDataAPI({ ...values, ...user, roleId: values.role });
+                notification.success({ message: '🎉 编辑用户成功' });
+            } else {
+                await addUserDataAPI({ ...values, roleId: values.role, createTime: new Date().getTime().toString() });
+                notification.success({ message: '🎉 创建用户成功' });
+            }
+            setDrawerVisible(false);
+            getUserList();
+        })
+    };
+
+    const delUserData = async (id: number) => {
+        setLoading(true);
+        await delUserDataAPI(id);
+        await getUserList();
+        notification.success({ message: '🎉 删除用户成功' });
+        setLoading(false);
+    };
+
+    const editUserData = async (id: number) => {
+        const { data } = await getUserDataAPI(id)
+        setUser({ ...data, role: data.role.id });
+
+        userForm.setFieldsValue({ ...data, role: data.role.id });
+        setDrawerVisible(true);
+    };
+
+    const reset = () => {
+        setUser({} as User)
+        userForm.resetFields()
+    }
 
     return (
         <>
-            <Title value="用户管理" />
+            <Title value="用户管理">
+                <Button type="primary" size='large' onClick={() => setDrawerVisible(true)}>新增用户</Button>
+            </Title>
 
             <Card className='my-2 overflow-scroll'>
-                <Form form={form} layout="inline" onFinish={onFilterSubmit} autoComplete="off" className='flex-nowrap'>
+                <Form form={filterForm} layout="inline" onFinish={getUserList} autoComplete="off" className='flex-nowrap'>
                     <Form.Item label="用户名" name="name" className='min-w-[200px]'>
                         <Input placeholder='请输入用户名' />
                     </Form.Item>
-
                     <Form.Item label="角色" name="role" className='min-w-[200px]'>
                         <Select
                             allowClear
@@ -153,7 +178,6 @@ const UserPage = () => {
                             placeholder="请选择角色"
                         />
                     </Form.Item>
-
                     <Form.Item className='pr-6'>
                         <Button type="primary" htmlType="submit">查询</Button>
                     </Form.Item>
@@ -166,17 +190,80 @@ const UserPage = () => {
                     dataSource={userList}
                     columns={columns as any}
                     loading={loading}
-                    scroll={{ x: 'max-content' }}
                     pagination={{
                         position: ['bottomCenter'],
-                        current,
-                        defaultPageSize: 8,
-                        onChange(current) {
-                            setCurrent(current);
-                        }
+                        defaultPageSize: 8
                     }}
                 />
             </Card>
+
+            <Drawer
+                title={user.id ? "编辑用户" : "创建用户"}
+                size='large'
+                onClose={() => {
+                    reset()
+                    setDrawerVisible(false)
+                }}
+                open={drawerVisible}
+            >
+                <Form
+                    form={userForm}
+                    layout="vertical"
+                    size='large'
+                    onFinish={onSubmit}
+                >
+                    <Form.Item
+                        name="username"
+                        label="用户名"
+                        rules={[{ required: true, message: '请输入用户名' }]}
+                    >
+                        <Input placeholder='liuyuyang' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="name"
+                        label="名称"
+                        rules={[{ required: true, message: '请输入名称' }]}
+                    >
+                        <Input placeholder='宇阳' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="email"
+                        label="邮箱"
+                        rules={[{ type: 'email', message: '请输入有效的邮箱' }]}
+                    >
+                        <Input placeholder='3311118881@qq.com' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="avatar"
+                        label="头像链接"
+                        rules={[{ type: 'url', message: '请输入有效的头像地址' }]}
+                    >
+                        <Input placeholder='https://res.liuyuyang.net/usr/images/avatar.jpg' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="info"
+                        label="介绍"
+                    >
+                        <Input.TextArea placeholder='再渺小的星光也有属于它的光芒!' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="role"
+                        label="角色"
+                        rules={[{ required: true, message: '请选择角色' }]}
+                    >
+                        <Select options={roleList.map(item => ({ label: item.name, value: item.id }))} placeholder="选择用户角色" />
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" className="w-full">{user.id ? "编辑用户" : "创建用户"}</Button>
+                    </Form.Item>
+                </Form>
+            </Drawer>
         </>
     );
 };
