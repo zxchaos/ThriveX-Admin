@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Table, Button, Tag, notification, Card, Popconfirm, Form, Input, Select, Avatar, Drawer } from 'antd';
+import { Table, Button, Tag, notification, Card, Popconfirm, Form, Input, Select, Avatar, Drawer, DatePicker } from 'antd';
 
 import { getUserDataAPI, getUserListAPI, delUserDataAPI, addUserDataAPI, editUserDataAPI } from '@/api/User';
 import { getRoleListAPI } from '@/api/Role'
 
-import type { User } from '@/types/app/user';
+import type { FilterForm, FilterUser, User } from '@/types/app/user';
 import { Role } from '@/types/app/role';
 
 import { titleSty } from '@/styles/sty';
@@ -17,13 +17,10 @@ const UserPage = () => {
 
     const [userList, setUserList] = useState<User[]>([]);
     const [roleList, setRoleList] = useState<Role[]>([]);
-
+    const [user, setUser] = useState<User>({} as User)
     const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
 
-    const [user, setUser] = useState<User>({} as User)
-
-    const [filterForm] = Form.useForm();
-    const [userForm] = Form.useForm();
+    const { RangePicker } = DatePicker;
 
     const columns = [
         {
@@ -105,6 +102,8 @@ const UserPage = () => {
         },
     ];
 
+    const [userForm] = Form.useForm();
+
     const getUserList = async () => {
         setLoading(true);
         const { data } = await getUserListAPI();
@@ -121,20 +120,6 @@ const UserPage = () => {
         getUserList();
         getRoleList()
     }, []);
-
-    const onSubmit = async () => {
-        userForm.validateFields().then(async (values: User) => {
-            if (user.id) {
-                await editUserDataAPI({ ...values, ...user, roleId: values.role });
-                notification.success({ message: '🎉 编辑用户成功' });
-            } else {
-                await addUserDataAPI({ ...values, roleId: values.role, createTime: new Date().getTime().toString() });
-                notification.success({ message: '🎉 创建用户成功' });
-            }
-            setDrawerVisible(false);
-            getUserList();
-        })
-    };
 
     const delUserData = async (id: number) => {
         setLoading(true);
@@ -157,6 +142,34 @@ const UserPage = () => {
         userForm.resetFields()
     }
 
+    const onSubmit = async () => {
+        userForm.validateFields().then(async (values: User) => {
+            if (user.id) {
+                await editUserDataAPI({ ...values, ...user, roleId: values.role });
+                notification.success({ message: '🎉 编辑用户成功' });
+            } else {
+                await addUserDataAPI({ ...values, roleId: values.role, createTime: new Date().getTime().toString() });
+                notification.success({ message: '🎉 创建用户成功' });
+            }
+            setDrawerVisible(false);
+            getUserList();
+        })
+    };
+
+    const [filterForm] = Form.useForm();
+
+    const onFilterSubmit = async (values: FilterForm) => {
+        const query: FilterUser = {
+            key: values.name,
+            roleId: values.role,
+            startDate: values.createTime && values.createTime[0].valueOf() + '',
+            endDate: values.createTime && values.createTime[1].valueOf() + ''
+        }
+
+        const { data } = await getUserListAPI({ query });
+        setUserList(data as User[]);
+    }
+
     return (
         <>
             <Title value="用户管理">
@@ -164,20 +177,19 @@ const UserPage = () => {
             </Title>
 
             <Card className='my-2 overflow-scroll'>
-                <Form form={filterForm} layout="inline" onFinish={getUserList} autoComplete="off" className='flex-nowrap'>
-                    <Form.Item label="用户名" name="name" className='min-w-[200px]'>
-                        <Input placeholder='请输入用户名' />
+                <Form form={filterForm} layout="inline" onFinish={onFilterSubmit} autoComplete="off" className='flex-nowrap'>
+                    <Form.Item label="名称" name="name" className='min-w-[200px]'>
+                        <Input placeholder='请输入名称' />
                     </Form.Item>
-                    <Form.Item label="角色" name="role" className='min-w-[200px]'>
-                        <Select
-                            allowClear
-                            options={[
-                                { label: '管理员', value: 'admin' },
-                                { label: '用户', value: 'user' }
-                            ]}
-                            placeholder="请选择角色"
-                        />
+
+                    <Form.Item label="角色" name="role" className='min-w-[230px]'>
+                        <Select options={roleList.map(item => ({ label: item.name, value: item.id }))} placeholder="请选择角色" />
                     </Form.Item>
+
+                    <Form.Item label="时间范围" name="createTime" className='min-w-[250px]'>
+                        <RangePicker placeholder={["选择起始时间", "选择结束时间"]} />
+                    </Form.Item>
+
                     <Form.Item className='pr-6'>
                         <Button type="primary" htmlType="submit">查询</Button>
                     </Form.Item>

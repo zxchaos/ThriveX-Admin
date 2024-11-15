@@ -53,8 +53,6 @@ const CreatePage = () => {
 
   // 保存文章
   const saveBtn = () => {
-    console.log(content, 333);
-
     if (content.trim().length >= 1) {
       // 将文章内容持久化存储到本地
       localStorage.setItem('article_content', content)

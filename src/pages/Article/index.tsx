@@ -27,10 +27,8 @@ const ArticlePage = () => {
 
     const getArticleList = async () => {
         setLoading(true);
-
         const { data } = await getArticleListAPI();
         setArticleList(data as Article[]);
-
         setLoading(false);
     };
 

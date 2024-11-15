@@ -26,3 +26,15 @@ export interface EditUser {
     oldPassword: string,
     newPassword: string
 }
+
+
+export interface FilterForm {
+    name?: string,
+    role?: number,
+    createTime: Date[]
+}
+
+export interface FilterUser extends FilterData {
+    name?: string,
+    roleId?: number,
+}
