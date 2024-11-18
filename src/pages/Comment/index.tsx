@@ -191,12 +191,15 @@ const CommentPage = () => {
             <Modal title='评论详情' open={isCommentModalOpen} onCancel={() => setIsCommentModalOpen(false)} footer={null}>
                 <div className='pt-2 space-y-2'>
                     <div><b>所属文章：</b> {comment?.articleTitle}</div>
-                    <div><b>评论时间：</b> {dayjs(comment?.createTime).format("YYYY-MM-DD HH:mm:ss")}</div>
+                    <div><b>评论时间：</b> {dayjs(+comment?.createTime!).format("YYYY-MM-DD HH:mm:ss")}</div>
                     <div><b>评论用户：</b> {comment?.name}</div>
                     <div><b>邮箱：</b> {comment?.email ? comment?.email : "暂无邮箱"}</div>
                     <div><b>网站：</b> {comment?.url ? <a href={comment?.url} className="hover:text-primary">{comment?.url}</a> : '无网站'}</div>
                     <div><b>内容：</b> {comment?.content}</div>
                 </div>
+
+                <Button type='primary' onClick={() => setIsReplyModalOpen(true)} className='w-full mt-4'>回复</Button>
+
             </Modal>
 
             <Modal title="回复评论" open={isReplyModalOpen} footer={null} onCancel={() => setIsReplyModalOpen(false)}>

@@ -47,12 +47,12 @@ const SetupPage = () => {
             icon: <BiUser className={iconSty} />,
             key: "my"
         },
-        {
-            title: "其他设置",
-            description: "杂七八乱的各种配置",
-            icon: <AiOutlineSetting className={iconSty} />,
-            key: "other"
-        }
+        // {
+        //     title: "其他设置",
+        //     description: "杂七八乱的各种配置",
+        //     icon: <AiOutlineSetting className={iconSty} />,
+        //     key: "other"
+        // }
     ];
 
     return (
@@ -82,7 +82,7 @@ const SetupPage = () => {
                         {active === "web" && <Web />}
                         {active === "layout" && <Layout />}
                         {active === "my" && <My />}
-                        {active === "other" && <Other />}
+                        {/* {active === "other" && <Other />} */}
                     </div>
                 </div>
             </Card>
