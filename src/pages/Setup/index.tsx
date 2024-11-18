@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { Card } from 'antd';
+
 import Title from '@/components/Title';
-import { BiGlobe, BiLayout, BiShieldQuarter, BiUser } from 'react-icons/bi';
 import System from './components/System'
 import Web from './components/Web'
 import Layout from './components/Theme'
 import My from './components/My'
+import Other from './components/Other'
+
+import { BiGlobe, BiLayout, BiShieldQuarter, BiUser } from 'react-icons/bi';
+import { AiOutlineSetting } from "react-icons/ai";
 
 interface Setup {
     title: string;
@@ -20,19 +24,19 @@ const SetupPage = () => {
     const iconSty = "w-5 h-8 mr-1"
     const list: Setup[] = [
         {
-            title: "系统配置",
+            title: "系统设置",
             description: "配置管理员账号、登录时间等",
             icon: <BiShieldQuarter className={iconSty} />,
             key: "system"
         },
         {
-            title: "网站配置",
+            title: "网站设置",
             description: "配置网站标题、LOGO、描述、SEO等",
             icon: <BiGlobe className={iconSty} />,
             key: "web"
         },
         {
-            title: "主题配置",
+            title: "主题设置",
             description: "配置网站主题风格",
             icon: <BiLayout className={iconSty} />,
             key: "layout"
@@ -42,6 +46,12 @@ const SetupPage = () => {
             description: "配置个人信息等",
             icon: <BiUser className={iconSty} />,
             key: "my"
+        },
+        {
+            title: "其他设置",
+            description: "杂七八乱的各种配置",
+            icon: <AiOutlineSetting className={iconSty} />,
+            key: "other"
         }
     ];
 
@@ -72,6 +82,7 @@ const SetupPage = () => {
                         {active === "web" && <Web />}
                         {active === "layout" && <Layout />}
                         {active === "my" && <My />}
+                        {active === "other" && <Other />}
                     </div>
                 </div>
             </Card>
