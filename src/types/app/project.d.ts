@@ -42,3 +42,8 @@ export interface Theme {
     social: string,
     covers: string
 }
+
+// 其他配置
+export interface Other {
+    email: string
+}
