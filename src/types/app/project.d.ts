@@ -39,6 +39,7 @@ export interface Theme {
     darkLogo: string,
     swiperImage: string,
     swiperText: string,
+    recoArticle: string,
     social: string,
     covers: string
 }

@@ -11,6 +11,7 @@ const ThemePage = () => {
     const [swiperText, setSwiperText] = useState<string>('');
     const [social, setSocial] = useState<string>('');
     const [cover, setCover] = useState<string>('');
+    const [recoArticle, setRecoArticle] = useState<string>('');
     const [theme, setTheme] = useState<Theme>({} as Theme);
 
     const onSidebar = (value: string) => {
@@ -24,12 +25,13 @@ const ThemePage = () => {
         setLoading(true);
         const { data } = await getThemeDataAPI();
         setTheme(data);
+        console.log(data);
 
-        const swiperText = JSON.parse(data.swiperText)
-        setSwiperText(swiperText.join('\n'));
 
-        setSocial(JSON.parse(data.social).join("\n"));
-        setCover(JSON.parse(data.covers).join("\n"));
+        setSwiperText(data.swiperText ? JSON.parse(data.swiperText).join('\n') : '');
+        setSocial(data.social ? JSON.parse(data.social).join("\n") : '');
+        setCover(data.covers ? JSON.parse(data.covers).join("\n") : '');
+        setRecoArticle(data.recoArticle ? JSON.parse(data.recoArticle).join("\n") : '');
         setLoading(false);
     };
 
@@ -44,7 +46,8 @@ const ThemePage = () => {
             ...theme,
             swiperText: JSON.stringify(swiperText.split('\n')),
             social: JSON.stringify(social.split('\n')),
-            covers: JSON.stringify(cover.split('\n'))
+            covers: JSON.stringify(cover.split('\n')),
+            recoArticle: JSON.stringify(recoArticle.split('\n'))
         };
 
         await editThemeDataAPI(updatedLayout);
@@ -76,10 +79,10 @@ const ThemePage = () => {
                         <Input
                             value={theme.lightLogo}
                             onChange={(e) => setTheme({ ...theme, lightLogo: e.target.value })}
-                            placeholder="请输入亮色Logo地址"
                             prefix={<PictureOutlined />}
                             addonAfter={<UploadBtn />}
                             size='large'
+                            placeholder="请输入亮色Logo地址"
                             className='customizeAntdInputAddonAfter'
                         />
                         <img src={theme.lightLogo} alt="" className="w-1/3 mt-4 rounded" />
@@ -90,10 +93,10 @@ const ThemePage = () => {
                         <Input
                             value={theme.darkLogo}
                             onChange={(e) => setTheme({ ...theme, darkLogo: e.target.value })}
-                            placeholder="请输入暗色Logo地址"
                             prefix={<PictureOutlined />}
                             addonAfter={<UploadBtn />}
                             size='large'
+                            placeholder="请输入暗色Logo地址"
                             className='customizeAntdInputAddonAfter'
                         />
                         <img src={theme.darkLogo} alt="" className="w-1/3 mt-4 rounded" />
@@ -104,10 +107,10 @@ const ThemePage = () => {
                         <Input
                             value={theme.swiperImage}
                             onChange={(e) => setTheme({ ...theme, swiperImage: e.target.value })}
-                            placeholder="请输入背景图地址"
                             prefix={<PictureOutlined />}
                             addonAfter={<UploadBtn />}
                             size='large'
+                            placeholder="请输入背景图地址"
                             className='customizeAntdInputAddonAfter'
                         />
                         <img src={theme.swiperImage} alt="" className="w-1/3 mt-4 rounded" />
@@ -120,6 +123,7 @@ const ThemePage = () => {
                             onChange={(e) => setSwiperText(e.target.value)}
                             autoSize={{ minRows: 2, maxRows: 4 }}
                             size='large'
+                            placeholder="请输入打字机文本"
                         />
                         <Alert message="以换行分隔，每行表示一段文本" type="info" className="mt-2" />
                     </div>
@@ -131,6 +135,7 @@ const ThemePage = () => {
                             onChange={(e) => setSocial(e.target.value)}
                             autoSize={{ minRows: 2, maxRows: 4 }}
                             size='large'
+                            placeholder="请输入社交网站"
                         />
                         <Alert message="以换行分隔，每行表示一段文本" type="info" className="mt-2" />
                     </div>
@@ -142,6 +147,19 @@ const ThemePage = () => {
                             onChange={(e) => setCover(e.target.value)}
                             autoSize={{ minRows: 2, maxRows: 4 }}
                             size='large'
+                            placeholder="请输入文章随机封面"
+                        />
+                        <Alert message="以换行分隔，每行表示一段文本" type="info" className="mt-2" />
+                    </div>
+
+                    <Divider orientation="left">作者推荐文章</Divider>
+                    <div className="mb-8">
+                        <Input.TextArea
+                            value={recoArticle}
+                            onChange={(e) => setRecoArticle(e.target.value)}
+                            autoSize={{ minRows: 2, maxRows: 4 }}
+                            size='large'
+                            placeholder="请输入作者推荐文章ID"
                         />
                         <Alert message="以换行分隔，每行表示一段文本" type="info" className="mt-2" />
                     </div>
@@ -152,7 +170,7 @@ const ThemePage = () => {
                             {['author', 'randomArticle', 'newComments', 'hotArticle'].map((item) => (
                                 <div key={item} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${theme.rightSidebar && JSON.parse(theme.rightSidebar).includes(item) ? 'border-primary' : 'border-[#eee]'}`} onClick={() => onSidebar(item)}>
                                     <p className={`text-center ${theme.rightSidebar && JSON.parse(theme.rightSidebar).includes(item) ? 'text-primary' : ''}`}>
-                                        {item === 'author' ? '作者信息模块' : item === 'hotArticle' ? '热门文章模块' : item === 'randomArticle' ? '随机推荐模块' : '最新评论模块'}
+                                        {item === 'author' ? '作者信息模块' : item === 'hotArticle' ? '作者推荐模块' : item === 'randomArticle' ? '随机推荐模块' : '最新评论模块'}
                                     </p>
 
                                     <img src={`${getFile(item)}`} alt="" className="mt-4 rounded" />
