@@ -9,7 +9,7 @@ import { getTagListAPI } from '@/api/Tag'
 import { delArticleDataAPI, getArticleListAPI } from '@/api/Article';
 import type { Tag as ArticleTag } from '@/types/app/tag';
 import type { Cate } from '@/types/app/cate';
-import type { Article, FilterArticle, FilterForm } from '@/types/app/article';
+import type { Article, Config, FilterArticle, FilterForm } from '@/types/app/article';
 
 import { useWebStore } from '@/stores';
 
@@ -103,6 +103,18 @@ const ArticlePage = () => {
             align: 'center',
             render: (data: string) => <span>{data}</span>,
             sorter: (a: Article, b: Article) => a.comment! - b.comment!
+        },
+        {
+            title: '状态',
+            dataIndex: 'config',
+            key: 'config',
+            align: 'center',
+            render: (config: Config) => (
+                config.status === "default" && <span>正常</span> ||
+                config.status === "no_home" && <span>不在首页显示</span> ||
+                config.status === "hide" && <span>隐藏</span> ||
+                config.password.trim().length && <span>文章加密</span>
+            ),
         },
         {
             title: '发布时间',
