@@ -99,7 +99,8 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
                 break;
         }
 
-        sendDismissEmailAPI({
+        // 有邮箱才会邮件通知
+        item.email != null && sendDismissEmailAPI({
             to: item.email,
             content: dismissInfo,
             recipient: email_info.name,
