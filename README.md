@@ -104,6 +104,15 @@ lyy:
 
 
 
+## 项目部署
+
+前端：[https://liuyuyang.net/article/2206](https://liuyuyang.net/article/2206)
+
+后端：[https://liuyuyang.net/article/2207](https://liuyuyang.net/article/2207)
+
+
+
+
 ## 项目结构
 
 ```
