@@ -130,13 +130,13 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
                                 <div>名称：{item.title}</div>
                                 <div>介绍：{item.description}</div>
                                 <div>类型：{item.type.name}</div>
-                                <div>网站：{item.url || '暂无'}</div>
+                                <div><b>网站：</b> {item?.url ? <a href={item?.url} target='_blank' className="hover:text-primary">{item?.url}</a> : '无网站'}</div>
                             </>
                         ) : type === "comment" ? (
                             <>
                                 <div>名称：{item.name}</div>
                                 <div>内容：{item.content}</div>
-                                <div>网站：{item.url || '暂无'}</div>
+                                <div><b>网站：</b> {item?.url ? <a href={item?.url} target='_blank' className="hover:text-primary">{item?.url}</a> : '无网站'}</div>
                                 <div>所属文章：<a href={`${web.url}/article/${item.articleId}`} target='_blank' className="hover:text-primary">{item.articleTitle || '暂无'}</a></div>
                             </>
                         ) : (
