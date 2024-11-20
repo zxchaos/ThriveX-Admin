@@ -10,6 +10,7 @@
 🗂️ **项目预览：** [https://liuyuyang.net/](https://liuyuyang.net/)
 
 
+
 🛠️ **技术架构：**
 
 前端：React、**Nextjs**、TypeScript、Zustand、**TailwindCSS**、Antd、Scss、Echarts
@@ -188,6 +189,12 @@ lyy:
 [https://blog.zwying.com/](https://blog.zwying.com/)
 [https://www.blatr.cn/](https://www.blatr.cn/)
 [https://poetize.cn/](https://poetize.cn/)
+
+
+
+## 🔥 技术交流群
+
+![](https://bu.dusays.com/2024/11/20/673d6045f129f.png)
 
 
 
