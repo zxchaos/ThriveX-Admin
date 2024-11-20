@@ -133,7 +133,7 @@ const UserPage = () => {
         const { data } = await getUserDataAPI(id)
         setUser({ ...data, role: data.role.id });
 
-        userForm.setFieldsValue({ ...data, role: data.role.id });
+        userForm.setFieldsValue({ ...data, roleId: data.role.id });
         setDrawerVisible(true);
     };
 
@@ -145,10 +145,10 @@ const UserPage = () => {
     const onSubmit = async () => {
         userForm.validateFields().then(async (values: User) => {
             if (user.id) {
-                await editUserDataAPI({ ...values, ...user, roleId: values.role });
+                await editUserDataAPI({ ...user, ...values });
                 notification.success({ message: '🎉 编辑用户成功' });
             } else {
-                await addUserDataAPI({ ...values, roleId: values.role, createTime: new Date().getTime().toString() });
+                await addUserDataAPI({ ...values, password: "123456", createTime: new Date().getTime().toString() });
                 notification.success({ message: '🎉 创建用户成功' });
             }
             setDrawerVisible(false);
@@ -264,7 +264,7 @@ const UserPage = () => {
                     </Form.Item>
 
                     <Form.Item
-                        name="role"
+                        name="roleId"
                         label="角色"
                         rules={[{ required: true, message: '请选择角色' }]}
                     >
