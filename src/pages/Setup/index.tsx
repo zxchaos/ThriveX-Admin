@@ -6,10 +6,10 @@ import System from './components/System'
 import Web from './components/Web'
 import Layout from './components/Theme'
 import My from './components/My'
-import Other from './components/Other'
+// import Other from './components/Other'
 
 import { BiGlobe, BiLayout, BiShieldQuarter, BiUser } from 'react-icons/bi';
-import { AiOutlineSetting } from "react-icons/ai";
+// import { AiOutlineSetting } from "react-icons/ai";
 
 interface Setup {
     title: string;

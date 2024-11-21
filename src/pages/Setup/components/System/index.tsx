@@ -19,7 +19,7 @@ const SystemPage = () => {
     const rules = {
         username: [
             { required: true, message: '管理员账号不能为空' },
-            { min: 6, max: 16, message: '账号限制在6 ~ 16个字符' }
+            { min: 5, max: 16, message: '账号限制在5 ~ 16个字符' }
         ],
         oldPassword: [
             { required: true, message: '管理员旧密码不能为空' },
@@ -68,7 +68,7 @@ const SystemPage = () => {
                     name="username"
                     rules={rules.username}
                 >
-                    <Input placeholder="请输入账号" disabled />
+                    <Input placeholder="请输入账号" />
                 </Form.Item>
 
                 <Form.Item
