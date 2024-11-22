@@ -1,5 +1,5 @@
 import Request from '@/utils/request'
-import { Web, LinkType } from '@/types/app/web'
+import { Web, WebType } from '@/types/app/web'
 import { getListAPI } from '@/utils'
 
 // 新增网站
@@ -32,8 +32,8 @@ export const getLinkPagingAPI = (data?: QueryData) => Request<Paginate<Web[]>>("
 })
 
 // 获取网站类型列表
-export const getLinkTypeListAPI = () => {
-    return Request<LinkType[]>("GET", `/link/type`);
+export const getWebTypeListAPI = () => {
+    return Request<WebType[]>("GET", `/link/type`);
 };
 
 // 审核网站

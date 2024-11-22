@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Tabs, Input, Button, Form, Spin, Empty, Card, Popconfirm, Select, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { getLinkListAPI, addLinkDataAPI, editLinkDataAPI, delLinkDataAPI, getLinkTypeListAPI } from '@/api/Web';
-import { LinkType, Web } from '@/types/app/web';
+import { getLinkListAPI, addLinkDataAPI, editLinkDataAPI, delLinkDataAPI, getWebTypeListAPI } from '@/api/Web';
+import { WebType, Web } from '@/types/app/web';
 import Title from '@/components/Title';
 import { RuleObject } from 'antd/es/form';
 import './index.scss';
@@ -14,7 +14,7 @@ const LinkPage = () => {
     const [tab, setTab] = useState<string>('list');
     const [list, setList] = useState<Web[]>([]);
     const [listTemp, setListTemp] = useState<Web[]>([]);
-    const [typeList, setTypeList] = useState<LinkType[]>([]);
+    const [typeList, setTypeList] = useState<WebType[]>([]);
     const [search, setSearch] = useState<string>('');
     const [link, setLink] = useState<Web>({} as Web);
 
@@ -33,15 +33,15 @@ const LinkPage = () => {
     };
 
     // 获取网站类型列表
-    const getLinkTypeList = async () => {
-        const { data } = await getLinkTypeListAPI();
+    const getWebTypeList = async () => {
+        const { data } = await getWebTypeListAPI();
         setTypeList(data);
     };
 
     useEffect(() => {
         setLoading(true);
         getLinkList();
-        getLinkTypeList();
+        getWebTypeList();
     }, []);
 
     useEffect(() => {

@@ -1,4 +1,4 @@
-export interface LinkType {
+export interface WebType {
   id: number,
   name: string,
   order: number
@@ -14,7 +14,7 @@ export interface Web {
   rss: string,
   order: number,
   typeId: number,
-  type: LinkType,
+  type: WebType,
   auditStatus: number,
   createTime?: string
 }
