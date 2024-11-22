@@ -31,6 +31,8 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
     const [params] = useSearchParams()
     const id = +params.get('id')!
 
+    const [btnLoading, setBtnLoading] = useState(false)
+
     const [form] = Form.useForm()
     const navigate = useNavigate()
 
@@ -53,7 +55,6 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
 
         form.setFieldsValue({
             ...data,
-            top: data.config.top === 1,
             status: data.config.status,
             password: data.config.password,
             cateIds,
@@ -83,6 +84,8 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
     };
 
     const onSubmit: FormProps<FieldType>['onFinish'] = async (values) => {
+        setBtnLoading(true)
+
         // 如果是文章标签，则先判断是否存在，如果不存在则添加
         let tagIds: number[] = []
         for (const item of (values.tagIds ? values.tagIds : [])) {
@@ -145,6 +148,8 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
         navigate("/article")
         // 初始化表单
         form.resetFields()
+
+        setBtnLoading(false)
     }
 
     // 初始表单数据
@@ -222,7 +227,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" className="w-full">{id ? "编辑文章" : "发布文章"}</Button>
+                    <Button type="primary" htmlType="submit" loading={btnLoading} className="w-full">{id ? "编辑文章" : "发布文章"}</Button>
                 </Form.Item>
             </Form>
         </>

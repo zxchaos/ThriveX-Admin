@@ -7,6 +7,8 @@ import { ColumnsType } from 'antd/es/table';
 
 const RoutePage = () => {
     const [loading, setLoading] = useState<boolean>(false);
+    const [btnLoading, setBtnLoading] = useState(false)
+
     const [route, setRoute] = useState<Route>({} as Route);
     const [list, setList] = useState<Route[]>([]);
 
@@ -53,6 +55,8 @@ const RoutePage = () => {
 
     const onSubmit = async () => {
         setLoading(true);
+        setBtnLoading(true)
+        
         form.validateFields().then(async (values: Route) => {
             
             if (route.id) {
@@ -68,6 +72,8 @@ const RoutePage = () => {
             form.setFieldsValue({ path: '', description: '' })
             setRoute({} as Route);
         });
+
+        setBtnLoading(false)
     };
 
     return (
@@ -93,7 +99,7 @@ const RoutePage = () => {
                         </Form.Item>
 
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" className="w-full">{route.id ? '编辑路由' : '新增路由'}</Button>
+                            <Button type="primary" htmlType="submit" loading={btnLoading} className="w-full">{route.id ? '编辑路由' : '新增路由'}</Button>
                         </Form.Item>
                     </Form>
                 </Card>

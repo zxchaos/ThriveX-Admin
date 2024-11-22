@@ -8,6 +8,8 @@ import dayjs from 'dayjs';
 
 const FootprintPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [btnLoading, setBtnLoading] = useState(false)
+
   const [footprintList, setFootprintList] = useState<Footprint[]>([]);
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [footprint, setFootprint] = useState<Footprint>({} as Footprint);
@@ -129,6 +131,8 @@ const FootprintPage = () => {
   };
 
   const onSubmit = async () => {
+    setBtnLoading(true)
+
     form.validateFields().then(async (values: Footprint) => {
       values.createTime = values.createTime.valueOf()
       values.images = values.images ? (values.images as string).split("\n") : []
@@ -144,6 +148,8 @@ const FootprintPage = () => {
       reset()
       getFootprintList();
     });
+
+    setBtnLoading(false)
   };
 
   const closeModel = () => reset();
@@ -229,9 +235,8 @@ const FootprintPage = () => {
             <DatePicker showTime placeholder='请选择时间' className='w-full' />
           </Form.Item>
 
-          <Form.Item className='!mb-0 flex justify-end'>
-            <Button onClick={closeModel}>取消</Button>
-            <Button type="primary" onClick={onSubmit} className='ml-2'>确定</Button>
+          <Form.Item className='!mb-0 w-full'>
+            <Button type="primary" onClick={onSubmit} loading={btnLoading} className='w-full ml-2'>新增足迹</Button>
           </Form.Item>
         </Form>
       </Modal>

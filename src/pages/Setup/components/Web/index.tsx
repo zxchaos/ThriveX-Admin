@@ -65,22 +65,6 @@ const WebPage = () => {
                     <Input placeholder="https://liuyuyang.net/favicon.ico" />
                 </Form.Item>
 
-                {/* <Form.Item
-                    label="光亮主题LOGO"
-                    name="lightLogo"
-                    rules={[{ required: true, message: '网站LOGO不能为空' }]}
-                >
-                    <Input placeholder="https://liuyuyang.net/logo.png" />
-                </Form.Item>
-
-                <Form.Item
-                    label="暗黑主题LOGO"
-                    name="darkLogo"
-                    rules={[{ required: true, message: '网站LOGO不能为空' }]}
-                >
-                    <Input placeholder="https://liuyuyang.net/logo.png" />
-                </Form.Item> */}
-
                 <Form.Item
                     label="网站描述"
                     name="description"
@@ -96,28 +80,6 @@ const WebPage = () => {
                 >
                     <Input placeholder="Java,前端,Python" />
                 </Form.Item>
-
-                {/* <Form.Item
-                    label="随机文章封面"
-                    name="covers"
-                    rules={[{ required: true, message: '网站随机封面不能为空' }]}
-                >
-                    <Input.TextArea
-                        autoSize={{ minRows: 2, maxRows: 10 }}
-                        placeholder="随机文章封面"
-                    />
-                </Form.Item>
-
-                <Form.Item
-                    label="社交网站"
-                    name="social"
-                    rules={[{ required: true, message: '社交网站不能为空' }]}
-                >
-                    <Input.TextArea
-                        autoSize={{ minRows: 2, maxRows: 10 }}
-                        placeholder="社交账号"
-                    />
-                </Form.Item> */}
 
                 <Form.Item
                     label="底部信息"

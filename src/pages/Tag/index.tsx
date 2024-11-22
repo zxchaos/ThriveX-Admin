@@ -7,6 +7,7 @@ import { ColumnsType } from 'antd/es/table';
 
 const TagPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
+
     const [tag, setTag] = useState<Tag>({} as Tag);
     const [list, setList] = useState<Tag[]>([]);
 
@@ -87,7 +88,7 @@ const TagPage = () => {
                         </Form.Item>
 
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" className="w-full">{tag.id ? '编辑标签' : '新增标签'}</Button>
+                            <Button type="primary" htmlType="submit" loading={loading} className="w-full">{tag.id ? '编辑标签' : '新增标签'}</Button>
                         </Form.Item>
                     </Form>
                 </Card>

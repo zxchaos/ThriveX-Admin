@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 
 const UserPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
+    const [btnLoading, setBtnLoading] = useState(false)
 
     const [userList, setUserList] = useState<User[]>([]);
     const [roleList, setRoleList] = useState<Role[]>([]);
@@ -143,6 +144,8 @@ const UserPage = () => {
     }
 
     const onSubmit = async () => {
+        setBtnLoading(true)
+
         userForm.validateFields().then(async (values: User) => {
             if (user.id) {
                 await editUserDataAPI({ ...user, ...values });
@@ -154,6 +157,8 @@ const UserPage = () => {
             setDrawerVisible(false);
             getUserList();
         })
+
+        setBtnLoading(false)
     };
 
     const [filterForm] = Form.useForm();
@@ -272,7 +277,7 @@ const UserPage = () => {
                     </Form.Item>
 
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" className="w-full">{user.id ? "编辑用户" : "创建用户"}</Button>
+                        <Button type="primary" htmlType="submit" loading={btnLoading} className="w-full">{user.id ? "编辑用户" : "创建用户"}</Button>
                     </Form.Item>
                 </Form>
             </Drawer>

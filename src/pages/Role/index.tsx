@@ -10,6 +10,8 @@ import "./index.scss"
 const RolePage = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [bindingLoading, setBindingLoading] = useState<boolean>(false);
+    const [addLoading, setAddLoading] = useState(false)
+
     const [id, setId] = useState(0)
     const [role, setRole] = useState<Role>({} as Role);
     const [roleList, setRoleList] = useState<Role[]>([]);
@@ -88,6 +90,8 @@ const RolePage = () => {
 
     const onSubmit = async () => {
         setLoading(true);
+        setAddLoading(true)
+
         form.validateFields().then(async (values: Role) => {
             if (role.id) {
                 await editRoleDataAPI({ ...role, ...values });
@@ -102,6 +106,8 @@ const RolePage = () => {
             form.setFieldsValue({ name: '', description: '' })
             setRole({} as Role);
         });
+
+        setAddLoading(false)
     };
 
     const onChange: any = (list: number[]) => {
@@ -151,7 +157,7 @@ const RolePage = () => {
                         </Form.Item>
 
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" className="w-full">{role.id ? '编辑角色' : '新增角色'}</Button>
+                            <Button type="primary" htmlType="submit" loading={addLoading} className="w-full">{role.id ? '编辑角色' : '新增角色'}</Button>
                         </Form.Item>
                     </Form>
                 </Card>
@@ -186,7 +192,7 @@ const RolePage = () => {
                     </Spin>
                 </div>
 
-                <Button type='primary' className='w-full mt-2' onClick={onBindingRouteSubmit}>保存</Button>
+                <Button type='primary' className='w-full mt-2' loading={bindingLoading} onClick={onBindingRouteSubmit}>保存</Button>
             </Modal>
         </>
     );

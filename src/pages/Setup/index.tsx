@@ -4,7 +4,7 @@ import { Card } from 'antd';
 import Title from '@/components/Title';
 import System from './components/System'
 import Web from './components/Web'
-import Layout from './components/Theme'
+import Theme from './components/Theme'
 import My from './components/My'
 // import Other from './components/Other'
 
@@ -80,7 +80,7 @@ const SetupPage = () => {
                     <div className='w-full md:w-[80%] px-0 md:px-8'>
                         {active === "system" && <System />}
                         {active === "web" && <Web />}
-                        {active === "layout" && <Layout />}
+                        {active === "layout" && <Theme />}
                         {active === "my" && <My />}
                         {/* {active === "other" && <Other />} */}
                     </div>

@@ -2,11 +2,14 @@ import { Form, Input, Button, notification, Modal } from 'antd';
 import { useUserStore } from '@/stores';
 import { editAdminPassAPI } from '@/api/User';
 import { EditUser } from '@/types/app/user'
+import { useState } from 'react';
 
 const { confirm } = Modal;
 
 const SystemPage = () => {
     const store = useUserStore();
+
+    const [loading, setLoading] = useState(false)
 
     const [form] = Form.useForm<EditUser>();
 
@@ -33,6 +36,8 @@ const SystemPage = () => {
 
     const handleSubmit = async (values: EditUser) => {
         try {
+            setLoading(true)
+
             await editAdminPassAPI(values);
             confirm({
                 title: '提示',
@@ -43,7 +48,11 @@ const SystemPage = () => {
                 },
                 cancelButtonProps: { style: { display: 'none' } }
             });
+
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
+
             notification.error({
                 message: '错误',
                 description: '修改密码失败，请重试：' + error
@@ -88,7 +97,7 @@ const SystemPage = () => {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" className="w-full">
+                    <Button type="primary" htmlType="submit" loading={loading} className="w-full">
                         保存
                     </Button>
                 </Form.Item>

@@ -7,6 +7,7 @@ import FileUpload from '@/components/FileUpload';
 
 const ThemePage = () => {
     const [loading, setLoading] = useState<boolean>(false);
+
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [swiperText, setSwiperText] = useState<string>('');
     const [social, setSocial] = useState<string>('');
@@ -23,15 +24,15 @@ const ThemePage = () => {
 
     const getLayoutData = async () => {
         setLoading(true);
+
         const { data } = await getThemeDataAPI();
         setTheme(data);
-        console.log(data);
-
 
         setSwiperText(data.swiperText ? JSON.parse(data.swiperText).join('\n') : '');
         setSocial(data.social ? JSON.parse(data.social).join("\n") : '');
         setCover(data.covers ? JSON.parse(data.covers).join("\n") : '');
         setRecoArticle(data.recoArticle ? JSON.parse(data.recoArticle).join("\n") : '');
+        
         setLoading(false);
     };
 
@@ -55,6 +56,7 @@ const ThemePage = () => {
             message: '成功',
             description: '🎉 修改主题成功',
         });
+
         setLoading(false);
     };
 
@@ -194,7 +196,7 @@ const ThemePage = () => {
                         </div>
                     </div>
 
-                    <Button type="primary" size="large" className="w-full mt-4" onClick={editLayoutData}>修改布局</Button>
+                    <Button type="primary" size="large" className="w-full mt-4" loading={loading} onClick={editLayoutData}>修改布局</Button>
                 </div>
             </Spin>
 

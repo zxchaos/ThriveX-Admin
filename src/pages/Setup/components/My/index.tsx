@@ -17,19 +17,22 @@ const UserPage = () => {
     const store = useUserStore();
 
     const getUserData = async () => {
+        setLoading(true);
+
         const { data } = await getUserDataAPI(store.user?.id);
         store.setUser(data);
         form.setFieldsValue(data);
+
         setLoading(false);
     };
 
     useEffect(() => {
-        setLoading(true);
         getUserData();
     }, []);
 
     const onSubmit = async (values: UserForm) => {
-        setLoading(false)
+        setLoading(true)
+
         await editUserDataAPI({
             id: store.user.id, ...values,
             role: undefined
@@ -37,6 +40,8 @@ const UserPage = () => {
         message.success("🎉 修改用户信息成功");
         store.setUser(values as User); 
         getUserData();
+
+        setLoading(false)
     };
 
     return (

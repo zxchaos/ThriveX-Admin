@@ -9,6 +9,8 @@ import './index.scss';
 
 const LinkPage = () => {
     const [loading, setLoading] = useState(false);
+    const [btnLoading, setBtnLoading] = useState(false)
+
     const [tab, setTab] = useState<string>('list');
     const [list, setList] = useState<Web[]>([]);
     const [listTemp, setListTemp] = useState<Web[]>([]);
@@ -72,9 +74,9 @@ const LinkPage = () => {
     };
 
     const submit = async () => {
-        form.validateFields().then(async (values: Web) => {
-            setLoading(true);
+        setBtnLoading(true)
 
+        form.validateFields().then(async (values: Web) => {
             if (isMethod === "edit") {
                 await editLinkDataAPI({ ...link, ...values });
                 message.success('🎉 编辑网站成功');
@@ -87,6 +89,8 @@ const LinkPage = () => {
             setTab('list');
             reset()
         });
+
+        setBtnLoading(false)
     };
 
     const { Option } = Select;
@@ -190,7 +194,7 @@ const LinkPage = () => {
                             </Form.Item>
 
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" className='w-full'>{isMethod === "edit" ? '编辑网站' : '新增网站'}</Button>
+                                <Button type="primary" htmlType="submit" loading={btnLoading} className='w-full'>{isMethod === "edit" ? '编辑网站' : '新增网站'}</Button>
                             </Form.Item>
                         </Form>
                     </div>

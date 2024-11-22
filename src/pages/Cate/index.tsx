@@ -8,6 +8,8 @@ import "./index.scss"
 
 const CatePage = () => {
     const [loading, setLoading] = useState(false);
+    const [btnLoading, setBtnLoading] = useState(false)
+
     const [isModelOpen, setIsModelOpen] = useState(false);
     const [cate, setCate] = useState<Cate>({} as Cate);
     const [list, setList] = useState<Cate[]>([]);
@@ -20,6 +22,11 @@ const CatePage = () => {
         setList(data as Cate[]);
         setLoading(false);
     };
+
+    useEffect(() => {
+        setLoading(true);
+        getCateList();
+    }, []);
 
     const addCateData = (id: number) => {
         setIsMethod("create")
@@ -52,6 +59,8 @@ const CatePage = () => {
     };
 
     const submit = async () => {
+        setBtnLoading(true)
+
         form.validateFields().then(async (values: Cate) => {
             if (values.type === "cate") values.url = '/'
 
@@ -71,6 +80,8 @@ const CatePage = () => {
             getCateList();
             setIsMethod("create")
         })
+
+        setBtnLoading(false)
     };
 
     const closeModel = () => {
@@ -119,11 +130,6 @@ const CatePage = () => {
         })
     )
 
-    useEffect(() => {
-        setLoading(true);
-        getCateList();
-    }, []);
-
     return (
         <>
             <Title value="分类管理">
@@ -169,9 +175,8 @@ const CatePage = () => {
                             </Radio.Group>
                         </Form.Item>
 
-                        <Form.Item className='!mb-0 flex justify-end'>
-                            <Button onClick={closeModel}>取消</Button>
-                            <Button type="primary" onClick={submit} className='ml-2'>确定</Button>
+                        <Form.Item className='!mb-0 w-full'>
+                            <Button type="primary" onClick={submit} loading={btnLoading} className='w-full ml-2'>新增分类</Button>
                         </Form.Item>
                     </Form>
                 </Modal>

@@ -9,6 +9,8 @@ import FileUpload from '@/components/FileUpload';
 
 const SwiperPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
+    const [btnLoading, setBtnLoading] = useState(false)
+
     const [swiper, setSwiper] = useState<Swiper>({} as Swiper);
     const [list, setList] = useState<Swiper[]>([]);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -62,7 +64,8 @@ const SwiperPage = () => {
     };
 
     const onSubmit = async () => {
-        setLoading(true);
+        setBtnLoading(true)
+
         form.validateFields().then(async (values: Swiper) => {
             if (swiper.id) {
                 await editSwiperDataAPI({ ...swiper, ...values });
@@ -77,6 +80,8 @@ const SwiperPage = () => {
             form.resetFields();
             setSwiper({} as Swiper);
         })
+
+        setBtnLoading(false)
     };
 
     const handleTabChange = (key: string) => {
@@ -141,7 +146,7 @@ const SwiperPage = () => {
                         </Form.Item>
 
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" className="w-full">{swiper.id ? '编辑轮播图' : '新增轮播图'}</Button>
+                            <Button type="primary" htmlType="submit" loading={btnLoading} className="w-full">{swiper.id ? '编辑轮播图' : '新增轮播图'}</Button>
                         </Form.Item>
                     </Form>
                 </>
