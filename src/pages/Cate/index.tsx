@@ -19,6 +19,8 @@ const CatePage = () => {
 
     const getCateList = async () => {
         const { data } = await getCateListAPI();
+        data.sort((a, b) => a.order - b.order)
+        
         setList(data as Cate[]);
         setLoading(false);
     };

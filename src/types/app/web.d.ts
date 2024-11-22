@@ -11,6 +11,7 @@ export interface Web {
   image: string;
   url: string;
   rss: string;
+  order: number;
   typeId: number;
   type: LinkType;
   auditStatus: number;

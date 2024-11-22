@@ -24,6 +24,8 @@ const LinkPage = () => {
     // 获取网站列表
     const getLinkList = async () => {
         const { data } = await getLinkListAPI();
+        data.sort((a, b) => a.order - b.order)
+        
         setList(data as Web[]);
         setListTemp(data as Web[]);
         setLoading(false);
@@ -148,7 +150,7 @@ const LinkPage = () => {
                                 }
                             </div>
                         ) : (
-                            <Empty description="暂无数据" className='my-7'/>
+                            <Empty description="暂无数据" className='my-7' />
                         )}
                     </Spin>
                 </>
@@ -191,6 +193,10 @@ const LinkPage = () => {
                                 <Select placeholder="请选择网站类型" allowClear>
                                     {typeList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                                 </Select>
+                            </Form.Item>
+
+                            <Form.Item label="顺序" name="order">
+                                <Input placeholder="请输入网站顺序（值越小越靠前）" />
                             </Form.Item>
 
                             <Form.Item>
