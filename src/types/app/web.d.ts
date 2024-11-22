@@ -1,7 +1,8 @@
 export interface WebType {
   id: number,
   name: string,
-  order: number
+  order: number,
+  isAdmin: number
 }
 
 export interface Web {
