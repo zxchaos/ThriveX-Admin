@@ -25,7 +25,8 @@ const LinkPage = () => {
     const getLinkList = async () => {
         const { data } = await getLinkListAPI();
         data.sort((a, b) => a.order - b.order)
-        
+        data.sort((a, b) => a.type.order - b.type.order)
+
         setList(data as Web[]);
         setListTemp(data as Web[]);
         setLoading(false);
