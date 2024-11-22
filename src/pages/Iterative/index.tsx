@@ -23,7 +23,7 @@ const Home = () => {
     const getCommitData = async (project: string) => {
         const res = await fetch(`https://api.github.com/repos/LiuYuYang01/${project}/commits?per_page=10`)
         const data = await res.json()
-        const result = data.map((item: Commit) => (
+        const result = data?.map((item: Commit) => (
             {
                 label: dayjs(item.commit.author.date).format("YYYY-MM-DD HH:mm:ss"),
                 children: item.commit.message

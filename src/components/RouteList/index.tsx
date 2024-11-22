@@ -26,6 +26,7 @@ import PageTitle from "../PageTitle";
 
 import { useUserStore } from "@/stores";
 import { getRouteListAPI } from "@/api/Role";
+import { checkTokenAPI } from '@/api/User'
 import { Route as RouteType } from "@/types/app/route";
 import NotFound from "../NotFound";
 
@@ -70,6 +71,10 @@ export default () => {
 
         if (store.role.id) getRouteList(store.role.id)
     }, [store]);
+
+    useEffect(() => {
+        if (store.token) checkTokenAPI(store.token)
+    }, [store, pathname])
 
     if (isLoginRoute) {
         return (

@@ -76,6 +76,7 @@ VITE_AI_MODEL=
 ```
 
 百度接口申请地址：[https://tongji.baidu.com/api/manual/Chapter2/openapi.html](https://tongji.baidu.com/api/manual/Chapter2/openapi.html)
+
 星火大模型接口申请地址：[https://www.xfyun.cn/](https://www.xfyun.cn/)
 
 

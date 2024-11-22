@@ -37,3 +37,6 @@ export const loginDataAPI = (data: Login) => Request<LoginReturn>("POST", "/user
 
 // 修改管理员密码
 export const editAdminPassAPI = (data: EditUser) => Request<UserInfo>("PATCH", "/user/pass", { data })
+
+// 判断当前token是否有效
+export const checkTokenAPI = (token: string) => Request<any>("GET", `/user/check?token=${token}`)
