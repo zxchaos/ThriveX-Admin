@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Table, Button, Tag, notification, Card, Popconfirm, Form } from 'antd';
 import { titleSty } from '@/styles/sty'
 import Title from '@/components/Title';
-import { Link } from 'react-router-dom';
 
-import { delArticleDataAPI, getArticleListAPI } from '@/api/Article';
+import { delArticleDataAPI, getArticleListAPI, reductionArticleDataAPI } from '@/api/Article';
 import type { Tag as ArticleTag } from '@/types/app/tag';
 import type { Cate } from '@/types/app/cate';
-import type { Article } from '@/types/app/article';
+import type { Article, Config } from '@/types/app/article';
 
 import { useWebStore } from '@/stores';
+import dayjs from 'dayjs';
 
 export default () => {
+    const navigate = useNavigate()
     const web = useWebStore(state => state.web)
 
     const [current, setCurrent] = useState<number>(1);
@@ -22,7 +24,7 @@ export default () => {
 
     const getArticleList = async () => {
         setLoading(true);
-        const { data } = await getArticleListAPI({ query: { isDraft: 1 } });
+        const { data } = await getArticleListAPI({ query: { isDel: 1 } });
         setArticleList(data as Article[]);
         setLoading(false);
     };
@@ -34,6 +36,7 @@ export default () => {
     const delArticleData = async (id: number) => {
         setLoading(true);
 
+        // 严格删除：彻底从数据库删除，无法恢复
         await delArticleDataAPI(id);
         await getArticleList();
         form.resetFields()
@@ -42,6 +45,12 @@ export default () => {
 
         setLoading(false);
     };
+
+    const reductionArticleData = async (id: number) => {
+        await reductionArticleDataAPI(id)
+        navigate("/article")
+        notification.success({ message: '🎉 还原文章成功' })
+    }
 
     // 标签颜色
     const colors = ['', '#2db7f5', '#87d068', '#f50', '#108ee9'];
@@ -85,17 +94,47 @@ export default () => {
             render: (tags: ArticleTag[]) => tags.map((item, index) => <Tag key={item.id} color={colors[index]}>{item.name}</Tag>)
         },
         {
+            title: '浏览量',
+            dataIndex: 'view',
+            key: 'view',
+            align: 'center',
+            sorter: (a: Article, b: Article) => a.view! - b.view!
+        },
+        {
+            title: '评论数量',
+            dataIndex: 'comment',
+            key: 'comment',
+            align: 'center',
+            render: (data: string) => <span>{data}</span>,
+            sorter: (a: Article, b: Article) => a.comment! - b.comment!
+        },
+        {
+            title: '状态',
+            dataIndex: 'isDel',
+            key: 'isDel',
+            align: 'center',
+            render: (isDel: number) => isDel === 1 && <span>删除状态</span>
+        },
+        {
+            title: '发布时间',
+            dataIndex: 'createTime',
+            key: 'createTime',
+            align: 'center',
+            width: 200,
+            render: (text: string) => dayjs(+text).format('YYYY-MM-DD HH:mm:ss'),
+            sorter: (a: Article, b: Article) => +a.createTime! - +b.createTime!,
+            showSorterTooltip: false
+        },
+        {
             title: '操作',
             key: 'action',
             fixed: 'right',
             align: 'center',
             render: (text: string, record: Article) => (
                 <div className='flex justify-center space-x-2'>
-                    <Link to={`/create?id=${record.id}&draft=true`}>
-                        <Button>编辑</Button>
-                    </Link>
+                    <Button onClick={() => reductionArticleData(record.id!)}>还原</Button>
 
-                    <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delArticleData(record.id!)}>
+                    <Popconfirm title="警告" description="此操作会彻底文章且无法恢复" okText="确定" cancelText="取消" onConfirm={() => delArticleData(record.id!)}>
                         <Button type="primary" danger>删除</Button>
                     </Popconfirm>
                 </div>
@@ -105,7 +144,7 @@ export default () => {
 
     return (
         <>
-            <Title value="草稿箱" />
+            <Title value="回收站" />
 
             <Card className={`${titleSty} mt-2 min-h-[calc(100vh-250px)]`}>
                 <Table

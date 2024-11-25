@@ -24,6 +24,7 @@ export interface Article {
     comment?: number,
     config: Config,
     isDraft: number,
+    isDel: number,
     createTime?: string,
 }
 
@@ -37,5 +38,6 @@ export interface FilterForm {
 export interface FilterArticle extends FilterData {
     cateIds?: number[],
     tagId?: number,
-    isDraft: number
+    isDraft?: number,
+    isDel?: number
 }

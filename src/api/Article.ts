@@ -6,8 +6,12 @@ export const addArticleDataAPI = (data: Article) =>
   Request<Article>("POST", "/article", { data });
 
 // 删除文章
-export const delArticleDataAPI = (id: number) =>
-  Request<Article>("DELETE", `/article/${id}`);
+export const delArticleDataAPI = (id: number, isDel?: boolean) =>
+  Request<Article>("DELETE", isDel ? `/article/${id}/1` : `/article/${id}/0`);
+
+// 还原被删除的文章
+export const reductionArticleDataAPI = (id: number) =>
+  Request<Article>("PATCH", `/article/reduction/${id}`);
 
 // 编辑文章
 export const editArticleDataAPI = (data: Article) =>

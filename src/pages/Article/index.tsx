@@ -39,7 +39,8 @@ const ArticlePage = () => {
     const delArticleData = async (id: number) => {
         setLoading(true);
 
-        await delArticleDataAPI(id);
+        // 普通删除：可从回收站恢复
+        await delArticleDataAPI(id, true);
         await getArticleList();
         form.resetFields()
         setCurrent(1)
@@ -151,6 +152,7 @@ const ArticlePage = () => {
             cateIds: values.cateIds,
             tagId: values.tagId,
             isDraft: 0,
+            isDel: 0,
             startDate: values.createTime && values.createTime[0].valueOf() + '',
             endDate: values.createTime && values.createTime[1].valueOf() + ''
         }

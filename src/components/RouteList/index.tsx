@@ -22,6 +22,7 @@ import Role from '@/pages/Role';
 import Login from "@/pages/Login";
 import Work from "@/pages/Work";
 import Draft from "@/pages/Draft";
+import Decycle from "@/pages/Decycle";
 
 import PageTitle from "../PageTitle";
 
@@ -40,6 +41,8 @@ export default () => {
     const routesAll = [
         { path: "/", title: "仪表盘", component: <Home /> },
         { path: "/create", title: "发挥灵感", component: <Create /> },
+        { path: "/draft", title: "草稿箱", component: <Draft /> },
+        { path: "/recycle", title: "回收站", component: <Decycle /> },
         { path: "/cate", title: "分类管理", component: <Cate /> },
         { path: "/article", title: "文章管理", component: <Article /> },
         { path: "/tag", title: "标签管理", component: <Tag /> },
@@ -56,7 +59,6 @@ export default () => {
         { path: "/file", title: "文件管理", component: <File /> },
         { path: "/iter", title: "项目更新记录", component: <Iterative /> },
         { path: "/work", title: "工作台", component: <Work /> },
-        { path: "/draft", title: "草稿箱", component: <Draft /> },
     ];
 
     const [routes, setRoutes] = useState<typeof routesAll | null>(null);
@@ -70,7 +72,6 @@ export default () => {
     useEffect(() => {
         // 如果没有token就跳转到登录页
         if (!store.token) return navigate("/login")
-
         if (store.role.id) getRouteList(store.role.id)
     }, [store]);
 

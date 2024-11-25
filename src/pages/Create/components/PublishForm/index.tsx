@@ -133,6 +133,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                     content: data.content,
                     tagIds: tagIds.join(','),
                     isDraft: isDraft ? 1 : 0,
+                    isDel: 0,
                     config: {
                         status: values.status,
                         password: values.password

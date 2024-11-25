@@ -100,16 +100,27 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           name: "仪表盘"
         },
         {
-          to: "/create",
-          path: "create",
+          to: "#",
+          path: "write",
           icon: <BiEditAlt className='text-[22px]' />,
-          name: "创作"
-        },
-        {
-          to: "/draft",
-          path: "draft",
-          icon: <RiDraftLine className='text-[22px]' />,
-          name: "草稿箱"
+          name: "创作",
+          subMenu: [
+            {
+              to: "/create",
+              path: "create",
+              name: "谱写"
+            },
+            {
+              to: "/draft",
+              path: "draft",
+              name: "草稿箱"
+            },
+            {
+              to: "/recycle",
+              path: "recycle",
+              name: "回收站"
+            }
+          ]
         },
         {
           to: "#",
