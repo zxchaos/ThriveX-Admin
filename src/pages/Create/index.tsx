@@ -15,6 +15,7 @@ import { AiOutlineEdit, AiOutlineSend } from 'react-icons/ai';
 const CreatePage = () => {
   const [params] = useSearchParams()
   const id = +params.get('id')!
+  const isDraftParams = Boolean(params.get('draft'))
 
   const [data, setData] = useState<Article>({} as Article)
   const [content, setContent] = useState('');
@@ -178,7 +179,7 @@ const CreatePage = () => {
         <Editor value={content} onChange={(value) => setContent(value)} />
 
         <Drawer
-          title={id ? "编辑文章" : "发布文章"}
+          title={(id && !isDraftParams) ? "编辑文章" : "发布文章"}
           placement="right"
           size='large'
           onClose={() => setPublishOpen(false)}

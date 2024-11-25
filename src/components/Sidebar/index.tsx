@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 
-import { BiEditAlt, BiFolderOpen, BiHomeSmile, BiSliderAlt, BiShieldQuarter, BiLineChart, BiCategoryAlt, BiBug } from "react-icons/bi";
+import { BiEditAlt, BiFolderOpen, BiHomeSmile, BiSliderAlt, BiShieldQuarter, BiCategoryAlt, BiBug } from "react-icons/bi";
 import { LiaRssSolid } from "react-icons/lia";
 import { TbBrandAirtable } from "react-icons/tb";
+import { RiDraftLine } from "react-icons/ri";
 
 import { useUserStore } from '@/stores';
 import { getRouteListAPI } from '@/api/Role'
@@ -103,6 +104,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           path: "create",
           icon: <BiEditAlt className='text-[22px]' />,
           name: "创作"
+        },
+        {
+          to: "/draft",
+          path: "draft",
+          icon: <RiDraftLine className='text-[22px]' />,
+          name: "草稿箱"
         },
         {
           to: "#",

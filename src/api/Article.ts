@@ -1,5 +1,5 @@
 import Request from "@/utils/request";
-import { Article } from "@/types/app/article";
+import { Article, FilterArticle } from "@/types/app/article";
 
 // 新增文章
 export const addArticleDataAPI = (data: Article) =>
@@ -17,7 +17,7 @@ export const editArticleDataAPI = (data: Article) =>
 export const getArticleDataAPI = (id?: number) => Request<Article>("GET", `/article/${id}`)
 
 // 获取文章列表
-export const getArticleListAPI = (data?: QueryData) => Request<Article[]>("POST", `/article/list`, {
+export const getArticleListAPI = (data?: QueryData<FilterArticle>) => Request<Article[]>("POST", `/article/list`, {
   data: { ...data?.query },
   params: {
     sort: data?.sort,

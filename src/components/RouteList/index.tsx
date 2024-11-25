@@ -21,6 +21,7 @@ import Page from '@/pages/Route';
 import Role from '@/pages/Role';
 import Login from "@/pages/Login";
 import Work from "@/pages/Work";
+import Draft from "@/pages/Draft";
 
 import PageTitle from "../PageTitle";
 
@@ -55,6 +56,7 @@ export default () => {
         { path: "/file", title: "文件管理", component: <File /> },
         { path: "/iter", title: "项目更新记录", component: <Iterative /> },
         { path: "/work", title: "工作台", component: <Work /> },
+        { path: "/draft", title: "草稿箱", component: <Draft /> },
     ];
 
     const [routes, setRoutes] = useState<typeof routesAll | null>(null);

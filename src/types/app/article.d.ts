@@ -7,7 +7,7 @@ export interface Config {
     id?: number,
     articleId?: number,
     status: Status,
-    password:string
+    password: string
 }
 
 export interface Article {
@@ -17,12 +17,13 @@ export interface Article {
     content: string,
     cover: string,
     cateIds: number[],
-    cateList: Cate[]
+    cateList?: Cate[]
     tagIds: string,
-    tagList: Tag[]
+    tagList?: Tag[]
     view?: number
     comment?: number,
     config: Config,
+    isDraft: number,
     createTime?: string,
 }
 
@@ -36,4 +37,5 @@ export interface FilterForm {
 export interface FilterArticle extends FilterData {
     cateIds?: number[],
     tagId?: number,
+    isDraft: number
 }

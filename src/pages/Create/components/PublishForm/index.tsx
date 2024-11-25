@@ -30,6 +30,7 @@ interface FieldType {
 const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => void }) => {
     const [params] = useSearchParams()
     const id = +params.get('id')!
+    const isDraftParams = Boolean(params.get('draft'))
 
     const [btnLoading, setBtnLoading] = useState(false)
 
@@ -51,7 +52,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
             }
         });
 
-        const tagIds = data.tagList.map(item => item.id)
+        const tagIds = data.tagList!.map(item => item.id)
 
         form.setFieldsValue({
             ...data,
@@ -83,7 +84,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
         return !value || /^(https?:\/\/)/.test(value) ? Promise.resolve() : Promise.reject(new Error('请输入有效的封面链接'));
     };
 
-    const onSubmit: FormProps<FieldType>['onFinish'] = async (values) => {
+    const onSubmit = async (values: FieldType, isDraft?: boolean) => {
         setBtnLoading(true)
 
         // 如果是文章标签，则先判断是否存在，如果不存在则添加
@@ -112,7 +113,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
         values.createTime = values.createTime.valueOf()
         values.cateIds = [...new Set(values.cateIds?.flat())]
 
-        if (id) {
+        if (id && !isDraftParams) {
             await editArticleDataAPI({
                 id,
                 ...values,
@@ -120,32 +121,48 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                 tagIds: tagIds.join(','),
                 config: {
                     status: values.status,
-                    top: values.top ? 1 : 0,
                     password: values.password
                 }
             } as any)
             message.success("🎉 编辑成功")
         } else {
-            await addArticleDataAPI({
-                id,
-                ...values,
-                content: data.content,
-                tagIds: tagIds.join(','),
-                config: {
-                    status: values.status,
-                    top: values.top ? 1 : 0,
-                    password: values.password
-                }
-            } as any)
-            message.success("🎉 发布成功")
+            if (!isDraftParams) {
+                await addArticleDataAPI({
+                    id,
+                    ...values,
+                    content: data.content,
+                    tagIds: tagIds.join(','),
+                    isDraft: isDraft ? 1 : 0,
+                    config: {
+                        status: values.status,
+                        password: values.password
+                    },
+                    createTime: values.createTime.toString()
+                })
+
+                isDraft ? message.success("🎉 保存为草稿成功") : message.success("🎉 发布成功")
+            } else {
+                // 修改草稿状态为发布文章
+                await editArticleDataAPI({
+                    id,
+                    ...values,
+                    content: data.content,
+                    tagIds: tagIds.join(','),
+                    isDraft: 0,
+                    config: {
+                        status: values.status,
+                        password: values.password
+                    }
+                } as any)
+            }
         }
 
         // 关闭弹框
         closeModel()
         // 清除本地持久化的数据
         localStorage.removeItem('article_content')
-        // 跳转到文章页
-        navigate("/article")
+        // 如果是草稿就跳转到草稿页，否则文章页
+        isDraft ? navigate("/draft") : navigate("/article")
         // 初始化表单
         form.resetFields()
 
@@ -226,9 +243,16 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                     <Input.Password placeholder="请输入访问密码" />
                 </Form.Item>
 
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" loading={btnLoading} className="w-full">{id ? "编辑文章" : "发布文章"}</Button>
+                <Form.Item className="!mb-0">
+                    <Button type="primary" htmlType="submit" loading={btnLoading} className="w-full">{(id && !isDraftParams) ? "编辑文章" : "发布文章"}</Button>
                 </Form.Item>
+
+                {/* 草稿和编辑状态下不再显示保存草稿按钮 */}
+                {(!isDraftParams && !id) && (
+                    <Form.Item className="!mt-2 !mb-0">
+                        <Button className="w-full" onClick={() => form.validateFields().then(values => onSubmit(values, true))}>保存为草稿</Button>
+                    </Form.Item>
+                )}
             </Form>
         </>
     );

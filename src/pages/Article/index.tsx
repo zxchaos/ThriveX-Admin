@@ -132,9 +132,9 @@ const ArticlePage = () => {
             fixed: 'right',
             align: 'center',
             render: (text: string, record: Article) => (
-                <div className='flex space-x-2'>
+                <div className='flex justify-center space-x-2'>
                     <Link to={`/create?id=${record.id}`}>
-                        <Button>修改</Button>
+                        <Button>编辑</Button>
                     </Link>
 
                     <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delArticleData(record.id!)}>
@@ -150,6 +150,7 @@ const ArticlePage = () => {
             key: values.title,
             cateIds: values.cateIds,
             tagId: values.tagId,
+            isDraft: 0,
             startDate: values.createTime && values.createTime[0].valueOf() + '',
             endDate: values.createTime && values.createTime[1].valueOf() + ''
         }
