@@ -1,4 +1,6 @@
 interface ImportMetaEnv {
+    readonly VITE_PROJECT_API: string;
+
     readonly VITE_BAIDU_TONGJI_KEY: string;
     readonly VITE_BAIDU_TONGJI_SECRET_KEY: string;
     readonly VITE_BAIDU_TONGJI_SITE_ID: string;
