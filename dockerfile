@@ -1,11 +1,11 @@
 # 使用官方的Node.js镜像作为基础镜像
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
 # 设置工作目录
 WORKDIR /thrive
 
 # 复制 package.json 和 package-lock.json
-COPY package*.json /thrive/
+COPY package*.json ./
 
 # 配置 npm 镜像源
 RUN npm config set registry https://registry.npmmirror.com
@@ -14,7 +14,7 @@ RUN npm config set registry https://registry.npmmirror.com
 RUN npm install
 
 # 复制项目文件
-COPY . /thrive
+COPY . .
 
 # 构建项目
 RUN npm run build
@@ -23,10 +23,10 @@ RUN npm run build
 FROM nginx:alpine
 
 # 复制构建输出到 Nginx 的默认静态文件目录
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /thrive/dist /usr/share/nginx/html
 
 # 暴露端口
-EXPOSE 9002
+EXPOSE 80
 
 # 启动 Nginx
 CMD ["nginx", "-g", "daemon off;"]
