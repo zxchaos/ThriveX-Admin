@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { notification, Divider, Input, Alert, Button, Spin } from 'antd';
 import { PictureOutlined, LoadingOutlined, CloudUploadOutlined } from '@ant-design/icons';
-import { editThemeDataAPI, getThemeDataAPI } from '@/api/Project';
+import { editConfigDataAPI, getConfigDataAPI } from '@/api/Project';
 import { Theme } from '@/types/app/project';
 import FileUpload from '@/components/FileUpload';
 
@@ -16,23 +16,24 @@ const ThemePage = () => {
     const [theme, setTheme] = useState<Theme>({} as Theme);
 
     const onSidebar = (value: string) => {
-        const rightSidebar = JSON.parse(theme.rightSidebar || '[]');
+        const rightSidebar = JSON.parse(theme.right_sidebar || '[]');
         const index = rightSidebar.indexOf(value);
         index > -1 ? rightSidebar.splice(index, 1) : rightSidebar.push(value)
-        setTheme({ ...theme, rightSidebar: JSON.stringify(rightSidebar) });
+        setTheme({ ...theme, right_sidebar: JSON.stringify(rightSidebar) });
     };
 
     const getLayoutData = async () => {
         setLoading(true);
 
-        const { data } = await getThemeDataAPI();
-        setTheme(data);
+        const { data } = await getConfigDataAPI<Theme>("layout");
+        console.log(data.social);
 
-        setSwiperText(data.swiperText ? JSON.parse(data.swiperText).join('\n') : '');
-        setSocial(data.social ? JSON.parse(data.social).join("\n") : '');
+        setTheme(data);
+        setSwiperText(data.swiper_text ? JSON.parse(data.swiper_text).join('\n') : '');
+        setSocial(data.social ? JSON.parse(data.social)?.map((item: { name: string, url: string }) => JSON.stringify(item))?.join('\n') : '');
         setCover(data.covers ? JSON.parse(data.covers).join("\n") : '');
-        setRecoArticle(data.recoArticle ? JSON.parse(data.recoArticle).join("\n") : '');
-        
+        setRecoArticle(data.reco_article ? JSON.parse(data.reco_article).join("\n") : '');
+
         setLoading(false);
     };
 
@@ -43,6 +44,10 @@ const ThemePage = () => {
     const editLayoutData = async () => {
         setLoading(true);
 
+        console.log(JSON.stringify(social.split('\n')),11111);
+        console.log(JSON.stringify(social.split('\n')),2222);
+        
+
         const updatedLayout = {
             ...theme,
             swiperText: JSON.stringify(swiperText.split('\n')),
@@ -51,7 +56,7 @@ const ThemePage = () => {
             recoArticle: JSON.stringify(recoArticle.split('\n'))
         };
 
-        await editThemeDataAPI(updatedLayout);
+        await editConfigDataAPI("layout", updatedLayout);
         notification.success({
             message: '成功',
             description: '🎉 修改主题成功',
@@ -79,43 +84,43 @@ const ThemePage = () => {
                     <Divider orientation="left">亮色主题 Logo</Divider>
                     <div className="mb-8">
                         <Input
-                            value={theme.lightLogo}
-                            onChange={(e) => setTheme({ ...theme, lightLogo: e.target.value })}
+                            value={theme.light_logo}
+                            onChange={(e) => setTheme({ ...theme, light_logo: e.target.value })}
                             prefix={<PictureOutlined />}
                             addonAfter={<UploadBtn />}
                             size='large'
                             placeholder="请输入亮色Logo地址"
                             className='customizeAntdInputAddonAfter'
                         />
-                        <img src={theme.lightLogo} alt="" className="w-1/3 mt-4 rounded" />
+                        <img src={theme.light_logo} alt="" className="w-1/3 mt-4 rounded" />
                     </div>
 
                     <Divider orientation="left">暗色主题 Logo</Divider>
                     <div className="mb-8">
                         <Input
-                            value={theme.darkLogo}
-                            onChange={(e) => setTheme({ ...theme, darkLogo: e.target.value })}
+                            value={theme.dark_logo}
+                            onChange={(e) => setTheme({ ...theme, dark_logo: e.target.value })}
                             prefix={<PictureOutlined />}
                             addonAfter={<UploadBtn />}
                             size='large'
                             placeholder="请输入暗色Logo地址"
                             className='customizeAntdInputAddonAfter'
                         />
-                        <img src={theme.darkLogo} alt="" className="w-1/3 mt-4 rounded" />
+                        <img src={theme.dark_logo} alt="" className="w-1/3 mt-4 rounded" />
                     </div>
 
                     <Divider orientation="left">首页背景图</Divider>
                     <div className="mb-8">
                         <Input
-                            value={theme.swiperImage}
-                            onChange={(e) => setTheme({ ...theme, swiperImage: e.target.value })}
+                            value={theme.swiper_image}
+                            onChange={(e) => setTheme({ ...theme, swiper_image: e.target.value })}
                             prefix={<PictureOutlined />}
                             addonAfter={<UploadBtn />}
                             size='large'
                             placeholder="请输入背景图地址"
                             className='customizeAntdInputAddonAfter'
                         />
-                        <img src={theme.swiperImage} alt="" className="w-1/3 mt-4 rounded" />
+                        <img src={theme.swiper_image} alt="" className="w-1/3 mt-4 rounded" />
                     </div>
 
                     <Divider orientation="left">打字机文本</Divider>
@@ -170,8 +175,8 @@ const ThemePage = () => {
                     <div className='overflow-auto w-full'>
                         <div className="sidebar w-[750px] flex mb-4">
                             {['author', 'randomArticle', 'newComments', 'hotArticle'].map((item) => (
-                                <div key={item} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${theme.rightSidebar && JSON.parse(theme.rightSidebar).includes(item) ? 'border-primary' : 'border-[#eee]'}`} onClick={() => onSidebar(item)}>
-                                    <p className={`text-center ${theme.rightSidebar && JSON.parse(theme.rightSidebar).includes(item) ? 'text-primary' : ''}`}>
+                                <div key={item} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${theme.right_sidebar && JSON.parse(theme.right_sidebar).includes(item) ? 'border-primary' : 'border-[#eee]'}`} onClick={() => onSidebar(item)}>
+                                    <p className={`text-center ${theme.right_sidebar && JSON.parse(theme.right_sidebar).includes(item) ? 'text-primary' : ''}`}>
                                         {item === 'author' ? '作者信息模块' : item === 'hotArticle' ? '作者推荐模块' : item === 'randomArticle' ? '随机推荐模块' : '最新评论模块'}
                                     </p>
 
@@ -185,8 +190,8 @@ const ThemePage = () => {
                     <div className='overflow-auto w-full'>
                         <div className="article flex w-[650px]">
                             {['classics', 'card', 'waterfall'].map((item) => (
-                                <div key={item} onClick={() => setTheme({ ...theme, isArticleLayout: item })} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${theme.isArticleLayout === item ? 'border-primary' : 'border-[#eee]'}`}>
-                                    <p className={`text-center ${theme.isArticleLayout === item ? 'text-primary' : ''}`}>
+                                <div key={item} onClick={() => setTheme({ ...theme, is_article_layout: item })} className={`item flex flex-col items-center p-4 m-4 border-2 rounded cursor-pointer ${theme.is_article_layout === item ? 'border-primary' : 'border-[#eee]'}`}>
+                                    <p className={`text-center ${theme.is_article_layout === item ? 'text-primary' : ''}`}>
                                         {item === 'classics' ? '经典布局' : item === 'card' ? '卡片布局' : '瀑布流布局'}
                                     </p>
 
@@ -203,7 +208,7 @@ const ThemePage = () => {
             <FileUpload
                 dir="swiper"
                 open={isModalOpen}
-                onSuccess={(url: string[]) => setTheme({ ...theme, swiperImage: url.join("\n") })}
+                onSuccess={(url: string[]) => setTheme({ ...theme, swiper_image: url.join("\n") })}
                 onCancel={() => setIsModalOpen(false)}
             />
         </>

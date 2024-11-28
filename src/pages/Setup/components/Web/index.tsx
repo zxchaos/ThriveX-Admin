@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
-import { editWebDataAPI } from '@/api/Project';
+import { editConfigDataAPI } from '@/api/Project';
 import { Web } from '@/types/app/project'
 import { useWebStore } from '@/stores';
 
@@ -13,7 +13,7 @@ const WebPage = () => {
 
     const onSubmit = async (values: Web) => {
         setLoading(true);
-        await editWebDataAPI(values);
+        await editConfigDataAPI("web", values);
         message.success("🎉 编辑网站成功");
 
         setWeb(values)

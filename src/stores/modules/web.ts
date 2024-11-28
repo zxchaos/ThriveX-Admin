@@ -9,5 +9,4 @@ interface WebStore {
 export default create<WebStore>((set) => ({
     web: {} as Web,
     setWeb: (data: Web) => set(() => ({ web: data })),
-})
-);
+}));

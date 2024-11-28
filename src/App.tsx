@@ -6,8 +6,9 @@ import { ConfigProvider } from 'antd';
 import RouteList from './components/RouteList';
 import "@/styles/customAntd.scss"
 
-import { getWebDataAPI } from '@/api/Project';
+import { getConfigDataAPI } from '@/api/Project';
 import { useWebStore } from './stores';
+import { Web } from './types/app/project';
 
 function App() {
   useAuthRedirect()
@@ -22,7 +23,7 @@ function App() {
   // 获取网站数据并把数据共享给全局方便使用
   const setWeb = useWebStore(state => state.setWeb)
   const getWebData = async () => {
-    const { data } = await getWebDataAPI();
+    const { data } = await getConfigDataAPI<Web>("web");
     setWeb(data)
   };
   useEffect(() => {
