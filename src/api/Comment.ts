@@ -19,16 +19,12 @@ export const getCommentDataAPI = (id?: number) => Request<Paginate<Comment>>("GE
 // 获取评论列表
 export const getCommentListAPI = (data?: QueryData) => Request<Comment[]>("POST", `/comment/list`, {
     data: { ...data, ...data?.query },
-    params: {
-        sort: data?.sort,
-    }
 })
 
 // 分页获取评论列表
 export const getCommentPagingAPI = (data?: QueryData) => Request<Paginate<Comment[]>>("POST", `/comment/paging`, {
     data: { ...data?.query },
     params: {
-        sort: data?.sort,
         ...data?.pagination
     }
 })

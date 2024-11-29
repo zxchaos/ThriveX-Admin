@@ -22,17 +22,13 @@ export const getArticleDataAPI = (id?: number) => Request<Article>("GET", `/arti
 
 // 获取文章列表
 export const getArticleListAPI = (data?: QueryData<FilterArticle>) => Request<Article[]>("POST", `/article/list`, {
-  data: { ...data?.query },
-  params: {
-    sort: data?.sort,
-  }
+  data: { ...data?.query }
 })
 
 // 分页获取文章列表
 export const getArticlePagingAPI = (data?: QueryData) => Request<Paginate<Article[]>>("POST", `/article/paging`, {
   data: { ...data?.query },
   params: {
-    sort: data?.sort,
     ...data?.pagination
   }
 })

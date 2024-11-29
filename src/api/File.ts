@@ -11,7 +11,6 @@ export const getFileDataAPI = (filePath: string) => Request<File>("GET", `/file/
 export const getFileListAPI = (data?: QueryData) => Request<File[]>("POST", `/file/list`, {
     data: { ...data?.query },
     params: {
-        sort: data?.sort,
         dir: data?.dir
     }
 })
@@ -20,7 +19,6 @@ export const getFileListAPI = (data?: QueryData) => Request<File[]>("POST", `/fi
 export const getFilePagingAPI = (data?: QueryData) => Request<Paginate<File[]>>("POST", `/file/paging`, {
     data: { ...data?.query },
     params: {
-        sort: data?.sort,
         dir: data?.dir,
         ...data?.pagination
     }

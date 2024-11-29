@@ -231,12 +231,12 @@ const FootprintPage = () => {
             />
           </Form.Item>
 
-          <Form.Item label="时间" name="createTime" rules={[{ required: true, message: '时间不能为空' }]}>
+          <Form.Item label="时间" name="createTime" rules={[{ required: true, message: '时间不能为空' }]} className='!mb-4'>
             <DatePicker showTime placeholder='请选择时间' className='w-full' />
           </Form.Item>
 
           <Form.Item className='!mb-0 w-full'>
-            <Button type="primary" onClick={onSubmit} loading={btnLoading} className='w-full ml-2'>新增足迹</Button>
+            <Button type="primary" onClick={onSubmit} loading={btnLoading} className='w-full'>新增足迹</Button>
           </Form.Item>
         </Form>
       </Modal>
