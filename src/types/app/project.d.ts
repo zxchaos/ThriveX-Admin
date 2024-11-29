@@ -18,14 +18,9 @@ export interface Web {
     title: string,
     subhead: string,
     favicon: string,
-    // lightLogo: string,
-    // darkLogo: string,
     description: string,
     keyword: string,
     footer: string,
-    // font: string,
-    // social: string,
-    // covers: string
 }
 
 export type ArticleLayout = "classics" | "card" | "waterfall" | ""
