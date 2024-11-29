@@ -84,3 +84,4 @@ const Request = <T>(method: string, url: string, reqParams?: object) => {
 };
 
 export default Request;
+
