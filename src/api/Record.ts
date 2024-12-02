@@ -1,25 +1,25 @@
 import Request from '@/utils/request'
-import { Cate } from '@/types/app/cate'
+import { Record } from '@/types/app/record'
 
-// 新增分类
-export const addCateDataAPI = (data: Cate) => Request<Cate>("POST", "/cate", { data })
+// 新增说说
+export const addRecordDataAPI = (data: Record) => Request<Record>("POST", "/record", { data })
 
-// 删除分类
-export const delCateDataAPI = (id: number) => Request<Cate>("DELETE", `/cate/${id}`)
+// 删除说说
+export const delRecordDataAPI = (id: number) => Request<Record>("DELETE", `/record/${id}`)
 
-// 修改分类
-export const editCateDataAPI = (data: Cate) => Request<Cate>("PATCH", "/cate", { data })
+// 修改说说
+export const editRecordDataAPI = (data: Record) => Request<Record>("PATCH", "/record", { data })
 
-// 获取分类
-export const getCateDataAPI = (id?: number) => Request<Cate>("GET", `/cate/${id}`)
+// 获取说说
+export const getRecordDataAPI = (id?: number) => Request<Record>("GET", `/record/${id}`)
 
-// 获取分类列表
-export const getCateListAPI = (data?: QueryData) => Request<Cate[]>("POST", `/cate/list`, {
+// 获取说说列表
+export const getRecordListAPI = (data?: QueryData) => Request<Record[]>("POST", `/record/list`, {
     data: { ...data?.query },
 })
 
-// 分页获取分类列表
-export const getCatePagingAPI = (data?: QueryData) => Request<Paginate<Cate[]>>("POST", `/cate/paging`, {
+// 分页获取说说列表
+export const getRecordPagingAPI = (data?: QueryData) => Request<Paginate<Record[]>>("POST", `/record/paging`, {
     data: { ...data?.query },
     params: {
         ...data?.pagination

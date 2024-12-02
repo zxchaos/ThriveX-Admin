@@ -24,7 +24,8 @@ interface FilterData {
     content?: string,
     status?: 0 | 1,
     startDate?: string,
-    endDate?: string
+    endDate?: string,
+    createTime?: Date[]
 }
 
 interface QueryData<T = FilterData> {

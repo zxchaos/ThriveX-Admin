@@ -3,7 +3,7 @@ import { Table, Button, Tag, notification, Card, Popconfirm, Form, Input, DatePi
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
 import { delFootprintDataAPI, getFootprintListAPI, addFootprintDataAPI, editFootprintDataAPI, getFootprintDataAPI } from '@/api/Footprint';
-import type { Footprint, FilterForm } from '@/types/app/footprint';
+import type { FilterForm, Footprint } from '@/types/app/footprint';
 import dayjs from 'dayjs';
 
 const FootprintPage = () => {

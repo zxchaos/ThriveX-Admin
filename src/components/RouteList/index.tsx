@@ -23,6 +23,7 @@ import Login from "@/pages/Login";
 import Work from "@/pages/Work";
 import Draft from "@/pages/Draft";
 import Decycle from "@/pages/Decycle";
+import Record from "@/pages/Record";
 
 import PageTitle from "../PageTitle";
 
@@ -45,6 +46,7 @@ export default () => {
         { path: "/recycle", title: "回收站", component: <Decycle /> },
         { path: "/cate", title: "分类管理", component: <Cate /> },
         { path: "/article", title: "文章管理", component: <Article /> },
+        { path: "/record", title: "说说管理", component: <Record /> },
         { path: "/tag", title: "标签管理", component: <Tag /> },
         { path: "/comment", title: "评论管理", component: <Comment /> },
         { path: "/wall", title: "评论管理", component: <Wall /> },

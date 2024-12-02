@@ -111,6 +111,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               name: "谱写"
             },
             {
+              to: "/create_record",
+              path: "create_record",
+              name: "闪念"
+            },
+            {
               to: "/draft",
               path: "draft",
               name: "草稿箱"
@@ -132,6 +137,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               to: "/article",
               path: "article",
               name: "文章管理"
+            },
+            {
+              to: "/record",
+              path: "record",
+              name: "说说管理"
             },
             {
               to: "/tag",
