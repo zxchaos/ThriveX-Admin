@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Table, Button, Tag, notification, Card, Popconfirm, Form, Input, DatePicker } from 'antd';
+import { Table, Button, Image, notification, Card, Popconfirm, Form, Input, DatePicker } from 'antd';
 import { titleSty } from '@/styles/sty'
 import Title from '@/components/Title';
 import { Link } from 'react-router-dom';
@@ -67,7 +67,19 @@ const RecordPage = () => {
       key: 'images',
       align: 'center',
       width: 250,
-      render: (text: string) => <Tag>{text}</Tag>,
+      render: (text: string) => {
+        const list: string[] = JSON.parse(text || '[]')
+
+        return (
+          <div className='flex space-x-2'>
+            {
+              list.map((item, index) => (
+                <Image key={index} src={item} width={70} height={70} className='rounded-lg' />
+              ))
+            }
+          </div>
+        )
+      },
     },
     {
       title: '发布时间',

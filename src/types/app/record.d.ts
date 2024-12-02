@@ -1,5 +1,5 @@
 export interface Record {
-    id: number,
+    id?: number,
     content: string,
     images: string | string[],
     createTime?: string | Dayjs;

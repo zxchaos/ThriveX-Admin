@@ -4,6 +4,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import Home from '@/pages/Dashboard';
 import Create from '@/pages/Create';
+import CreateRecord from '@/pages/CreateRecord';
 import Cate from '@/pages/Cate';
 import Article from '@/pages/Article';
 import Comment from '@/pages/Comment';
@@ -42,6 +43,7 @@ export default () => {
     const routesAll = [
         { path: "/", title: "仪表盘", component: <Home /> },
         { path: "/create", title: "发挥灵感", component: <Create /> },
+        { path: "/create_record", title: "闪念", component: <CreateRecord /> },
         { path: "/draft", title: "草稿箱", component: <Draft /> },
         { path: "/recycle", title: "回收站", component: <Decycle /> },
         { path: "/cate", title: "分类管理", component: <Cate /> },

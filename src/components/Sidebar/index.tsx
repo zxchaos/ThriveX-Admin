@@ -5,7 +5,6 @@ import SidebarLinkGroup from './SidebarLinkGroup';
 import { BiEditAlt, BiFolderOpen, BiHomeSmile, BiSliderAlt, BiShieldQuarter, BiCategoryAlt, BiBug } from "react-icons/bi";
 import { LiaRssSolid } from "react-icons/lia";
 import { TbBrandAirtable } from "react-icons/tb";
-import { RiDraftLine } from "react-icons/ri";
 
 import { useUserStore } from '@/stores';
 import { getRouteListAPI } from '@/api/Role'
