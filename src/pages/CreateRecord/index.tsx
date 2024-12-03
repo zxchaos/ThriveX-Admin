@@ -20,9 +20,6 @@ export default () => {
     const navigate = useNavigate()
 
     const [content, setContent] = useState("")
-    /**
-     * imageLiat 你想干嘛
-     */
     const [imageList, setImageList] = useState<string[]>([])
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -45,7 +42,7 @@ export default () => {
         }
 
         if (id) {
-            await editRecordDataAPI({ id, ...data })
+            await editRecordDataAPI({ id, content: data.content, images: data.images })
         } else {
             await addRecordDataAPI(data)
         }
