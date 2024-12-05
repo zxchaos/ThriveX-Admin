@@ -18,16 +18,12 @@ export const getUserDataAPI = (id?: number) => Request<User>("GET", `/user/${id}
 // 获取用户列表
 export const getUserListAPI = (data?: QueryData) => Request<User[]>("POST", `/user/list`, {
     data: { ...data?.query },
-    params: {
-        sort: data?.sort,
-    }
 })
 
 // 分页获取用户列表
 export const getUserPagingAPI = (data?: QueryData) => Request<Paginate<User[]>>("POST", `/user/paging`, {
     data: { ...data?.query },
     params: {
-        sort: data?.sort,
         ...data?.pagination
     }
 })

@@ -1,6 +1,5 @@
 import Request from '@/utils/request'
 import { Swiper } from '@/types/app/swiper'
-import { getListAPI } from '@/utils'
 
 // 新增轮播图
 export const addSwiperDataAPI = (data: Swiper) => Request<Swiper>("POST", "/swiper", { data })
@@ -17,16 +16,12 @@ export const getSwiperDataAPI = (id?: number) => Request<Swiper>("GET", `/swiper
 // 获取轮播图数据列表
 export const getSwiperListAPI = (data?: QueryData) => Request<Swiper[]>("POST", `/swiper/list`, {
     data: { ...data?.query },
-    params: {
-        sort: data?.sort,
-    }
 })
 
 // 分页获取轮播图列表
 export const getSwiperPagingAPI = (data?: QueryData) => Request<Paginate<Swiper[]>>("POST", `/swiper/paging`, {
     data: { ...data?.query },
     params: {
-        sort: data?.sort,
         ...data?.pagination
     }
 })

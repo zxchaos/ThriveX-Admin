@@ -1,22 +1,19 @@
 import Request from '@/utils/request'
-import { FilterFootprint, Footprint } from '@/types/app/footprint'
+import { Footprint } from '@/types/app/footprint'
 
-// 新增路由
+// 新增足迹
 export const addFootprintDataAPI = (data: Footprint) => Request<Footprint>("POST", "/footprint", { data })
 
-// 删除路由
+// 删除足迹
 export const delFootprintDataAPI = (id: number) => Request<Footprint>("DELETE", `/footprint/${id}`)
 
-// 修改路由
+// 修改足迹
 export const editFootprintDataAPI = (data: Footprint) => Request<Footprint>("PATCH", "/footprint", { data })
 
-// 获取路由
+// 获取足迹
 export const getFootprintDataAPI = (id?: number) => Request<Footprint>("GET", `/footprint/${id}`)
 
-// 获取路由列表
-export const getFootprintListAPI = (data?: QueryData<FilterFootprint>) => Request<Footprint[]>("POST", "/footprint/list", {
-    data: { ...data?.query },
-    params: {
-        sort: data?.sort
-    }
+// 获取足迹列表
+export const getFootprintListAPI = (data?: QueryData) => Request<Footprint[]>("POST", "/footprint/list", {
+    data: { ...data?.query }
 });

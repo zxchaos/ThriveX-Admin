@@ -16,16 +16,12 @@ export const getTagDataAPI = (id?: number) => Request<Tag>("GET", `/tag/${id}`)
 // 获取标签列表
 export const getTagListAPI = (data?: QueryData) => Request<Tag[]>("POST", `/tag/list`, {
     data: { ...data?.query },
-    params: {
-        sort: data?.sort,
-    }
 })
 
 // 分页获取标签列表
 export const getTagPagingAPI = (data?: QueryData) => Request<Paginate<Tag[]>>("POST", `/tag/paging`, {
     data: { ...data?.query },
     params: {
-        sort: data?.sort,
         ...data?.pagination
     }
 })

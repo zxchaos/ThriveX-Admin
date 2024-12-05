@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Dropdown, message, Modal } from "antd";
 import { getLinkListAPI, delLinkDataAPI, auditWebDataAPI } from '@/api/Web';
-import { getCommentListAPI, auditCommentDataAPI, delCommentDataAPI } from "@/api/Comment";
+import { getCommentListAPI, auditCommentDataAPI, delCommentDataAPI, addCommentDataAPI } from "@/api/Comment";
 import { getWallListAPI, auditWallDataAPI, delWallDataAPI } from "@/api/Wall";
 
 import Title from "@/components/Title";
@@ -14,7 +14,7 @@ import dayjs from 'dayjs';
 import RandomAvatar from "@/components/RandomAvatar";
 import Empty from "@/components/Empty";
 
-import { useWebStore } from '@/stores';
+import { useUserStore, useWebStore } from '@/stores';
 import TextArea from "antd/es/input/TextArea";
 import { sendDismissEmailAPI } from "@/api/Email";
 
@@ -28,53 +28,81 @@ interface ListItemProps {
 
 const ListItem = ({ item, type, fetchData }: ListItemProps) => {
     const web = useWebStore(state => state.web)
+    const user = useUserStore(state => state.user)
 
-    // 审核数据
+    const [btnType, setBtnType] = useState<"reply" | "dismiss" | string>("")
+
+    // 通过
     const handleApproval = async () => {
         if (type === "link") {
             await auditWebDataAPI(item.id);
-            message.success('🎉 友链审核成功');
         } else if (type === "comment") {
             await auditCommentDataAPI(item.id);
-            message.success('🎉 评论审核成功');
         } else if (type === "wall") {
             await auditWallDataAPI(item.id);
-            message.success('🎉 留言审核成功');
         }
+
+        btnType != "reply" && message.success('🎉 审核成功');
         fetchData(type);
     };
 
-    // 驳回原因
-    const [dismissInfo, setDismissInfo] = useState("")
+    // 回复
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [replyInfo, setReplyInfo] = useState("")
+    const handleReply = async () => {
+        // 审核通过评论
+        await handleApproval()
+
+        // 发送回复内容
+        await addCommentDataAPI({
+            avatar: user.avatar,
+            url: web.url,
+            content: replyInfo,
+            commentId: item?.id!,
+            auditStatus: 1,
+            email: user.email,
+            name: user.name,
+            articleId: item?.articleId!,
+            createTime: new Date().getTime().toString(),
+        })
+
+        message.success('🎉 回复成功');
+        setIsModalOpen(false)
+        fetchData(type);
+        setReplyInfo("")
+        setBtnType("")
+    }
+
+    // 驳回
+    const [dismissInfo, setDismissInfo] = useState("")
     const handleDismiss = async () => {
         if (type === "link") {
             await delLinkDataAPI(item.id);
-            message.success('🎉 友链驳回成功');
         } else if (type === "comment") {
             await delCommentDataAPI(item.id);
-            message.success('🎉 评论驳回成功');
         } else if (type === "wall") {
             await delWallDataAPI(item.id);
-            message.success('🎉 留言驳回成功');
         }
+        
+        // 有内容就发送驳回通知邮件，反之直接删除
+        if(dismissInfo.trim().length) await sendDismissEmail()
 
+        message.success('🎉 驳回成功');
         setIsModalOpen(false)
         fetchData(type);
         setDismissInfo("")
-
-        // 发送驳回通知邮件
-        sendDismissEmail()
+        setBtnType("")
     };
 
     // 发送驳回通知邮件
-    const sendDismissEmail = () => {
+    const sendDismissEmail = async () => {
         // 类型名称
         let email_info = {
             name: "",
             type: "",
             url: ""
         }
+
         switch (type) {
             case "link":
                 email_info = {
@@ -100,7 +128,7 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
         }
 
         // 有邮箱才会邮件通知
-        item.email != null && sendDismissEmailAPI({
+        item.email != null && await sendDismissEmailAPI({
             to: item.email,
             content: dismissInfo,
             recipient: email_info.name,
@@ -130,13 +158,13 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
                                 <div>名称：{item.title}</div>
                                 <div>介绍：{item.description}</div>
                                 <div>类型：{item.type.name}</div>
-                                <div><b>网站：</b> {item?.url ? <a href={item?.url} target='_blank' className="hover:text-primary">{item?.url}</a> : '无网站'}</div>
+                                <div>网站：{item?.url ? <a href={item?.url} target='_blank' className="hover:text-primary font-bold">{item?.url}</a> : '无网站'}</div>
                             </>
                         ) : type === "comment" ? (
                             <>
                                 <div>名称：{item.name}</div>
                                 <div>内容：{item.content}</div>
-                                <div><b>网站：</b> {item?.url ? <a href={item?.url} target='_blank' className="hover:text-primary">{item?.url}</a> : '无网站'}</div>
+                                <div>网站：{item?.url ? <a href={item?.url} target='_blank' className="hover:text-primary font-bold">{item?.url}</a> : '无网站'}</div>
                                 <div>所属文章：<a href={`${web.url}/article/${item.articleId}`} target='_blank' className="hover:text-primary">{item.articleTitle || '暂无'}</a></div>
                             </>
                         ) : (
@@ -154,7 +182,8 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
                     <Dropdown menu={{
                         items: [
                             { key: 'ok', label: "通过", onClick: handleApproval },
-                            { key: 'no', label: "驳回", onClick: () => setIsModalOpen(true) }
+                            { key: 'reply', label: "回复", onClick: () => [setIsModalOpen(true), setBtnType("reply")] },
+                            { key: 'dismiss', label: "驳回", onClick: () => [setIsModalOpen(true), , setBtnType("dismiss")] }
                         ]
                     }}>
                         <div className="flex justify-evenly items-center bg-[#F9F9FD] w-11 h-5 rounded-md cursor-pointer">
@@ -165,17 +194,17 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
                 </div>
             </div>
 
-            <Modal title="驳回原因" open={isModalOpen} footer={null} onCancel={() => setIsModalOpen(false)} onClose={() => setIsModalOpen(false)}>
+            <Modal title={btnType === "reply" ? "回复内容" : "驳回原因"} open={isModalOpen} footer={null} onCancel={() => setIsModalOpen(false)} onClose={() => setIsModalOpen(false)}>
                 <TextArea
-                    value={dismissInfo}
-                    onChange={(e) => setDismissInfo(e.target.value)}
-                    placeholder="请输入驳回原因"
+                    value={btnType === "reply" ? replyInfo : dismissInfo}
+                    onChange={(e) => (btnType === "reply" ? setReplyInfo(e.target.value) : setDismissInfo(e.target.value))}
+                    placeholder={btnType === "reply" ? "请输入回复内容" : "请输入驳回原因"}
                     autoSize={{ minRows: 3, maxRows: 5 }}
                 />
 
                 <div className="flex space-x-4">
                     <Button className="w-full mt-2" onClick={() => setIsModalOpen(false)}>取消</Button>
-                    <Button type="primary" className="w-full mt-2" onClick={handleDismiss}>确定</Button>
+                    <Button type="primary" className="w-full mt-2" onClick={btnType === "reply" ? handleReply : handleDismiss}>确定</Button>
                 </div>
             </Modal>
         </div>

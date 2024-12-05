@@ -19,16 +19,12 @@ export const getWallDataAPI = (id?: number) => Request<Paginate<Wall>>("GET", `/
 // 获取留言列表
 export const getWallListAPI = (data?: QueryData) => Request<Wall[]>("POST", `/wall/list`, {
     data: { ...data?.query },
-    params: {
-        sort: data?.sort,
-    }
 })
 
 // 分页获取留言列表
 export const getWallPagingAPI = (data?: QueryData) => Request<Paginate<Wall[]>>("POST", `/wall/paging`, {
     data: { ...data?.query },
     params: {
-        sort: data?.sort,
         ...data?.pagination
     }
 })
