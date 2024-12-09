@@ -2,44 +2,59 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Loader from './common/Loader';
 import useAuthRedirect from '@/hooks/useAuthRedirect';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, theme } from 'antd';
 import RouteList from './components/RouteList';
-import "@/styles/customAntd.scss"
+import "@/styles/customAntd.scss";
 
 import { getConfigDataAPI } from '@/api/Project';
 import { useWebStore } from './stores';
 import { Web } from './types/app/project';
 
 function App() {
-  useAuthRedirect()
+  useAuthRedirect();
 
   const [loading, setLoading] = useState<boolean>(true);
+  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
   const { pathname } = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  // 获取网站数据并把数据共享给全局方便使用
-  const setWeb = useWebStore(state => state.setWeb)
+  const setWeb = useWebStore(state => state.setWeb);
   const getWebData = async () => {
     const { data } = await getConfigDataAPI<Web>("web");
-    setWeb(data)
+    setWeb(data);
   };
+
   useEffect(() => {
-    getWebData()
+    getWebData();
     setTimeout(() => setLoading(false), 1000);
+
+    const bodyClassList = document.body.classList;
+
+    // 监听类名变化
+    const observer = new MutationObserver(() => {
+      setIsDarkTheme(bodyClassList.contains('dark'));
+    });
+
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect();
   }, []);
 
   return loading ? (
     <Loader />
   ) : (
-    // 自定义主题色
+    // 根据主题切换配置主题
     <ConfigProvider
       theme={{
         token: {
           colorPrimary: '#727cf5',
+          colorBgBase: isDarkTheme ? '#24303F' : '#ffffff',
+          colorTextBase: isDarkTheme ? '#e0e0e0' : '#000000'
         },
+        algorithm: isDarkTheme ? theme.darkAlgorithm : theme.defaultAlgorithm,
       }}
     >
       <RouteList />
