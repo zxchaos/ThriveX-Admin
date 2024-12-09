@@ -39,14 +39,17 @@ const ArticlePage = () => {
     const delArticleData = async (id: number) => {
         setLoading(true);
 
-        // 普通删除：可从回收站恢复
-        await delArticleDataAPI(id, true);
-        await getArticleList();
-        form.resetFields()
-        setCurrent(1)
-        notification.success({ message: '🎉 删除文章成功' })
-
-        setLoading(false);
+        try {
+            // 普通删除：可从回收站恢复
+            await delArticleDataAPI(id, true);
+            await getArticleList();
+            form.resetFields()
+            setCurrent(1)
+            notification.success({ message: '🎉 删除文章成功' })
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+        }
     };
 
     // 标签颜色

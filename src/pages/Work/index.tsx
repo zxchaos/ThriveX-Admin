@@ -60,7 +60,7 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
             content: replyInfo,
             commentId: item?.id!,
             auditStatus: 1,
-            email: user.email,
+            email: user.email ? user.email : null,
             name: user.name,
             articleId: item?.articleId!,
             createTime: new Date().getTime().toString(),
@@ -83,9 +83,9 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
         } else if (type === "wall") {
             await delWallDataAPI(item.id);
         }
-        
+
         // 有内容就发送驳回通知邮件，反之直接删除
-        if(dismissInfo.trim().length) await sendDismissEmail()
+        if (dismissInfo.trim().length) await sendDismissEmail()
 
         message.success('🎉 驳回成功');
         setIsModalOpen(false)
@@ -180,11 +180,16 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
 
                 <div className="flex items-end">
                     <Dropdown menu={{
-                        items: [
-                            { key: 'ok', label: "通过", onClick: handleApproval },
-                            { key: 'reply', label: "回复", onClick: () => [setIsModalOpen(true), setBtnType("reply")] },
-                            { key: 'dismiss', label: "驳回", onClick: () => [setIsModalOpen(true), , setBtnType("dismiss")] }
-                        ]
+                        items: type === "comment"
+                            ? [
+                                { key: 'ok', label: "通过", onClick: handleApproval },
+                                { key: 'reply', label: "回复", onClick: () => [setIsModalOpen(true), setBtnType("reply")] },
+                                { key: 'dismiss', label: "驳回", onClick: () => [setIsModalOpen(true), , setBtnType("dismiss")] }
+                            ]
+                            : [
+                                { key: 'ok', label: "通过", onClick: handleApproval },
+                                { key: 'dismiss', label: "驳回", onClick: () => [setIsModalOpen(true), , setBtnType("dismiss")] }
+                            ]
                     }}>
                         <div className="flex justify-evenly items-center bg-[#F9F9FD] w-11 h-5 rounded-md cursor-pointer">
                             <span className="inline-block w-2 h-2 bg-[#b5c2d3] rounded-full"></span>

@@ -149,7 +149,7 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                     ...values,
                     content: data.content,
                     tagIds: tagIds.join(','),
-                    isDraft: 0,
+                    isDraft: isDraft ? 1 : 0,
                     config: {
                         status: values.status,
                         password: values.password
@@ -249,9 +249,9 @@ const PublishForm = ({ data, closeModel }: { data: Article, closeModel: () => vo
                 </Form.Item>
 
                 {/* 草稿和编辑状态下不再显示保存草稿按钮 */}
-                {(!isDraftParams && !id) && (
+                {((isDraftParams && id) || !id) && (
                     <Form.Item className="!mt-2 !mb-0">
-                        <Button className="w-full" onClick={() => form.validateFields().then(values => onSubmit(values, true))}>保存为草稿</Button>
+                        <Button className="w-full" onClick={() => form.validateFields().then(values => onSubmit(values, true))}>{isDraftParams ? '保存' : '保存为草稿'}</Button>
                     </Form.Item>
                 )}
             </Form>
