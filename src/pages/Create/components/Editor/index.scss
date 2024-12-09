@@ -1,9 +1,9 @@
 @import "./markdown.scss";
 
 .bytemd {
-    // height: 80vh;
     height: calc(100vh - 200px);
     border: none;
+    z-index: 99999;
 
     .bytemd-toolbar {
         background-color: transparent;
