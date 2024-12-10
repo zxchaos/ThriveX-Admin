@@ -75,7 +75,7 @@ export default () => {
                         placeholder="记录此刻！"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        className="w-[800px] p-4 border-2 border-[#eee] text-base rounded-md" />
+                        className="w-[800px] p-4 border-2 border-[#eee] dark:border-strokedark text-base rounded-md" />
 
                     {imageList.length
                         ? (
@@ -100,7 +100,7 @@ export default () => {
                                 }
                             </div>
                         )
-                        : <LuImagePlus className="absolute bottom-4 left-4 text-4xl text-slate-700 hover:text-primary cursor-pointer" onClick={() => setIsModalOpen(true)} />}
+                        : <LuImagePlus className="absolute bottom-4 left-4 text-4xl text-slate-700 dark:text-white hover:text-primary dark:hover:text-primary cursor-pointer" onClick={() => setIsModalOpen(true)} />}
 
                     <Button type="primary" size="large" icon={<BiLogoTelegram className="text-xl" />} className="absolute bottom-4 right-4" onClick={onSubmit} />
                 </div>

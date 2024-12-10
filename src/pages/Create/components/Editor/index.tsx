@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import { Spin } from 'antd';
+import axios from 'axios';
+
 import { baseURL } from '@/utils/request';
 import { useUserStore } from '@/stores';
 
@@ -10,9 +14,6 @@ import 'bytemd/dist/index.css';
 import zh from 'bytemd/lib/locales/zh_Hans.json';
 
 import './index.scss';
-import axios from 'axios';
-import { Spin } from 'antd';
-import { useState } from 'react';
 
 interface Props {
     value: string;

@@ -61,11 +61,11 @@ const SetupPage = () => {
 
             <Card className='mt-2 min-h-[calc(100vh-180px)]'>
                 <div className="flex flex-col md:flex-row">
-                    <ul className="w-full md:w-[20%] md:mr-5 mb-10 md:mb-0 border-b md:border-r border-[#eee] divide-y divide-solid divide-[#F6F6F6]">
+                    <ul className="w-full md:w-[20%] md:mr-5 mb-10 md:mb-0 border-b-0 md:border-r border-[#eee] dark:border-strokedark divide-y divide-solid divide-[#F6F6F6] dark:divide-strokedark">
                         {list.map((item) => (
                             <li
                                 key={item.key}
-                                className={`relative p-3 pl-5 before:content-[''] before:absolute before:top-1/2 before:left-0 before:-translate-y-1/2 before:w-[3.5px] before:h-[0%] before:bg-[#727cf5] cursor-pointer transition-all ${active === item.key ? 'bg-[#f7f7f8] before:h-full' : ''}`}
+                                className={`relative p-3 pl-5 before:content-[''] before:absolute before:top-1/2 before:left-0 before:-translate-y-1/2 before:w-[3.5px] before:h-[0%] before:bg-[#727cf5] cursor-pointer transition-all ${active === item.key ? 'bg-[#f7f7f8] dark:bg-[#3c5370] before:h-full' : ''}`}
                                 onClick={() => setActive(item.key)}
                             >
                                 <h3 className="flex items-center text-base">

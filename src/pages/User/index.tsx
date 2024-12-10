@@ -215,6 +215,7 @@ const UserPage = () => {
                         position: ['bottomCenter'],
                         defaultPageSize: 8
                     }}
+                    scroll={{ x: 'max-content' }}
                 />
             </Card>
 
