@@ -20,7 +20,7 @@ const CatePage = () => {
     const getCateList = async () => {
         const { data } = await getCateListAPI();
         data.sort((a, b) => a.order - b.order)
-        
+
         setList(data as Cate[]);
         setLoading(false);
     };
@@ -55,9 +55,13 @@ const CatePage = () => {
 
     const delCateData = async (id: number) => {
         setLoading(true);
-        await delCateDataAPI(id);
-        message.success('🎉 删除分类成功');
-        getCateList();
+        try {
+            await delCateDataAPI(id);
+            message.success('🎉 删除分类成功');
+            getCateList();
+        } catch (error) {
+            setLoading(false);
+        }
     };
 
     const submit = async () => {

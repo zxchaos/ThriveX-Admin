@@ -2,7 +2,7 @@ export interface Comment {
     id?: number,
     name: string,
     avatar: string,
-    email: string,
+    email: string | null,
     url: string,
     content: string,
     articleId: number,

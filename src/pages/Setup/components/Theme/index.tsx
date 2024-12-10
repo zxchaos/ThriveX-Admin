@@ -26,11 +26,12 @@ const ThemePage = () => {
         setLoading(true);
 
         const { data } = await getConfigDataAPI<Theme>("layout");
-        console.log(data.social);
+        console.log(typeof data.social);
 
         setTheme(data);
         setSwiperText(data.swiper_text ? JSON.parse(data.swiper_text).join('\n') : '');
-        setSocial(data.social ? JSON.parse(data.social)?.map((item: { name: string, url: string }) => JSON.stringify(item))?.join('\n') : '');
+        
+        setSocial(data.social);
         setCover(data.covers ? JSON.parse(data.covers).join("\n") : '');
         setRecoArticle(data.reco_article ? JSON.parse(data.reco_article).join("\n") : '');
 
@@ -44,14 +45,10 @@ const ThemePage = () => {
     const editLayoutData = async () => {
         setLoading(true);
 
-        console.log(JSON.stringify(social.split('\n')),11111);
-        console.log(JSON.stringify(social.split('\n')),2222);
-        
-
         const updatedLayout = {
             ...theme,
             swiperText: JSON.stringify(swiperText.split('\n')),
-            social: JSON.stringify(social.split('\n')),
+            social,
             covers: JSON.stringify(cover.split('\n')),
             recoArticle: JSON.stringify(recoArticle.split('\n'))
         };
@@ -144,7 +141,7 @@ const ThemePage = () => {
                             size='large'
                             placeholder="请输入社交网站"
                         />
-                        <Alert message="以换行分隔，每行表示一段文本" type="info" className="mt-2" />
+                        <Alert message="请务必确保每一项格式正确，否则会导致网站无法访问" type="info" className="mt-2" />
                     </div>
 
                     <Divider orientation="left">文章随机封面</Divider>

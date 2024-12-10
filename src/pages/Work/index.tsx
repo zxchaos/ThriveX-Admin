@@ -60,7 +60,7 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
             content: replyInfo,
             commentId: item?.id!,
             auditStatus: 1,
-            email: user.email,
+            email: user.email ? user.email : null,
             name: user.name,
             articleId: item?.articleId!,
             createTime: new Date().getTime().toString(),
@@ -83,9 +83,9 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
         } else if (type === "wall") {
             await delWallDataAPI(item.id);
         }
-        
+
         // 有内容就发送驳回通知邮件，反之直接删除
-        if(dismissInfo.trim().length) await sendDismissEmail()
+        if (dismissInfo.trim().length) await sendDismissEmail()
 
         message.success('🎉 驳回成功');
         setIsModalOpen(false)
@@ -152,7 +152,7 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
                         <img src={item.avatar || item.image} alt="" className="w-13 h-13 border border-[#eee] rounded-full" />
                     ) : <RandomAvatar className="w-13 h-13 border border-[#eee] rounded-full" />}
 
-                    <div className="flex flex-col justify-center ml-4 px-4 py-2 min-w-[210px] text-xs md:text-sm bg-[#F9F9FD] rounded-md">
+                    <div className="flex flex-col justify-center ml-4 px-4 py-2 min-w-[210px] text-xs md:text-sm bg-[#F9F9FD] dark:bg-[#4e5969] rounded-md">
                         {type === "link" ? (
                             <>
                                 <div>名称：{item.title}</div>
@@ -180,13 +180,18 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
 
                 <div className="flex items-end">
                     <Dropdown menu={{
-                        items: [
-                            { key: 'ok', label: "通过", onClick: handleApproval },
-                            { key: 'reply', label: "回复", onClick: () => [setIsModalOpen(true), setBtnType("reply")] },
-                            { key: 'dismiss', label: "驳回", onClick: () => [setIsModalOpen(true), , setBtnType("dismiss")] }
-                        ]
+                        items: type === "comment"
+                            ? [
+                                { key: 'ok', label: "通过", onClick: handleApproval },
+                                { key: 'reply', label: "回复", onClick: () => [setIsModalOpen(true), setBtnType("reply")] },
+                                { key: 'dismiss', label: "驳回", onClick: () => [setIsModalOpen(true), , setBtnType("dismiss")] }
+                            ]
+                            : [
+                                { key: 'ok', label: "通过", onClick: handleApproval },
+                                { key: 'dismiss', label: "驳回", onClick: () => [setIsModalOpen(true), , setBtnType("dismiss")] }
+                            ]
                     }}>
-                        <div className="flex justify-evenly items-center bg-[#F9F9FD] w-11 h-5 rounded-md cursor-pointer">
+                        <div className="flex justify-evenly items-center bg-[#F9F9FD] dark:bg-[#4e5969] w-11 h-5 rounded-md cursor-pointer">
                             <span className="inline-block w-2 h-2 bg-[#b5c2d3] rounded-full"></span>
                             <span className="inline-block w-2 h-2 bg-[#b5c2d3] rounded-full"></span>
                         </div>
@@ -212,7 +217,7 @@ const ListItem = ({ item, type, fetchData }: ListItemProps) => {
 }
 
 const WorkPage = () => {
-    const activeSty = "bg-[#f9f9ff] text-primary";
+    const activeSty = "bg-[#f9f9ff] dark:bg-[#3c5370] text-primary";
     const [active, setActive] = useState<Menu>("comment");
     const [commentList, setCommentList] = useState<any[]>([]);
     const [linkList, setLinkList] = useState<any[]>([]);
@@ -250,12 +255,12 @@ const WorkPage = () => {
             <Title value="工作台" />
             <Card className="mt-2 min-h-[calc(100vh-180px)]">
                 <div className="flex flex-col md:flex-row w-full">
-                    <div className="w-full min-w-[200px] md:w-2/12 md:min-h-96 mb-5 md:mb-0 pr-4 border-b md:border-b-transparent md:border-r border-[#eee]">
+                    <div className="w-full min-w-[200px] md:w-2/12 md:min-h-96 mb-5 md:mb-0 pr-4 md:border-b-transparent md:border-r border-[#eee] dark:border-strokedark">
                         <ul className="space-y-1">
                             {(["comment", "link", "wall"] as Menu[]).map((menu) => (
                                 <li
                                     key={menu}
-                                    className={`flex items-center w-full py-3 px-4 hover:bg-[#f9f9ff] hover:text-primary ${active === menu ? activeSty : ''} rounded-md text-base cursor-pointer transition-colors`}
+                                    className={`flex items-center w-full py-3 px-4 hover:bg-[#f9f9ff] dark:hover:bg-[#3c5370] hover:text-primary ${active === menu ? activeSty : ''} rounded-md text-base cursor-pointer transition-colors`}
                                     onClick={() => setActive(menu)}
                                 >
                                     <img src={menu === "comment" ? comment : menu === "link" ? link : info} alt="" className="w-8 mr-4" />

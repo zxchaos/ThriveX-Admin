@@ -295,15 +295,15 @@ const VisitorsStatisChat = () => {
 
                 <div className="flex w-full max-w-45 justify-end">
                     <div className="inline-flex items-center rounded-md bg-whiter p-1.5 dark:bg-meta-4">
-                        <button className={`rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark ${scope === "day" ? "bg-white shadow-card" : ""}`} onClick={() => handleScopeChange("day")}>
+                        <button className={`rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:bg-meta-4 dark:text-white dark:hover:bg-boxdark ${scope === "day" ? "bg-white dark:!bg-[#4e5969] shadow-card" : ""}`} onClick={() => handleScopeChange("day")}>
                             天
                         </button>
 
-                        <button className={`rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark ${scope === "month" ? "bg-white shadow-card" : ""}`} onClick={() => handleScopeChange("month")}>
+                        <button className={`rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:bg-meta-4 dark:text-white dark:hover:bg-boxdark ${scope === "month" ? "bg-white dark:!bg-[#4e5969] shadow-card" : ""}`} onClick={() => handleScopeChange("month")}>
                             月
                         </button>
 
-                        <button className={`rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark ${scope === "year" ? "bg-white shadow-card" : ""}`} onClick={() => handleScopeChange("year")}>
+                        <button className={`rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:bg-meta-4 dark:text-white dark:hover:bg-boxdark ${scope === "year" ? "bg-white dark:!bg-[#4e5969] shadow-card" : ""}`} onClick={() => handleScopeChange("year")}>
                             年
                         </button>
                     </div>

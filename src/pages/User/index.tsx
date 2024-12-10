@@ -7,6 +7,8 @@ import { getRoleListAPI } from '@/api/Role'
 import type { FilterForm, FilterUser, User } from '@/types/app/user';
 import { Role } from '@/types/app/role';
 
+import { useUserStore } from '@/stores'
+
 import { titleSty } from '@/styles/sty';
 import Title from '@/components/Title';
 import logo from '@/images/logo/logo.png';
@@ -15,6 +17,8 @@ import dayjs from 'dayjs';
 const UserPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [btnLoading, setBtnLoading] = useState(false)
+
+    const store = useUserStore()
 
     const [userList, setUserList] = useState<User[]>([]);
     const [roleList, setRoleList] = useState<Role[]>([]);
@@ -96,7 +100,7 @@ const UserPage = () => {
                     <Button onClick={() => editUserData(record.id!)}>修改</Button>
 
                     <Popconfirm title="警告" description="你确定要删除吗" okText="确定" cancelText="取消" onConfirm={() => delUserData(record.id!)}>
-                        <Button type="primary" danger>删除</Button>
+                        <Button type="primary" danger disabled={record.id === store.user.id}>删除</Button>
                     </Popconfirm>
                 </div>
             ),
@@ -211,6 +215,7 @@ const UserPage = () => {
                         position: ['bottomCenter'],
                         defaultPageSize: 8
                     }}
+                    scroll={{ x: 'max-content' }}
                 />
             </Card>
 

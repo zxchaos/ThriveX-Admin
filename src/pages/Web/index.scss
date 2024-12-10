@@ -16,10 +16,10 @@
             width: 200px;
             height: 250px;
             padding: 0px 20px;
-            border: 1px solid #eee;
             border-radius: 5px;
             background-color: #fff;
             transition: box-shadow 0.3s;
+            @apply border border-[#eee] dark:border-strokedark bg-white dark:bg-[#2b425f];
 
             &:hover {
                 box-shadow: 0px 2px 15px -3px rgba(121, 122, 243, 0.1);
@@ -72,11 +72,12 @@
                 font-weight: 900;
                 transition: color 0.3s;
                 cursor: pointer;
+
+                @apply dark:text-white;
             }
 
             .description {
                 font-size: 13px;
-                color: #666;
                 line-height: 20px;
 
                 display: -webkit-box !important;
@@ -85,6 +86,8 @@
                 text-overflow: ellipsis;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 2;
+
+                @apply text-[#666] dark:text-[#d0d0d0];
             }
 
             .type {
@@ -99,15 +102,15 @@
             }
 
             &:hover .type {
-                bottom: -40px;
+                bottom: -50px;
             }
 
             .operate {
                 position: absolute;
-                bottom: -40px;
+                bottom: -50px;
                 display: flex;
-                background-color: #fff;
                 transition: bottom 0.3s;
+                @apply bg-white dark:bg-[#475f7d];
 
                 width: 100%;
                 justify-content: center;
@@ -132,7 +135,7 @@
             }
 
             &:hover .operate {
-                bottom: 35px;
+                bottom: 30px;
             }
 
             .headFor {
